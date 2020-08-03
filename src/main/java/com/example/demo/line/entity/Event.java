@@ -7,7 +7,15 @@ public class Event {
     private Source source;
     private String timestamp;
     private Message message;
-    public String getReplyToken() {
+    
+    
+    public Event(String type, Source source, Message message,String replyToken) {
+		this.type = type;
+		this.source = source;
+		this.message = message;
+		this.replyToken = replyToken;
+	}
+	public String getReplyToken() {
         return replyToken;
     }
     public void setReplyToken(String replyToken) {

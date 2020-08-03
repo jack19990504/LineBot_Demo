@@ -8,7 +8,7 @@ import com.example.demo.line.entity.ReplyMessageTemplate;
 import com.example.demo.line.util.SendMessageUtil;
 
 @Service
-public class LineService {
+public class ReplyService {
 
 	@Autowired
 	SendMessageUtil sendMessageUtil;
