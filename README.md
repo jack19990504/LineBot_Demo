@@ -35,3 +35,7 @@
     2. Run as
     3. Spring boot app 
     ![spring1](/src/main/resources/static/spring1.jpg)
+
+## Docs & References
+* [Message API](https://developers.line.biz/en/docs/messaging-api/)
+* [Some examples](https://developers.line.biz/en/docs/messaging-api/line-bot-sdk/)
