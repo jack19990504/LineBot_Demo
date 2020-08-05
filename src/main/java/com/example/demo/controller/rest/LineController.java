@@ -1,8 +1,11 @@
 package com.example.demo.controller.rest;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.line.entity.Event;
 import com.example.demo.line.entity.EventWrapper;
-import com.example.demo.line.service.LogicService;
+import com.example.demo.line.service.LineService;
 import com.example.demo.line.service.ReplyService;
 
 @CrossOrigin("*")
@@ -23,11 +26,16 @@ import com.example.demo.line.service.ReplyService;
 @RestController
 public class LineController {
 
-	@Autowired
-	ReplyService replyService;
+	private static final Logger LOG = LoggerFactory.getLogger(LineController.class);
+	{
+		LOG.warn("init :"+this.getClass().getSimpleName());
+	}
 	
 	@Autowired
-	LogicService logicService;
+	ReplyService replyService;
+
+	@Autowired
+	LineService lineService;
 
 	@GetMapping("/hello")
 	public void printHello() {
@@ -92,13 +100,41 @@ public class LineController {
 
 		// filter : 篩出所有是 *訊息* |而且| 是 *文字* 的訊息
 		// collect : 將其加入Map中 為 <replyToken, Event>
-		Map<String, Object> dataMap = eventWrapper.getEvents().stream()
-				.collect(Collectors.toMap(Event::getReplyToken,x -> new Event(x.getType(), x.getSource(), x.getMessage() ,x.getReplyToken())));
+		Map<String, Object> data = eventWrapper.getEvents().stream().collect(Collectors.toMap(Event::getReplyToken,
+				x -> new Event(x.getType(), x.getSource(), x.getMessage(), x.getReplyToken())));
 		
+		Optional<Event> event;
 		// business logic
-		logicService.dismantle(dataMap);
-		
-		
+		for (Map.Entry<String, Object> entry : data.entrySet()) {
+			event = Optional.ofNullable((Event) (entry.getValue()));
+			if (event.isPresent()) {
+				switch (event.get().getType()) {
+				case "message":
+					// if it is a text message, do something, it can be a image or a video as well
+					switch (event.get().getMessage().getType()) {
+					case "text":
+						// print some detail
+						System.out.println("ReplyToken : " + event.get().getReplyToken());
+						System.out.println("Text : " + event.get().getMessage().getText());
+						System.out.println("UserId : " + event.get().getSource().getUserId());
+
+						// send back same text
+						lineService.message_text_Simple_Reply(event);
+						LOG.warn("This is an ERROR log");
+						break;
+					default:
+						break;
+					}
+					break;
+				default:
+					System.out.println("it is not a message event!");
+					break;
+				}
+			}
+
+		}
+		data.clear();
+
 		return ResponseEntity.ok().body("123");
 	}
 }

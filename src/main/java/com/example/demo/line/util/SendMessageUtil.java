@@ -8,15 +8,20 @@ import java.nio.charset.Charset;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.keys.LineKeys;
 
 @Component
 public class SendMessageUtil implements LineKeys{
-
+	
+	private static final Logger LOG = LoggerFactory.getLogger(SendMessageUtil.class);
 	// show spring init components and other tags at starting server
-	{System.out.println("init :"+this.getClass().getSimpleName());}
+	{
+		LOG.info("init :"+this.getClass().getSimpleName());
+	}
 	
 	public boolean sendReplyMessage(String message)
 	{

@@ -1,5 +1,7 @@
 package com.example.demo.line.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +12,15 @@ import com.example.demo.line.util.SendMessageUtil;
 @Service
 public class ReplyService {
 
+	private static final Logger LOG = LoggerFactory.getLogger(ReplyService.class);
+	
 	@Autowired
 	SendMessageUtil sendMessageUtil;
 	
 	// show spring init components and other tags at starting server
-	{System.out.println("init :"+this.getClass().getSimpleName());}
+	{
+		LOG.info("init :"+this.getClass().getSimpleName());
+	}
 	
 	public void sendResponseMessage(String replyToken, String message) {
 
