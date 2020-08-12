@@ -13,13 +13,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.line.entity.Event;
 import com.example.demo.line.entity.EventWrapper;
+import com.example.demo.line.login.entity.AccessToken;
+import com.example.demo.line.login.entity.LineUser;
+import com.example.demo.line.login.service.LineLoginService;
 import com.example.demo.line.service.LineService;
 import com.example.demo.line.service.ReplyService;
+import com.example.demo.mybatis.entity.User;
+import com.example.demo.mybatis.mapper.UserMapper;
 
 @CrossOrigin("*")
 @RequestMapping("/line")
@@ -28,18 +34,57 @@ public class LineController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(LineController.class);
 	{
-		LOG.warn("init :"+this.getClass().getSimpleName());
+		LOG.warn("init :" + this.getClass().getSimpleName());
 	}
-	
+
 	@Autowired
 	ReplyService replyService;
 
 	@Autowired
 	LineService lineService;
 
+	@Autowired
+	LineLoginService lineLoginService;
+
+	@Autowired
+	UserMapper userMapper;
+
 	@GetMapping("/hello")
 	public void printHello() {
 		System.out.println("hello");
+	}
+
+	/*
+	 * step 1
+	 * https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1654391521&redirect_uri=https%3A%2F%2F0187e4ef3e93.ngrok.io%2Fline%2Flogin&state=12345abcde&scope=openid%20profile 
+	 * redirect to this api
+	 */
+	// get codee
+	@GetMapping("/login")
+	public void getUesrInfo(@RequestParam(defaultValue = "code") String code ,@RequestParam(defaultValue = "state") String state)
+	{
+	  System.out.println("code :" + code);
+	  System.out.println("state :" + state);
+	  
+	  AccessToken accessToken = lineLoginService.getUserAccessToken(code);
+	  LineUser lineUser = lineLoginService.getUserDetail(accessToken.getId_token());
+	  
+	  System.out.println("Line Login Success!");
+	  
+	  System.out.println("User Name : " + lineUser.getName());
+	  System.out.println("UserId : " + lineUser.getSub());
+	  System.out.println("User Picture : " + lineUser.getPicture());
+
+	  
+	  
+	}
+
+	// @GetMapping("/login/success")
+
+	@GetMapping("/user")
+	public void printUser() {
+		User user = userMapper.findByState("123");
+		System.out.println("id : " + user.getUserId() + "\tName : " + user.getUserName());
 	}
 
 	@PostMapping("/post")
@@ -54,45 +99,51 @@ public class LineController {
 		return ResponseEntity.ok().body("123");
 	}
 
-//	@PostMapping(produces = { "application/json" }, consumes = { "application/json" })
-//	@ResponseBody
-//	public ResponseEntity<Object> ReceiveMessage(@RequestBody EventWrapper eventWrapper) {
-//
-//		// 使用疊代器
-//		Iterator<?> iter = eventWrapper.getEvents().iterator();
-//		
-//		// init var
-//		Event event;
-//		while (iter.hasNext()) {
-//			// 轉型
-//			event = (Event) (iter.next());
-//			// if it is a message event, do our logic. It can be a follow or unfollow or leave event as well.
-//			switch (event.getType()) {
-//			case "message":
-//				// if it is a text message, do something, it can be a image or a video as well
-//				switch (event.getMessage().getType()) {
-//				case "text":
-//					// print some detail
-//					System.out.println("ReplyToken : " + event.getReplyToken());
-//					System.out.println("Text : " + event.getMessage().getText());
-//					System.out.println("UserId : " + event.getSource().getUserId());
-//
-//					// send back same text
-//					replyService.sendResponseMessage(event.getReplyToken(), event.getMessage().getText());
-//					break;
-//				default :
-//					break;
-//				}
-//				break;
-//			default:
-//				System.out.println("it is not a message event!");
-//				break;
-//			}
-//
-//		}
-//
-//		return ResponseEntity.ok().body("123");
-//	}
+	// @PostMapping(produces = { "application/json" }, consumes = {
+	// "application/json" })
+	// @ResponseBody
+	// public ResponseEntity<Object> ReceiveMessage(@RequestBody EventWrapper
+	// eventWrapper) {
+	//
+	// // 使用疊代器
+	// Iterator<?> iter = eventWrapper.getEvents().iterator();
+	//
+	// // init var
+	// Event event;
+	// while (iter.hasNext()) {
+	// // 轉型
+	// event = (Event) (iter.next());
+	// // if it is a message event, do our logic. It can be a follow or unfollow or
+	// leave event as
+	// well.
+	// switch (event.getType()) {
+	// case "message":
+	// // if it is a text message, do something, it can be a image or a video as
+	// well
+	// switch (event.getMessage().getType()) {
+	// case "text":
+	// // print some detail
+	// System.out.println("ReplyToken : " + event.getReplyToken());
+	// System.out.println("Text : " + event.getMessage().getText());
+	// System.out.println("UserId : " + event.getSource().getUserId());
+	//
+	// // send back same text
+	// replyService.sendResponseMessage(event.getReplyToken(),
+	// event.getMessage().getText());
+	// break;
+	// default :
+	// break;
+	// }
+	// break;
+	// default:
+	// System.out.println("it is not a message event!");
+	// break;
+	// }
+	//
+	// }
+	//
+	// return ResponseEntity.ok().body("123");
+	// }
 
 	@PostMapping(produces = { "application/json" }, consumes = { "application/json" })
 	@ResponseBody
@@ -102,7 +153,7 @@ public class LineController {
 		// collect : 將其加入Map中 為 <replyToken, Event>
 		Map<String, Object> data = eventWrapper.getEvents().stream().collect(Collectors.toMap(Event::getReplyToken,
 				x -> new Event(x.getType(), x.getSource(), x.getMessage(), x.getReplyToken())));
-		
+
 		Optional<Event> event;
 		// business logic
 		for (Map.Entry<String, Object> entry : data.entrySet()) {
@@ -113,14 +164,9 @@ public class LineController {
 					// if it is a text message, do something, it can be a image or a video as well
 					switch (event.get().getMessage().getType()) {
 					case "text":
-						// print some detail
-						System.out.println("ReplyToken : " + event.get().getReplyToken());
-						System.out.println("Text : " + event.get().getMessage().getText());
-						System.out.println("UserId : " + event.get().getSource().getUserId());
-
 						// send back same text
+						// lineService.message_text_Simple_Reply(event);
 						lineService.message_text_Simple_Reply(event);
-						LOG.warn("This is an ERROR log");
 						break;
 					default:
 						break;
