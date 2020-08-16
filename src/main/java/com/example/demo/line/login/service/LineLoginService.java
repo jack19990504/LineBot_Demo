@@ -14,7 +14,7 @@ import com.example.demo.line.login.util.SendLoginAPIUtil;
 
 @Service
 public class LineLoginService {
-	
+
 	@Autowired
 	SendLoginAPIUtil sendLoginAPIUtil;
 	private static final Logger LOG = LoggerFactory.getLogger(LineLoginService.class);
@@ -22,29 +22,30 @@ public class LineLoginService {
 	{
 		LOG.info("init :\t" + this.getClass().getSimpleName());
 	}
-	
-	public AccessToken getUserAccessToken(String code)
-	{
-		
-		Optional<AccessToken> accessToken= Optional.ofNullable(sendLoginAPIUtil.getUserAccessToken(code));
-		AccessToken accessTokenn = accessToken.filter(e->e.getId_token()!=null && e.getAccess_token() !=null).orElse(new AccessToken());
-		
-		return accessTokenn;
+
+	public AccessToken getUserAccessToken(String code) {
+
+		Optional<AccessToken> Optional_AccessToken = Optional.ofNullable(sendLoginAPIUtil.getUserAccessToken(code));
+		AccessToken accessToken = Optional_AccessToken
+				.filter(e -> e.getId_token() != null && e.getAccess_token() != null).orElseGet(AccessToken::new);
+
+		return accessToken;
 	}
-	
-	public LineUserDetail getUserDetail(String idToken)
-	{
-		Optional<LineUserDetail> Optional_LineUserDetail = Optional.ofNullable(sendLoginAPIUtil.getLineUserDetail(idToken));
-		LineUserDetail lineUserDetail = Optional_LineUserDetail.filter(user -> user.getName() != null && user.getSub() != null).orElse(new LineUserDetail());
+
+	public LineUserDetail getUserDetail(String idToken) {
+		Optional<LineUserDetail> Optional_LineUserDetail = Optional
+				.ofNullable(sendLoginAPIUtil.getLineUserDetail(idToken));
+		LineUserDetail lineUserDetail = Optional_LineUserDetail
+				.filter(user -> user.getName() != null && user.getSub() != null).orElseGet(LineUserDetail::new);
 		return lineUserDetail;
 	}
-	
-	public LineUser getUser(String accessToken)
-	{
+
+	public LineUser getUser(String accessToken) {
 		Optional<LineUser> Optional_LineUser = Optional.ofNullable(sendLoginAPIUtil.getUser(accessToken));
-		LineUser lineUser = Optional_LineUser.filter(e -> e.getDisplayName() !=null && e.getUserId() !=null ).orElseGet(LineUser::new);
-		
+		LineUser lineUser = Optional_LineUser.filter(e -> e.getDisplayName() != null && e.getUserId() != null)
+				.orElseGet(LineUser::new);
+
 		return lineUser;
-		
+
 	}
 }
