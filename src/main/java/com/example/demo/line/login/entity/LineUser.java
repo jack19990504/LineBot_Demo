@@ -2,95 +2,41 @@ package com.example.demo.line.login.entity;
 
 public class LineUser {
 
-	private String iss;
-	private String sub;
-	private String aud;
-	private Long exp;
-	private Long iat;
-	private String nonce;
-	private String[] amr;
-	private String name;
-	private String picture;
-	private String email;
+	private String userId;
+	private String displayName;
+	private String pictureUrl;
+	private String statusMessage;
 
-	public String getIss() {
-		return iss;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setIss(String iss) {
-		this.iss = iss;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-	public String getSub() {
-		return sub;
+	public String getDisplayName() {
+		return displayName;
 	}
 
-	public void setSub(String sub) {
-		this.sub = sub;
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 
-	public String getAud() {
-		return aud;
+	public String getPictureUrl() {
+		return pictureUrl;
 	}
 
-	public void setAud(String aud) {
-		this.aud = aud;
+	public void setPictureUrl(String pictureUrl) {
+		this.pictureUrl = pictureUrl;
 	}
 
-	public Long getExp() {
-		return exp;
+	public String getStatusMessage() {
+		return statusMessage;
 	}
 
-	public void setExp(Long exp) {
-		this.exp = exp;
-	}
-
-	public Long getIat() {
-		return iat;
-	}
-
-	public void setIat(Long iat) {
-		this.iat = iat;
-	}
-
-	public String getNonce() {
-		return nonce;
-	}
-
-	public void setNonce(String nonce) {
-		this.nonce = nonce;
-	}
-
-	public String[] getAmr() {
-		return amr;
-	}
-
-	public void setAmr(String[] amr) {
-		this.amr = amr;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getPicture() {
-		return picture;
-	}
-
-	public void setPicture(String picture) {
-		this.picture = picture;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	public void setStatusMessage(String statusMessage) {
+		this.statusMessage = statusMessage;
 	}
 
 }

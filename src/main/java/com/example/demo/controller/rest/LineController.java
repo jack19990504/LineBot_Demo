@@ -21,6 +21,7 @@ import com.example.demo.line.entity.Event;
 import com.example.demo.line.entity.EventWrapper;
 import com.example.demo.line.login.entity.AccessToken;
 import com.example.demo.line.login.entity.LineUser;
+import com.example.demo.line.login.entity.LineUserDetail;
 import com.example.demo.line.login.service.LineLoginService;
 import com.example.demo.line.service.LineService;
 import com.example.demo.line.service.ReplyService;
@@ -66,20 +67,49 @@ public class LineController {
 	  System.out.println("code :" + code);
 	  System.out.println("state :" + state);
 	  
-	  AccessToken accessToken = lineLoginService.getUserAccessToken(code);
-	  LineUser lineUser = lineLoginService.getUserDetail(accessToken.getId_token());
-	  
-	  System.out.println("Line Login Success!");
-	  
-	  System.out.println("User Name : " + lineUser.getName());
-	  System.out.println("UserId : " + lineUser.getSub());
-	  System.out.println("User Picture : " + lineUser.getPicture());
+	  if(!code.equals("code") && !state.equals("state"))
+	  {
+			AccessToken accessToken = lineLoginService.getUserAccessToken(code);
+			LineUserDetail lineUserDetail = lineLoginService.getUserDetail(accessToken.getId_token());
 
-	  
+			System.out.println("Line Login Success!");
+
+			System.out.println("User Name : " + lineUserDetail.getName());
+			System.out.println("UserId : " + lineUserDetail.getSub());
+			System.out.println("User Picture : " + lineUserDetail.getPicture());
+			
+			LineUser lineUser = lineLoginService.getUser(accessToken.getAccess_token());
+			
+			System.out.println("User Name : " + lineUser.getDisplayName());
+			System.out.println("UserId : " + lineUser.getUserId());
+	  }  
 	  
 	}
 
-	// @GetMapping("/login/success")
+	@GetMapping("/login/success")
+	public void getUesrInfo2(@RequestParam(defaultValue = "code") String code ,@RequestParam(defaultValue = "state") String state)
+	{
+	  System.out.println("code :" + code);
+	  System.out.println("state :" + state);
+	  
+	  if(!code.equals("code") && !state.equals("state"))
+	  {
+			AccessToken accessToken = lineLoginService.getUserAccessToken(code);
+			LineUserDetail lineUserDetail = lineLoginService.getUserDetail(accessToken.getId_token());
+
+			System.out.println("Line Login Success!");
+
+			System.out.println("User Name : " + lineUserDetail.getName());
+			System.out.println("UserId : " + lineUserDetail.getSub());
+			System.out.println("User Picture : " + lineUserDetail.getPicture());
+			
+			LineUser lineUser = lineLoginService.getUser(accessToken.getAccess_token());
+			
+			System.out.println("User Name : " + lineUser.getDisplayName());
+			System.out.println("UserId : " + lineUser.getUserId());
+	  }  
+	  
+	}
 
 	@GetMapping("/user")
 	public void printUser() {

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.line.login.entity.AccessToken;
 import com.example.demo.line.login.entity.LineUser;
+import com.example.demo.line.login.entity.LineUserDetail;
 import com.example.demo.line.login.util.SendLoginAPIUtil;
 
 @Service
@@ -31,10 +32,19 @@ public class LineLoginService {
 		return accessTokenn;
 	}
 	
-	public LineUser getUserDetail(String idToken)
+	public LineUserDetail getUserDetail(String idToken)
 	{
-		Optional<LineUser> Optional_LineUser = Optional.ofNullable(sendLoginAPIUtil.getLineUserDetail(idToken));
-		LineUser lineUser = Optional_LineUser.filter(user -> user.getName() != null && user.getSub() != null).orElse(new LineUser());
+		Optional<LineUserDetail> Optional_LineUserDetail = Optional.ofNullable(sendLoginAPIUtil.getLineUserDetail(idToken));
+		LineUserDetail lineUserDetail = Optional_LineUserDetail.filter(user -> user.getName() != null && user.getSub() != null).orElse(new LineUserDetail());
+		return lineUserDetail;
+	}
+	
+	public LineUser getUser(String accessToken)
+	{
+		Optional<LineUser> Optional_LineUser = Optional.ofNullable(sendLoginAPIUtil.getUser(accessToken));
+		LineUser lineUser = Optional_LineUser.filter(e -> e.getDisplayName() !=null && e.getUserId() !=null ).orElseGet(LineUser::new);
+		
 		return lineUser;
+		
 	}
 }
