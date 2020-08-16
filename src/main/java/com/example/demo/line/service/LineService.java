@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.keys.ImagesURL;
+import com.example.demo.keys.LineKeys;
 import com.example.demo.line.entity.Event;
 import com.example.demo.line.entity.FlexMessage;
 import com.example.demo.line.entity.FlexMessageTicketTemplate;
@@ -22,7 +23,7 @@ import com.example.demo.mybatis.service.MemberService;
 import com.example.demo.mybatis.service.RegistrationService;
 
 @Service
-public class LineService implements ImagesURL {
+public class LineService implements ImagesURL,LineKeys {
 
 	private static final Logger LOG = LoggerFactory.getLogger(LineService.class);
 
@@ -54,7 +55,7 @@ public class LineService implements ImagesURL {
 		String replyToken = event.map(e -> e.getReplyToken()).orElse(null);
 		String message = event.map(e -> e.getMessage().getText()).orElse(null);
 		String userId = event.map(e -> e.getSource().getUserId()).orElse(null);
-
+		String uuid;
 		System.out.println("replyToken : " + replyToken);
 		System.out.println("message : " + message);
 

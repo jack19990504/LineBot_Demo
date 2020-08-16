@@ -66,7 +66,7 @@ public class SendMessageUtil implements LineKeys {
 		return respCode == 200 ? true : false;
 	}
 
-	public boolean sendReplyMessageAgain(String message,String uuid) {
+	public boolean sendReplyMessage(String uuid,String message) {
 		Integer respCode = 0;
 		try {
 			System.out.println("data : " + message);
@@ -140,7 +140,7 @@ public class SendMessageUtil implements LineKeys {
 		}
 		return respCode == 200 ? true : false;
 	}
-	public boolean sendPostMessageAgain(String message,String uuid) {
+	public boolean sendPostMessage(String uuid,String message) {
 		Integer respCode = 0;
 		try {
 			System.out.println(message);
