@@ -26,7 +26,7 @@ import com.example.demo.line.login.entity.LineUser;
 import com.example.demo.line.login.entity.LineUserDetail;
 import com.example.demo.line.login.service.LineLoginService;
 import com.example.demo.line.service.LineService;
-import com.example.demo.line.service.ReplyService;
+import com.example.demo.line.service.PushService;
 import com.example.demo.mybatis.entity.User;
 import com.example.demo.mybatis.mapper.UserMapper;
 
@@ -41,9 +41,10 @@ public class LineController {
 	}
 	@Value("${spring.application.name}")
     String appName;
-	@Autowired
-	ReplyService replyService;
 
+	@Autowired
+	PushService pushService;
+	
 	@Autowired
 	LineService lineService;
 
@@ -129,9 +130,11 @@ public class LineController {
 		/*
 		 * 我的line user id 想獲取自己的line user id，可以啟動此 server，跟 bot 對話，即可在 console中獲取
 		 */
-		String userId = "U848d0fb8269d111a96875ae3cb365ba6";
+		String[] userIds = {"U848d0fb8269d111a96875ae3cb365ba6"};
+		
+		pushService.sendPostMessages(userIds, "test");
 
-		replyService.sendPostMessages("test", userId);
+		//replyService.sendPostMessages("test", userId);
 
 		return ResponseEntity.ok().body("123");
 	}

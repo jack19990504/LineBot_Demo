@@ -12,8 +12,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.keys.ImagesURL;
 import com.example.demo.keys.LineKeys;
 import com.example.demo.line.entity.Event;
-import com.example.demo.line.entity.FlexMessage;
-import com.example.demo.line.entity.FlexMessageTicketTemplate;
+import com.example.demo.line.message.entity.FlexMessage;
 import com.example.demo.mybatis.entity.Activity;
 import com.example.demo.mybatis.entity.Member;
 import com.example.demo.mybatis.entity.Registration;
@@ -23,7 +22,7 @@ import com.example.demo.mybatis.service.MemberService;
 import com.example.demo.mybatis.service.RegistrationService;
 
 @Service
-public class LineService implements ImagesURL,LineKeys {
+public class LineService implements ImagesURL, LineKeys {
 
 	private static final Logger LOG = LoggerFactory.getLogger(LineService.class);
 
@@ -43,10 +42,9 @@ public class LineService implements ImagesURL,LineKeys {
 	{
 		LOG.info("init :\t" + this.getClass().getSimpleName());
 	}
-	
-	public void getUesrDetail(String code)
-	{
-		
+
+	public void getUesrDetail(String code) {
+
 	}
 
 	public void message_text_Simple_Reply(Optional<Event> event) {
@@ -54,19 +52,20 @@ public class LineService implements ImagesURL,LineKeys {
 		// initialize some necessary data
 		String replyToken = event.map(e -> e.getReplyToken()).orElse(null);
 		String message = event.map(e -> e.getMessage().getText()).orElse(null);
-		String userId = event.map(e -> e.getSource().getUserId()).orElse(null);
-		String uuid;
+		//String userId = event.map(e -> e.getSource().getUserId()).orElse(null);
 		System.out.println("replyToken : " + replyToken);
 		System.out.println("message : " + message);
 
 		// if both data are not null
 		if (replyToken != null && message != null) {
-
+			
+			/*
+			 * test webhook, if send reply with this token it will cause 400 bad request
+			 */
 			if (!replyToken.equals("00000000000000000000000000000000")) {
 				switch (message) {
 				case "flexMessage":
 
-					FlexMessageTicketTemplate FMTT = new FlexMessageTicketTemplate();
 					FlexMessage flexMessage = new FlexMessage();
 					flexMessage.setLogoUrl(LOGO_URL);
 					flexMessage.setPlace("辛亥路");
@@ -76,17 +75,16 @@ public class LineService implements ImagesURL,LineKeys {
 					flexMessage.setMessage("歡迎參加");
 					flexMessage.setDate("2020-08-06");
 
-					FMTT.setMessage(flexMessage);
 					// send it
-					replyService.sendResponseMessage_flex(replyToken, FMTT.getFlexMessageTemplate());
+					replyService.sendResponseMessage_flex(replyToken, flexMessage);
 					break;
 				case "我是誰":
-					Optional<String> flexMessageResponse = getFlexMessage(userId);
-					if (flexMessageResponse.isPresent()) {
-						replyService.sendResponseMessage_flex(replyToken, flexMessageResponse.get());
-					} else {
-						LOG.warn("send flexMessage went wrong");
-					}
+//					Optional<String> flexMessageResponse = getFlexMessage(userId);
+//					if (flexMessageResponse.isPresent()) {
+//						replyService.sendResponseMessage_flex(replyToken, flexMessageResponse.get());
+//					} else {
+//						LOG.warn("send flexMessage went wrong");
+//					}
 					break;
 				default:
 					replyService.sendResponseMessage(replyToken, message);
@@ -99,29 +97,12 @@ public class LineService implements ImagesURL,LineKeys {
 		} else {
 			LOG.warn("replyToken or message is null");
 		}
-		/*
-		 * test webhook, if send reply with this token it will cause 400 bad request
-		 */
+		
 
 	}
 
-	public void message_text_Multi_Reply(Optional<Event> event, String[] messages) {
+	private FlexMessage getMemberFlexMessageTemplateMessage(RegistrationDetail registrationDetail) {
 
-		String replyToken = event.map(e -> e.getReplyToken()).orElse(null);
-		String message = event.map(e -> e.getMessage().getText()).orElse(null);
-
-		/*
-		 * test webhook, if send reply with this token it will cause 400 bad request
-		 */
-		if (!replyToken.equals("00000000000000000000000000000000")) {
-			replyService.sendResponseMessage(replyToken, messages);
-		}
-
-	}
-
-	private String getMemberFlexMessageTemplateMessage(RegistrationDetail registrationDetail) {
-
-		FlexMessageTicketTemplate FMTT = new FlexMessageTicketTemplate();
 		FlexMessage flexMessage = new FlexMessage();
 		flexMessage.setLogoUrl(LOGO_URL);
 		flexMessage.setPlace(registrationDetail.getActivity().getActivityAddress());
@@ -136,12 +117,12 @@ public class LineService implements ImagesURL,LineKeys {
 
 		flexMessage.setDate(startDate + " ~ " + endDate);
 
-		FMTT.setMessage(flexMessage);
-		return FMTT.getFlexMessageTemplate();
+		return flexMessage;
 
 	}
 
-	private Optional<String> getFlexMessage(String userId) {
+	@SuppressWarnings("unused")
+	private Optional<FlexMessage> getFlexMessage(String userId) {
 		// get member
 		final Optional<Member> member = Optional.ofNullable(memberService.getMemberByLineId(userId));
 		final String memberEmail = member.map(m -> m.getMemberEmail()).orElse("");
