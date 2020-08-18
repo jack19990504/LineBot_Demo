@@ -86,6 +86,9 @@ public class LineService implements ImagesURL, LineKeys {
 //						LOG.warn("send flexMessage went wrong");
 //					}
 					break;
+				case "reply":
+					replyService.sendQuickReply(replyToken);
+					break;
 				default:
 					replyService.sendResponseMessage(replyToken, message);
 					break;
