@@ -13,6 +13,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.keys.LineKeys;
@@ -23,6 +24,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class SendLoginAPIUtil implements LineKeys {
+	
+	@Autowired
+	ObjectMapper objectMapper;
 
 	private static final Logger LOG = LoggerFactory.getLogger(SendLoginAPIUtil.class);
 	// show spring init components and other tags at starting server
@@ -32,7 +36,6 @@ public class SendLoginAPIUtil implements LineKeys {
 
 	public AccessToken getUserAccessToken(String code) {
 		AccessToken accessToken = new AccessToken();
-		final ObjectMapper objectMapper = new ObjectMapper();
 		Integer respCode = 0;
 		try {
 			// System.out.println(message);
@@ -74,7 +77,6 @@ public class SendLoginAPIUtil implements LineKeys {
 
 	public LineUserDetail getLineUserDetail(String idToken) {
 		LineUserDetail lineUserDetail = new LineUserDetail();
-		final ObjectMapper objectMapper = new ObjectMapper();
 		Integer respCode = 0;
 		try {
 			// System.out.println(message);
@@ -114,7 +116,6 @@ public class SendLoginAPIUtil implements LineKeys {
 
 	public LineUser getUser(String accessToken) {
 		Integer respCode = 0;
-		final ObjectMapper objectMapper = new ObjectMapper();
 		LineUser lineUser = new LineUser();
 		try {
 			

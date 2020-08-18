@@ -9,7 +9,10 @@ public class Event {
     private Message message;
     
     
-    public Event(String type, Source source, Message message,String replyToken) {
+    public Event() {
+		
+	}
+	public Event(String type, Source source, Message message,String replyToken) {
 		this.type = type;
 		this.source = source;
 		this.message = message;

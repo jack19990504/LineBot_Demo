@@ -1,6 +1,6 @@
-package com.example.demo.line.entity;
+package com.example.demo.line.message.entity;
 
-public class FlexMessage {
+public class FlexMessage extends Message{
   
   private String title;
   private String logoUrl;
