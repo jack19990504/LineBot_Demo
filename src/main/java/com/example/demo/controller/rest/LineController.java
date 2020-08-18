@@ -132,58 +132,13 @@ public class LineController {
 		 */
 		String[] userIds = {"U848d0fb8269d111a96875ae3cb365ba6"};
 		
-		pushService.sendPostMessages(userIds, "test");
-
-		//replyService.sendPostMessages("test", userId);
+		//pushService.sendPostMessages(userIds, "test");
+		
+		pushService.sendPostQuickReplys(userIds);
+		
 
 		return ResponseEntity.ok().body("123");
 	}
-
-	// @PostMapping(produces = { "application/json" }, consumes = {
-	// "application/json" })
-	// @ResponseBody
-	// public ResponseEntity<Object> ReceiveMessage(@RequestBody EventWrapper
-	// eventWrapper) {
-	//
-	// // 使用疊代器
-	// Iterator<?> iter = eventWrapper.getEvents().iterator();
-	//
-	// // init var
-	// Event event;
-	// while (iter.hasNext()) {
-	// // 轉型
-	// event = (Event) (iter.next());
-	// // if it is a message event, do our logic. It can be a follow or unfollow or
-	// leave event as
-	// well.
-	// switch (event.getType()) {
-	// case "message":
-	// // if it is a text message, do something, it can be a image or a video as
-	// well
-	// switch (event.getMessage().getType()) {
-	// case "text":
-	// // print some detail
-	// System.out.println("ReplyToken : " + event.getReplyToken());
-	// System.out.println("Text : " + event.getMessage().getText());
-	// System.out.println("UserId : " + event.getSource().getUserId());
-	//
-	// // send back same text
-	// replyService.sendResponseMessage(event.getReplyToken(),
-	// event.getMessage().getText());
-	// break;
-	// default :
-	// break;
-	// }
-	// break;
-	// default:
-	// System.out.println("it is not a message event!");
-	// break;
-	// }
-	//
-	// }
-	//
-	// return ResponseEntity.ok().body("123");
-	// }
 
 	@PostMapping(produces = { "application/json" }, consumes = { "application/json" })
 	@ResponseBody

@@ -1,5 +1,8 @@
 package com.example.demo.line.entity;
 
+import com.example.demo.line.action.entity.PostBack;
+import com.fasterxml.jackson.annotation.JsonInclude;
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Event {
     private String replyToken;
     private String mode;
@@ -7,6 +10,8 @@ public class Event {
     private Source source;
     private String timestamp;
     private Message message;
+
+    private PostBack postBack;
     
     
     public Event() {
@@ -55,4 +60,11 @@ public class Event {
     public void setMessage(Message message) {
         this.message = message;
     }
+	public PostBack getPostBack() {
+		return postBack;
+	}
+	public void setPostBack(PostBack postBack) {
+		this.postBack = postBack;
+	}
+    
 }
