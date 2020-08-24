@@ -20,13 +20,13 @@ import com.example.demo.keys.LineKeys;
 import com.example.demo.line.login.entity.AccessToken;
 import com.example.demo.line.login.entity.LineUser;
 import com.example.demo.line.login.entity.LineUserDetail;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.demo.line.util.JsonParserUtil;
 
 @Component
 public class SendLoginAPIUtil implements LineKeys {
 	
 	@Autowired
-	ObjectMapper objectMapper;
+	JsonParserUtil jsonParserUtil;
 
 	private static final Logger LOG = LoggerFactory.getLogger(SendLoginAPIUtil.class);
 	// show spring init components and other tags at starting server
@@ -60,8 +60,7 @@ public class SendLoginAPIUtil implements LineKeys {
 				LOG.warn(this.getClass().getSimpleName() + " - getUserAccessToken : went wrong ,response code = "
 						+ respCode);
 			} else {
-				String accessToken_String = getReturn(con);
-				accessToken = objectMapper.readValue(accessToken_String, AccessToken.class);
+				accessToken = (AccessToken) jsonParserUtil.stringToJson(getReturn(con), AccessToken.class);
 				
 			}
 		} catch (MalformedURLException e) {
@@ -100,8 +99,7 @@ public class SendLoginAPIUtil implements LineKeys {
 				LOG.warn(this.getClass().getSimpleName() + " - getLineUserDetail : went wrong, response code = "
 						+ respCode);
 			} else {
-				String lineUser_String = getReturn(con);
-				lineUserDetail = objectMapper.readValue(lineUser_String, LineUserDetail.class);
+				lineUserDetail = (LineUserDetail) jsonParserUtil.stringToJson(getReturn(con), LineUserDetail.class);
 				// System.out.println("User name : "+lineUser.getName());
 			}
 		} catch (MalformedURLException e) {
@@ -134,8 +132,7 @@ public class SendLoginAPIUtil implements LineKeys {
 			System.out.println("Resp Code:" + con.getResponseCode() + "; Resp Message:" + con.getResponseMessage()); // 顯示回傳的結果，若code為200代表回傳成功
 
 			if (respCode == 200) {
-				String LineUser_String = getReturn(con);
-				lineUser = objectMapper.readValue(LineUser_String, LineUser.class);
+				lineUser = (LineUser) jsonParserUtil.stringToJson(getReturn(con), LineUser.class);
 			}
 			else {
 				System.out.println("error accurs");

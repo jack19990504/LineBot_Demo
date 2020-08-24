@@ -22,6 +22,16 @@ public class Reply {
 
 	public void setMessages(List<Message> messages) {
 		this.messages = messages;
+	}
+
+	public Reply(String replyToken, List<Message> messages) {
+		super();
+		this.replyToken = replyToken;
+		this.messages = messages;
+	}
+
+	public Reply() {
+		super();
 	} 
 	
 	

@@ -147,7 +147,7 @@ public class LineController {
 		// filter : 篩出所有是 *訊息* |而且| 是 *文字* 的訊息
 		// collect : 將其加入Map中 為 <replyToken, Event>
 		Map<String, Object> data = eventWrapper.getEvents().stream().collect(Collectors.toMap(Event::getReplyToken,
-				x -> new Event(x.getType(), x.getSource(), x.getMessage(), x.getReplyToken())));
+				x -> x));
 
 		Optional<Event> event;
 		// business logic
@@ -166,6 +166,10 @@ public class LineController {
 					default:
 						break;
 					}
+					break;
+				case "postback":
+					System.out.println("data : " + event.get().getPostBack().getData());
+					System.out.println("userId : " + event.get().getSource().getUserId());
 					break;
 				default:
 					System.out.println("it is not a message event!");

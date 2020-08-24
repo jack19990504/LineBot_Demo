@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.keys.ImagesURL;
 import com.example.demo.keys.LineKeys;
-import com.example.demo.line.action.entity.Action;
+import com.example.demo.line.action.entity.LocationAction;
+import com.example.demo.line.action.entity.MessageAction;
 import com.example.demo.line.action.entity.QuickReplyAction;
 import com.example.demo.line.message.entity.Message;
 import com.example.demo.line.message.entity.Push;
@@ -90,62 +91,60 @@ public class PushService implements LineKeys, ImagesURL {
 		String uuid = UUID.randomUUID().toString();
 
 		// push 
-		Push push = new Push();
+		// Push push = new Push();
 		List<Message> messageList = new ArrayList<Message>();
 
 		// quick reply
-		QuickReplyMessage quickReplyMessage = new QuickReplyMessage();
-		QuickReply quickReply = new QuickReply();
-		QuickReplyAction quickReplyAction = new QuickReplyAction();
+		// QuickReplyMessage quickReplyMessage = new QuickReplyMessage();
+		// QuickReply quickReply = new QuickReply();
+		// QuickReplyAction quickReplyAction = new QuickReplyAction();
 		List<QuickReplyAction> actionList = new ArrayList<QuickReplyAction>();
-		Action action = new Action();
 		
 		//head
-		quickReplyMessage.setType("text");
-		quickReplyMessage.setText("Select one ");
+//		quickReplyMessage.setType("text");
+//		quickReplyMessage.setText("Select one ");
 		
-		// 1
-		quickReplyAction.setType("action");
-		quickReplyAction.setImageUrl(DOGE_URL);
-		
-		action.setText("doge");
-		action.setType("message");
-		action.setLabel("doge");
-		action.setData("doge data");
-		action.setImageUrl(DOGE_URL);
-		quickReplyAction.setAction(action);
-		actionList.add(quickReplyAction);
+		// 1 deprecated
+//		quickReplyAction.setType("action");
+//		quickReplyAction.setImageUrl(DOGE_URL);
+//		
+//		action.setText("doge");
+//		action.setType("message");
+//		action.setLabel("doge");
+//		action.setData("doge data");
+//		action.setImageUrl(DOGE_URL);
+//		quickReplyAction.setAction(action);
+		actionList.add(new QuickReplyAction("action",DOGE_URL,new MessageAction("message","doge","testMessage")));
 
-		// 2
-		quickReplyAction = new QuickReplyAction();
-		quickReplyAction.setType("action");
-		quickReplyAction.setImageUrl(LOGO_URL);
-		
-		action = new Action();
-		action.setText("logo");
-		action.setType("message");
-		action.setLabel("logo");
-		action.setData("logo data");
-		action.setImageUrl(LOGO_URL);
-		quickReplyAction.setAction(action);
-		actionList.add(quickReplyAction);
+		// 2 deprecated
+//		quickReplyAction = new QuickReplyAction();
+//		quickReplyAction.setType("action");
+//		quickReplyAction.setImageUrl(LOGO_URL);
+//		
+//		action = new Action();
+//		action.setText("logo");
+//		action.setType("message");
+//		action.setLabel("logo");
+//		action.setData("logo data");
+//		action.setImageUrl(LOGO_URL);
+//		quickReplyAction.setAction(action);
+		actionList.add(new QuickReplyAction("action",LOGO_URL,new MessageAction("message","logo","testLogo")));
 
-		// 3
-		
-		quickReplyAction = new QuickReplyAction();
-		quickReplyAction.setType("action");
-		
-		action = new Action();
-		action.setType("location");
-		action.setLabel("Send location");
-		quickReplyAction.setAction(action);
-		actionList.add(quickReplyAction);
+		// 3 deprecated
+//		
+//		quickReplyAction = new QuickReplyAction();
+//		quickReplyAction.setType("action");
+//		
+//		action = new Action();
+//		action.setType("location");
+//		action.setLabel("Send location");
+//		quickReplyAction.setAction(action);
+		actionList.add(new QuickReplyAction("action",new LocationAction("location","Send location")));
 		
 		// set
-		quickReply.setItems(actionList);
-		quickReplyMessage.setQuickReply(quickReply);
+		QuickReplyMessage quickReplyMessage = new QuickReplyMessage("text","Select one",new QuickReply(actionList));
 		messageList.add(quickReplyMessage);
-		push.setMessages(messageList);
+		Push push = new Push(messageList);
 
 		if (userIds.length == 1) {
 			push.setTo(userIds[0]);
