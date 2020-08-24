@@ -6,7 +6,7 @@ import java.util.Map;
 public interface LineKeys {
 
 	// message api
-	String accessToken = "Fete4NBk12TWruvw3FYEqckZnSXZQJQgA3MbobnTeLWXqKhHdA+wfgvxehVaFHGv9Oa+8DfXAaltLgGQfGBDY6qTHTRNtTMoMxZ4P/Hi+Ng62sWiPVmWNmevv8DRAWiN0oSgukSGW9ojHCQM2/n20QdB04t89/1O/w1cDnyilFU=";
+	String accessToken = "your accessToken";
 	String retryKey = "94d662a0-88e3-4cb6-9772-def44dd611f0";
 
 	Map<String, String> replyFailedHashMap = new HashMap<String, String>();

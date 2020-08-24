@@ -5,7 +5,7 @@ import java.util.List;
 public class Push {
 
 	private String to;
-	
+
 	private List<Message> messages;
 
 	public String getTo() {
@@ -23,7 +23,20 @@ public class Push {
 	public void setMessages(List<Message> messages) {
 		this.messages = messages;
 	}
-	
-	
-	
+
+	public Push(String to, List<Message> messages) {
+		super();
+		this.to = to;
+		this.messages = messages;
+	}
+
+	public Push(List<Message> messages) {
+		super();
+		this.messages = messages;
+	}
+
+	public Push() {
+		super();
+	}
+
 }

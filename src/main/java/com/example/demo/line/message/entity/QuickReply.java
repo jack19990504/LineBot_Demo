@@ -15,6 +15,15 @@ public class QuickReply extends Message{
 	public void setItems(List<QuickReplyAction> items) {
 		this.items = items;
 	}
+
+	public QuickReply(List<QuickReplyAction> items) {
+		super();
+		this.items = items;
+	}
+
+	public QuickReply() {
+		super();
+	}
 	
 	
 

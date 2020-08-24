@@ -33,4 +33,17 @@ public class QuickReplyMessage extends Message {
 		this.quickReply = quickReply;
 	}
 
+	public QuickReplyMessage(String type, String text, QuickReply quickReply) {
+		super();
+		this.type = type;
+		this.text = text;
+		this.quickReply = quickReply;
+	}
+
+	public QuickReplyMessage() {
+		super();
+	}
+
+	
+	
 }
