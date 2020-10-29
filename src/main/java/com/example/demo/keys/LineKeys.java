@@ -7,8 +7,8 @@ public interface LineKeys {
 
 	// message api
 	String accessToken = "your accessToken";
-	String retryKey = "94d662a0-88e3-4cb6-9772-def44dd611f0";
-
+	String URL_REPLY = "https://api.line.me/v2/bot/message/reply";
+	String URL_PUSH = "https://api.line.me/v2/bot/message/push";
 	Map<String, String> replyFailedHashMap = new HashMap<String, String>();
 	Map<String, String> pushFailedHashMap = new HashMap<String, String>();
 
@@ -17,4 +17,6 @@ public interface LineKeys {
 	String redirect_uri = "your redirect uri";
 	String client_id = "your client id";
 	String client_secret = "your client secret";
+
+	String URL_TOKEN = "https://api.line.me/oauth2/v2.1/token";
 }

@@ -43,14 +43,10 @@ public class LineService implements ImagesURL, LineKeys {
 		LOG.info("init :\t" + this.getClass().getSimpleName());
 	}
 
-	public void getUesrDetail(String code) {
-
-	}
-
 	public void message_text_Simple_Reply(Optional<Event> event) {
 
 		// initialize some necessary data
-		String replyToken = event.map(e -> e.getReplyToken()).orElse(null);
+		String replyToken = event.map(Event::getReplyToken).orElse(null);
 		String message = event.map(e -> e.getMessage().getText()).orElse(null);
 		//String userId = event.map(e -> e.getSource().getUserId()).orElse(null);
 		System.out.println("replyToken : " + replyToken);
@@ -128,7 +124,7 @@ public class LineService implements ImagesURL, LineKeys {
 	private Optional<FlexMessage> getFlexMessage(String userId) {
 		// get member
 		final Optional<Member> member = Optional.ofNullable(memberService.getMemberByLineId(userId));
-		final String memberEmail = member.map(m -> m.getMemberEmail()).orElse("");
+		final String memberEmail = member.map(Member::getMemberEmail).orElse("");
 		RegistrationDetail registrationDetail = new RegistrationDetail();
 		String activityId;
 		Optional<Registration> registration;
@@ -136,7 +132,7 @@ public class LineService implements ImagesURL, LineKeys {
 
 		if (!memberEmail.equals("")) {
 			registration = Optional.ofNullable(registrationService.getRegistrationListByMemberEmail(memberEmail));
-			activityId = registration.map(r -> r.getActivity_Id()).orElse("");
+			activityId = registration.map(Registration::getActivity_Id).orElse("");
 			if (!activityId.equals("")) {
 				activity = Optional.ofNullable(activityService.getActivityById(activityId));
 				if (member.isPresent() && activity.isPresent() && registration.isPresent()) {
@@ -147,7 +143,7 @@ public class LineService implements ImagesURL, LineKeys {
 					LOG.error("member or activity or registration is null");
 				}
 			} else {
-				LOG.error("activtiyId is null");
+				LOG.error("activityId is null");
 			}
 		} else {
 			LOG.error("memberEmail is null");

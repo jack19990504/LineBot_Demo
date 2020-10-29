@@ -48,7 +48,7 @@ public class PushService implements LineKeys, ImagesURL {
 
 		TextMessage textMessage;
 
-		List<Message> messageList = new ArrayList<Message>();
+		List<Message> messageList = new ArrayList<>();
 
 		for (String message : messages) {
 			textMessage = new TextMessage();
@@ -84,7 +84,7 @@ public class PushService implements LineKeys, ImagesURL {
 			pushFailedHashMap.put(uuid, jsonData);
 		}
 
-		System.out.println(isDone == true ? "成功發送" : "發送失敗");
+		System.out.println(isDone ? "成功發送" : "發送失敗");
 	}
 
 	public void sendPostQuickReplys(String[] userIds) {
@@ -92,13 +92,13 @@ public class PushService implements LineKeys, ImagesURL {
 
 		// push 
 		// Push push = new Push();
-		List<Message> messageList = new ArrayList<Message>();
+		List<Message> messageList = new ArrayList<>();
 
 		// quick reply
 		// QuickReplyMessage quickReplyMessage = new QuickReplyMessage();
 		// QuickReply quickReply = new QuickReply();
 		// QuickReplyAction quickReplyAction = new QuickReplyAction();
-		List<QuickReplyAction> actionList = new ArrayList<QuickReplyAction>();
+		List<QuickReplyAction> actionList = new ArrayList<>();
 		
 		//head
 //		quickReplyMessage.setType("text");
@@ -171,6 +171,6 @@ public class PushService implements LineKeys, ImagesURL {
 			pushFailedHashMap.put(uuid, jsonData);
 		}
 
-		System.out.println(isDone == true ? "成功發送" : "發送失敗");
+		System.out.println(isDone ? "成功發送" : "發送失敗");
 	}
 }

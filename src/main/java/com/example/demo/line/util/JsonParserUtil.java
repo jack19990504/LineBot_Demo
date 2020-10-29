@@ -25,11 +25,11 @@ public class JsonParserUtil {
 		return jsonData;
 	}
 	
-	public Object stringToJson(String jsonString , Class<?> ca)
+	public Object stringToJson(String jsonString , Class<?> clazz)
 	{
 		Object returnObject = null;
 		try {
-			returnObject = objectMapper.readValue(jsonString, ca.getClass());
+			returnObject = objectMapper.readValue(jsonString, clazz);
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

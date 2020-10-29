@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -28,12 +28,12 @@ public class SendMessageUtil implements LineKeys {
 	}
 
 	public boolean sendReplyMessage(String message) {
-		Integer respCode = 0;
+		int respCode = 0;
 		try {
 			System.out.println("data : " + message);
 			String uuid = UUID.randomUUID().toString();
 			// 回傳的json格式訊息
-			URL myurl = new URL("https://api.line.me/v2/bot/message/reply"); // 回傳的網址
+			URL myurl = new URL(URL_REPLY); // 回傳的網址
 			HttpsURLConnection con = (HttpsURLConnection) myurl.openConnection(); // 使用HttpsURLConnection建立https連線
 			con.setRequestMethod("POST");// 設定post方法
 			con.setRequestProperty("Content-Type", "application/json; charset=utf-8"); // 設定Content-Type為json
@@ -42,7 +42,7 @@ public class SendMessageUtil implements LineKeys {
 			con.setDoOutput(true);
 			con.setDoInput(true);
 			DataOutputStream output = new DataOutputStream(con.getOutputStream()); // 開啟HttpsURLConnection的連線
-			output.write(message.getBytes(Charset.forName("utf-8"))); // 回傳訊息編碼為utf-8
+			output.write(message.getBytes(StandardCharsets.UTF_8)); // 回傳訊息編碼為utf-8
 			output.flush();
 			output.close();
 			respCode = con.getResponseCode();
@@ -52,7 +52,7 @@ public class SendMessageUtil implements LineKeys {
 				System.out.println(getReturn(con));
 			}
 			else {
-				System.out.println("error accurs");
+				System.out.println("error occurs");
 				replyFailedHashMap.put(uuid, message);
 			}
 		} catch (MalformedURLException e) {
@@ -63,15 +63,15 @@ public class SendMessageUtil implements LineKeys {
 			e.printStackTrace();
 		}
 
-		return respCode == 200 ? true : false;
+		return respCode == 200;
 	}
 
 	public boolean sendReplyMessage(String uuid,String message) {
-		Integer respCode = 0;
+		int respCode = 0;
 		try {
 			System.out.println("data : " + message);
 			// 回傳的json格式訊息
-			URL myurl = new URL("https://api.line.me/v2/bot/message/reply"); // 回傳的網址
+			URL myurl = new URL(URL_REPLY); // 回傳的網址
 			HttpsURLConnection con = (HttpsURLConnection) myurl.openConnection(); // 使用HttpsURLConnection建立https連線
 			con.setRequestMethod("POST");// 設定post方法
 			con.setRequestProperty("Content-Type", "application/json; charset=utf-8"); // 設定Content-Type為json
@@ -80,7 +80,7 @@ public class SendMessageUtil implements LineKeys {
 			con.setDoOutput(true);
 			con.setDoInput(true);
 			DataOutputStream output = new DataOutputStream(con.getOutputStream()); // 開啟HttpsURLConnection的連線
-			output.write(message.getBytes(Charset.forName("utf-8"))); // 回傳訊息編碼為utf-8
+			output.write(message.getBytes(StandardCharsets.UTF_8)); // 回傳訊息編碼為utf-8
 			output.flush();
 			output.close();
 			respCode = con.getResponseCode();
@@ -100,16 +100,16 @@ public class SendMessageUtil implements LineKeys {
 			e.printStackTrace();
 		}
 
-		return respCode == 200 ? true : false;
+		return respCode == 200;
 	}
 
 	public boolean sendPostMessage(String message) {
-		Integer respCode = 0;
+		int respCode = 0;
 		try {
 			System.out.println(message);
 			String uuid = UUID.randomUUID().toString();
 			// 回傳的json格式訊息
-			URL myurl = new URL("https://api.line.me/v2/bot/message/push"); // 回傳的網址
+			URL myurl = new URL(URL_PUSH); // 回傳的網址
 			HttpsURLConnection con = (HttpsURLConnection) myurl.openConnection(); // 使用HttpsURLConnection建立https連線
 			con.setRequestMethod("POST");// 設定post方法
 			con.setRequestProperty("Content-Type", "application/json; charset=utf-8"); // 設定Content-Type為json
@@ -118,13 +118,13 @@ public class SendMessageUtil implements LineKeys {
 			con.setDoOutput(true);
 			con.setDoInput(true);
 			DataOutputStream output = new DataOutputStream(con.getOutputStream()); // 開啟HttpsURLConnection的連線
-			output.write(message.getBytes(Charset.forName("utf-8"))); // 回傳訊息編碼為utf-8
+			output.write(message.getBytes(StandardCharsets.UTF_8)); // 回傳訊息編碼為utf-8
 			output.close();
 			respCode = con.getResponseCode();
 			System.out.println("Resp Code:" + con.getResponseCode() + "; Resp Message:" + con.getResponseMessage()); // 顯示回傳的結果，若code為200代表回傳成功
 			if(respCode != 200)
 			{
-				System.out.println("error accurs");
+				System.out.println("error occurs");
 				pushFailedHashMap.put(uuid, message);
 			}
 			else
@@ -138,14 +138,14 @@ public class SendMessageUtil implements LineKeys {
 			System.out.println("Message: " + e.getMessage());
 			e.printStackTrace();
 		}
-		return respCode == 200 ? true : false;
+		return respCode == 200;
 	}
 	public boolean sendPostMessage(String uuid,String message) {
-		Integer respCode = 0;
+		int respCode = 0;
 		try {
 			System.out.println(message);
 			// 回傳的json格式訊息
-			URL myurl = new URL("https://api.line.me/v2/bot/message/push"); // 回傳的網址
+			URL myurl = new URL(URL_PUSH); // 回傳的網址
 			HttpsURLConnection con = (HttpsURLConnection) myurl.openConnection(); // 使用HttpsURLConnection建立https連線
 			con.setRequestMethod("POST");// 設定post方法
 			con.setRequestProperty("Content-Type", "application/json; charset=utf-8"); // 設定Content-Type為json
@@ -154,7 +154,7 @@ public class SendMessageUtil implements LineKeys {
 			con.setDoOutput(true);
 			con.setDoInput(true);
 			DataOutputStream output = new DataOutputStream(con.getOutputStream()); // 開啟HttpsURLConnection的連線
-			output.write(message.getBytes(Charset.forName("utf-8"))); // 回傳訊息編碼為utf-8
+			output.write(message.getBytes(StandardCharsets.UTF_8)); // 回傳訊息編碼為utf-8
 			output.close();
 			respCode = con.getResponseCode();
 			System.out.println("Resp Code:" + con.getResponseCode() + "; Resp Message:" + con.getResponseMessage()); // 顯示回傳的結果，若code為200代表回傳成功
@@ -172,20 +172,19 @@ public class SendMessageUtil implements LineKeys {
 			System.out.println("Message: " + e.getMessage());
 			e.printStackTrace();
 		}
-		return respCode == 200 ? true : false;
+		return respCode == 200;
 	}
 	public static String getReturn(HttpsURLConnection connection) throws IOException {
 		StringBuilder buffer = new StringBuilder();
 		// 將返回的輸入流轉換成字符串
 		try (InputStream inputStream = connection.getInputStream();
-				InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-				BufferedReader bufferedReader = new BufferedReader(inputStreamReader);) {
-			String str = null;
+			 InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+			 BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+			String str;
 			while ((str = bufferedReader.readLine()) != null) {
 				buffer.append(str);
 			}
-			String result = buffer.toString();
-			return result;
+			return buffer.toString();
 		}
 	}
 

@@ -36,23 +36,11 @@ public class ResendService implements LineKeys {
 		} else {
 			if (!replyFailedHashMap.isEmpty()) {
 				System.out.println("start send reply task");
-				Iterator<Map.Entry<String, String>> iter = replyFailedHashMap.entrySet().iterator();
-				while (iter.hasNext()) {
-					Map.Entry<String, String> next = iter.next();
-					if (sendMessageUtil.sendReplyMessage(next.getKey(), next.getValue())) {
-						iter.remove();
-					}
-				}
+				replyFailedHashMap.entrySet().removeIf(next -> sendMessageUtil.sendReplyMessage(next.getKey(), next.getValue()));
 			}
 			if (!pushFailedHashMap.isEmpty()) {
 				System.out.println("start send push task");
-				Iterator<Map.Entry<String, String>> iter = pushFailedHashMap.entrySet().iterator();
-				while (iter.hasNext()) {
-					Map.Entry<String, String> next = iter.next();
-					if (sendMessageUtil.sendPostMessage(next.getKey(), next.getValue())) {
-						iter.remove();
-					}
-				}
+				pushFailedHashMap.entrySet().removeIf(next -> sendMessageUtil.sendPostMessage(next.getKey(), next.getValue()));
 
 			}
 			System.out.println("task is done");

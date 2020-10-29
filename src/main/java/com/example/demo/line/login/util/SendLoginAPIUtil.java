@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -36,15 +36,15 @@ public class SendLoginAPIUtil implements LineKeys {
 
 	public AccessToken getUserAccessToken(String code) {
 		AccessToken accessToken = new AccessToken();
-		Integer respCode = 0;
+		int respCode;
 		try {
 			// System.out.println(message);
 			// 回傳的json格式訊息
 			String urlParams = "grant_type=" + grant_type + "&code=" + code + "&redirect_uri=" + redirect_uri
 					+ "&client_id=" + client_id + "&client_secret=" + client_secret;
 			//System.out.println(urlParams);
-			byte[] bodyData = urlParams.getBytes(Charset.forName("utf-8"));
-			URL myurl = new URL("https://api.line.me/oauth2/v2.1/token"); // 回傳的網址
+			byte[] bodyData = urlParams.getBytes(StandardCharsets.UTF_8);
+			URL myurl = new URL(URL_TOKEN); // 回傳的網址
 			HttpsURLConnection con = (HttpsURLConnection) myurl.openConnection(); // 使用HttpsURLConnection建立https連線
 			con.setRequestMethod("POST");// 設定post方法
 			con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;"); // 設定Content-Type為json
@@ -76,13 +76,13 @@ public class SendLoginAPIUtil implements LineKeys {
 
 	public LineUserDetail getLineUserDetail(String idToken) {
 		LineUserDetail lineUserDetail = new LineUserDetail();
-		Integer respCode = 0;
+		int respCode;
 		try {
 			// System.out.println(message);
 			// 回傳的json格式訊息
 			String urlParams = "id_token=" + idToken + "&client_id=" + client_id;
 			//System.out.println(urlParams);
-			byte[] bodyData = urlParams.getBytes(Charset.forName("utf-8"));
+			byte[] bodyData = urlParams.getBytes(StandardCharsets.UTF_8);
 			URL myurl = new URL("https://api.line.me/oauth2/v2.1/verify"); // 回傳的網址
 			HttpsURLConnection con = (HttpsURLConnection) myurl.openConnection(); // 使用HttpsURLConnection建立https連線
 			con.setRequestMethod("POST");// 設定post方法
@@ -113,7 +113,7 @@ public class SendLoginAPIUtil implements LineKeys {
 	}
 
 	public LineUser getUser(String accessToken) {
-		Integer respCode = 0;
+		int respCode;
 		LineUser lineUser = new LineUser();
 		try {
 			
@@ -153,14 +153,13 @@ public class SendLoginAPIUtil implements LineKeys {
 		StringBuilder buffer = new StringBuilder();
 		// 將返回的輸入流轉換成字符串
 		try (InputStream inputStream = connection.getInputStream();
-				InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-				BufferedReader bufferedReader = new BufferedReader(inputStreamReader);) {
-			String str = null;
+			 InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+			 BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+			String str;
 			while ((str = bufferedReader.readLine()) != null) {
 				buffer.append(str);
 			}
-			String result = buffer.toString();
-			return result;
+			return buffer.toString();
 		}
 	}
 }

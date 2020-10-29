@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.example.demo.line.action.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.keys.ImagesURL;
 import com.example.demo.keys.LineKeys;
-import com.example.demo.line.action.entity.LocationAction;
-import com.example.demo.line.action.entity.MessageAction;
-import com.example.demo.line.action.entity.PostBackAction;
-import com.example.demo.line.action.entity.QuickReplyAction;
 import com.example.demo.line.message.entity.FlexMessage;
 import com.example.demo.line.message.entity.Message;
 import com.example.demo.line.message.entity.QuickReply;
@@ -47,7 +44,7 @@ public class ReplyService implements LineKeys,ImagesURL {
 
 		Reply reply = new Reply();
 
-		List<Message> messagesList = new ArrayList<Message>();
+		List<Message> messagesList = new ArrayList<>();
 
 		TextMessage textMessage;
 
@@ -71,7 +68,7 @@ public class ReplyService implements LineKeys,ImagesURL {
 			replyFailedHashMap.put(uuid, jsonData);
 		}
 
-		System.out.println(isDone == true ? "成功回復" : "回復失敗");
+		System.out.println(isDone ? "成功回復" : "回復失敗");
 
 	}
 
@@ -82,7 +79,7 @@ public class ReplyService implements LineKeys,ImagesURL {
 
 		Reply reply = new Reply();
 
-		List<Message> messageList = new ArrayList<Message>();
+		List<Message> messageList = new ArrayList<>();
 
 		messageList.add(flexMessage);
 
@@ -99,16 +96,16 @@ public class ReplyService implements LineKeys,ImagesURL {
 			replyFailedHashMap.put(uuid, jsonData);
 		}
 
-		System.out.println(isDone == true ? "成功回復" : "回復失敗");
+		System.out.println(isDone ? "成功回復" : "回復失敗");
 	}
 
 	public void sendQuickReply(String replyToken) {
 		
 		String uuid = UUID.randomUUID().toString();
 
-		List<Message> messageList = new ArrayList<Message>();
+		List<Message> messageList = new ArrayList<>();
 
-		List<QuickReplyAction> actionList = new ArrayList<QuickReplyAction>();
+		List<QuickReplyAction> actionList = new ArrayList<>();
 		
 		TextMessage textMessage = new TextMessage();
 		textMessage.setType("text");
@@ -135,7 +132,7 @@ public class ReplyService implements LineKeys,ImagesURL {
 			pushFailedHashMap.put(uuid, jsonData);
 		}
 
-		System.out.println(isDone == true ? "成功發送" : "發送失敗");
+		System.out.println(isDone ? "成功發送" : "發送失敗");
 	}
 
 }

@@ -41,7 +41,7 @@ public class LineController {
 	}
 	@Value("${spring.application.name}")
     String appName;
-
+// localhost:8080/line/hello
 	@Autowired
 	PushService pushService;
 	
@@ -66,7 +66,7 @@ public class LineController {
 	 */
 	// get code
 	@GetMapping("/login")
-	public void getUesrInfo(@RequestParam(defaultValue = "code") String code ,@RequestParam(defaultValue = "state") String state)
+	public void getUserInfo(@RequestParam(defaultValue = "code") String code ,@RequestParam(defaultValue = "state") String state)
 	{
 	  System.out.println("code :" + code);
 	  System.out.println("state :" + state);
@@ -91,7 +91,7 @@ public class LineController {
 	}
 
 	@GetMapping("/login/success")
-	public String getUesrInfo2(@RequestParam(defaultValue = "code") String code,@RequestParam(defaultValue = "state") String state,Model model) {
+	public String getUserInfo2(@RequestParam(defaultValue = "code") String code,@RequestParam(defaultValue = "state") String state,Model model) {
 		System.out.println("/login/success");
 		System.out.println("code :" + code);
 		System.out.println("state :" + state);
@@ -157,14 +157,9 @@ public class LineController {
 				switch (event.get().getType()) {
 				case "message":
 					// if it is a text message, do something, it can be a image or a video as well
-					switch (event.get().getMessage().getType()) {
-					case "text":
-						// send back same text
+					if ("text".equals(event.get().getMessage().getType())) {// send back same text
 						// lineService.message_text_Simple_Reply(event);
 						lineService.message_text_Simple_Reply(event);
-						break;
-					default:
-						break;
 					}
 					break;
 				case "postback":
