@@ -61,6 +61,14 @@
 			<version>2.6.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.heroku.sdk/heroku-maven-plugin -->
+		<dependency>
+			<groupId>com.heroku.sdk</groupId>
+			<artifactId>heroku-maven-plugin</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
