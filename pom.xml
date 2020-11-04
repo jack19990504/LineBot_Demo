@@ -52,19 +52,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.google.cloud.tools/jib-maven-plugin -->
-		<dependency>
-			<groupId>com.google.cloud.tools</groupId>
-			<artifactId>jib-maven-plugin</artifactId>
-			<version>2.6.0</version>
-		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.heroku.sdk/heroku-maven-plugin -->
-		<dependency>
-			<groupId>com.heroku.sdk</groupId>
-			<artifactId>heroku-maven-plugin</artifactId>
-			<version>3.0.2</version>
-		</dependency>
 
 
 		<dependency>
@@ -146,7 +134,7 @@
 						<artifactId>heroku-maven-plugin</artifactId>
 						<version>3.0.2</version>
 						<configuration>
-							<appName>jack-linebot-test</appName>
+							<appName>demo</appName>
 							<processTypes>
 								<web>java $JAVA_OPTS -jar -Dserver.port=$PORT target/${project.build.finalName}.jar</web>
 							</processTypes>
