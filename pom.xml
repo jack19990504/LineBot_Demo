@@ -146,7 +146,7 @@
 						<artifactId>heroku-maven-plugin</artifactId>
 						<version>3.0.2</version>
 						<configuration>
-							<appName>linebot-ci-cd</appName>
+							<appName>jack-linebot-test</appName>
 							<processTypes>
 								<web>java $JAVA_OPTS -jar -Dserver.port=$PORT target/${project.build.finalName}.jar</web>
 							</processTypes>
