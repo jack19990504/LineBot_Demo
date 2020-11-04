@@ -33,6 +33,7 @@ public class TestController {
     }
 
     @ResponseBody
+    @GetMapping()
     public ResponseEntity<String> test(){
 
         return ResponseEntity.ok("member");
