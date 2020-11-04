@@ -1,5 +1,6 @@
 # LineBot_Demo
-bash <(curl -s https://codecov.io/bash)
+[![Build Status](https://travis-ci.com/jack19990504/LineBot_Demo.svg?branch=master)](https://travis-ci.com/jack19990504/LineBot_Demo)
+[![codecov](https://codecov.io/gh/jack19990504/LineBot_Demo/branch/master/graph/badge.svg?token=3NI6BKUMLR)](https://codecov.io/gh/jack19990504/LineBot_Demo)
 ## Download some necessary items
 
 * [ngrok](https://ngrok.com/)
