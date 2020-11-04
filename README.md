@@ -1,5 +1,5 @@
 # LineBot_Demo
-
+bash <(curl -s https://codecov.io/bash)
 ## Download some necessary items
 
 * [ngrok](https://ngrok.com/)
