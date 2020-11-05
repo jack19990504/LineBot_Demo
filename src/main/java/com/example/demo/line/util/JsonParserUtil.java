@@ -1,5 +1,7 @@
 package com.example.demo.line.util;
 
+import com.example.demo.mybatis.entity.Member;
+import com.fasterxml.jackson.databind.JavaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -8,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class JsonParserUtil {
+
 
 	@Autowired
 	private ObjectMapper objectMapper;
@@ -25,11 +28,11 @@ public class JsonParserUtil {
 		return jsonData;
 	}
 	
-	public Object stringToJson(String jsonString , Class<?> clazz)
+	public <T> T stringToJson(String jsonString , Class<?> clazz)
 	{
-		Object returnObject = null;
+		T returnObject = null;
 		try {
-			returnObject = objectMapper.readValue(jsonString, clazz);
+			returnObject = (T)objectMapper.readValue(jsonString, clazz);
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

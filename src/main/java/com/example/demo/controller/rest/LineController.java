@@ -42,21 +42,27 @@ public class LineController {
 	@Value("${spring.application.name}")
     String appName;
 // localhost:8080/line/hello
-	@Autowired
-	PushService pushService;
-	
-	@Autowired
-	LineService lineService;
+
+	private PushService pushService;
+	private LineService lineService;
+	private LineLoginService lineLoginService;
+	private UserMapper userMapper;
 
 	@Autowired
-	LineLoginService lineLoginService;
+	public LineController(PushService pushService,LineService lineService,
+						  LineLoginService lineLoginService,UserMapper userMapper){
+		this.pushService = pushService;
+		this.lineService = lineService;
+		this.lineLoginService = lineLoginService;
+		this.userMapper = userMapper;
 
-	@Autowired
-	UserMapper userMapper;
+	}
 
 	@GetMapping("/hello")
-	public void printHello() {
+	@ResponseBody
+	public ResponseEntity printHello() {
 		System.out.println("hello");
+		return ResponseEntity.ok("hello welcome to my app :" + appName);
 	}
 
 	/*
