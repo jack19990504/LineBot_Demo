@@ -25,7 +25,7 @@ import com.example.demo.mybatis.service.RegistrationService;
 public class LineService implements ImagesURL, LineKeys {
 
 	private static final Logger LOG = LoggerFactory.getLogger(LineService.class);
-
+ 
 	@Autowired
 	private ReplyService replyService;
 
