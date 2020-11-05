@@ -28,7 +28,7 @@ public class TestController {
     @GetMapping("/{id}")
     @ResponseBody
     public ResponseEntity<Member> testResponse(@PathVariable("id") String id){
-        Member member = memberService.getMemberTest(id);
+        Member member = memberService.getMemberByEmail(id);
 
         return ResponseEntity.ok(member);
     }
