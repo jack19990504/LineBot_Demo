@@ -15,5 +15,9 @@ after_success:
 notifications:
   slack:
     secure: K/C3899vWWKQ2y036JrtWG9DuYxwFuwNWZ+G5LlGOX0sBQB40XaEoPz9b+PmXdilg1NKsQJVeEN82uVILG5t8JSNNjZW3Bdl10hjoeujA9MdFgGIvmNVgZceGqfS+IGTcz4j2XQRbWLCYhphBTI+Mv8qP54fvL4oXvXLFC094/1sjJ85vFQtEYW8tNzWePkD2cF85Cj+M9CoxQHwANWs34wcbZYXilxLOavJAehH08udhwqtn8HiOzJc7+c4iqWNbNp7oDkmW61X8DK9HbPuRUnWR44qimGBR7J5wCJFQXO3lOaaGQJ88bOmY3O10Y/AsQ4bEa6muO+iZjG7G6wlCWplv2qVQBmxNvNx9t0Fetp73zjXtKVSor5HREgxLLm5lcW1KgpBOuZjdsK2CRArktFE5Tw9wai5Uo9u8vxvXY0pvg2JUIaaypNqraFmimIdL0nZ0Fx9ySN01McFP7bNCzeUK4K3lVCwSBUdBwhKxw3FhWSk4GQK9LsJnG53uHgI9GfhPuMkiIgbLxy120wQwIrDCSyFAqcuDrKHHb0amQPNhYj3m48khStqGoUCtX0wLo36br1zE+X8HJnd/iK6dc69JkCTZB5gDReaDsONJNyhGcICQdnsSOwtYkKwACv3rNPMbg9Poo1w5JXnQBiwtU7QcREffHZC7rywv0Gn7f8=
-    on_success: always 
+    on_success: always
     on_failure: always
+    template:
+      - "Repo `%{repository_slug}` *%{result}* build (<%{build_url}|#%{build_number}>) for commit (<%{compare_url}|%{commit}>) on branch `%{branch}`."
+      - "Execution time: *%{duration}*"
+      - "Message: %{message}"
