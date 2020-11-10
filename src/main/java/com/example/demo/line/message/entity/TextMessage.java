@@ -21,6 +21,16 @@ public class TextMessage extends Message{
 	public void setText(String text) {
 		this.text = text;
 	}
+
+	public TextMessage(String type, String text) {
+		super();
+		this.type = type;
+		this.text = text;
+	}
+
+	public TextMessage() {
+		super();
+	}
 	
 	
 	
