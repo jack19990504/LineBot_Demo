@@ -1,35 +1,43 @@
 package com.example.demo.line.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import com.example.demo.line.action.entity.*;
+import com.example.demo.keys.ImagesURL;
+import com.example.demo.keys.LineKeys;
+import com.example.demo.line.action.entity.LocationAction;
+import com.example.demo.line.action.entity.MessageAction;
+import com.example.demo.line.action.entity.PostBackAction;
+import com.example.demo.line.action.entity.QuickReplyAction;
+import com.example.demo.line.message.entity.*;
+import com.example.demo.line.message.flex.entity.FlexMessageTemplate;
+import com.example.demo.line.message.flex.entity.FlexMessageTemplateString;
+import com.example.demo.line.util.JsonParserUtil;
+import com.example.demo.line.util.SendMessageUtil;
+import com.example.demo.line.util.UUIDUtil;
+import com.example.demo.line.util.entity.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.keys.ImagesURL;
-import com.example.demo.keys.LineKeys;
-import com.example.demo.line.message.entity.FlexMessage;
-import com.example.demo.line.message.entity.Message;
-import com.example.demo.line.message.entity.QuickReply;
-import com.example.demo.line.message.entity.QuickReplyMessage;
-import com.example.demo.line.message.entity.Reply;
-import com.example.demo.line.message.entity.TextMessage;
-import com.example.demo.line.util.JsonParserUtil;
-import com.example.demo.line.util.SendMessageUtil;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Service
-public class ReplyService implements LineKeys,ImagesURL {
+public class ReplyService implements LineKeys, ImagesURL {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ReplyService.class);
 
+
+	private final SendMessageUtil sendMessageUtil;
+	private final JsonParserUtil jsonParserUtil;
+	private final UUIDUtil uuidUtil;
+
 	@Autowired
-	private SendMessageUtil sendMessageUtil;
-	@Autowired
-	private JsonParserUtil jsonParserUtil;
+	public ReplyService(SendMessageUtil sendMessageUtil,JsonParserUtil jsonParserUtil,UUIDUtil uuidUtil){
+		this.jsonParserUtil = jsonParserUtil;
+		this.sendMessageUtil = sendMessageUtil;
+		this.uuidUtil = uuidUtil;
+	}
 
 	// show spring init components and other tags at starting server
 	{
@@ -40,29 +48,25 @@ public class ReplyService implements LineKeys,ImagesURL {
 	// message.length must smaller than 3
 	public void sendResponseMessage(String replyToken, String... messages) {
 
-		String uuid = UUID.randomUUID().toString();
-
-		Reply reply = new Reply();
+		String uuid = uuidUtil.getRandomUUID();
 
 		List<Message> messagesList = new ArrayList<>();
 
 		TextMessage textMessage;
 
 		for (String message : messages) {
-			textMessage = new TextMessage();
-			textMessage.setType("text");
-			textMessage.setText(message);
+			textMessage = new TextMessage("text", message);
 			messagesList.add(textMessage);
 		}
-
-		reply.setReplyToken(replyToken);
-		reply.setMessages(messagesList);
+		Reply reply = new Reply(replyToken, messagesList);
 
 		String jsonData = jsonParserUtil.jsonToString(reply);
 
 		System.out.println(jsonData);
 
-		boolean isDone = sendMessageUtil.sendReplyMessage(uuid, jsonData);
+		HttpResponse httpResponse = sendMessageUtil.sendReply(uuid,jsonData);
+
+		boolean isDone = httpResponse.getStatusCode() == 200;
 
 		if (!isDone) {
 			replyFailedHashMap.put(uuid, jsonData);
@@ -73,24 +77,29 @@ public class ReplyService implements LineKeys,ImagesURL {
 	}
 
 	// one flex
-	public void sendResponseMessage_flex(String replyToken, FlexMessage flexMessage) {
+	public void sendResponseMessage_flex(String replyToken, FlexMessageTemplateString flexMessageTemplateString) {
 
-		String uuid = UUID.randomUUID().toString();
-
-		Reply reply = new Reply();
+		String uuid = uuidUtil.getRandomUUID();
 
 		List<Message> messageList = new ArrayList<>();
 
-		messageList.add(flexMessage);
 
-		reply.setReplyToken(replyToken);
-		reply.setMessages(messageList);
+		System.out.println(flexMessageTemplateString.getFlexMessageTemplate());
+
+		FlexMessageTemplate flexMessageTemplate = jsonParserUtil
+				.stringToJson(flexMessageTemplateString.getFlexMessageTemplate(), FlexMessageTemplate.class);
+
+		messageList.add(flexMessageTemplate);
+
+		Reply reply = new Reply(replyToken, messageList);
 
 		String jsonData = jsonParserUtil.jsonToString(reply);
 
 		System.out.println(jsonData);
 
-		boolean isDone = sendMessageUtil.sendReplyMessage(uuid, jsonData);
+		HttpResponse httpResponse = sendMessageUtil.sendReply(uuid,jsonData);
+
+		boolean isDone = httpResponse.getStatusCode() == 200;
 
 		if (!isDone) {
 			replyFailedHashMap.put(uuid, jsonData);
@@ -100,33 +109,36 @@ public class ReplyService implements LineKeys,ImagesURL {
 	}
 
 	public void sendQuickReply(String replyToken) {
-		
-		String uuid = UUID.randomUUID().toString();
+
+		String uuid = uuidUtil.getRandomUUID();
 
 		List<Message> messageList = new ArrayList<>();
 
 		List<QuickReplyAction> actionList = new ArrayList<>();
 		
+
 		TextMessage textMessage = new TextMessage();
 		textMessage.setType("text");
 		textMessage.setText("test");
 		messageList.add(textMessage);
 
-		actionList.add(new QuickReplyAction("action",new PostBackAction("postback","post test","data=123","TEST")));
-		actionList.add(new QuickReplyAction("action",DOGE_URL,new MessageAction("message","doge","testMessage")));
-		actionList.add(new QuickReplyAction("action",LOGO_URL,new MessageAction("message","logo","testLogo")));
-		actionList.add(new QuickReplyAction("action",new LocationAction("location","Send location")));
-		
-		QuickReplyMessage quickReplyMessage = new QuickReplyMessage("text","Select one",new QuickReply(actionList));
+		actionList.add(new QuickReplyAction("action", new PostBackAction("postback", "post test", "data=123", "TEST")));
+		actionList.add(new QuickReplyAction("action", DOGE_URL, new MessageAction("message", "doge", "testMessage")));
+		actionList.add(new QuickReplyAction("action", LOGO_URL, new MessageAction("message", "logo", "testLogo")));
+		actionList.add(new QuickReplyAction("action", new LocationAction("location", "Send location")));
+
+		QuickReplyMessage quickReplyMessage = new QuickReplyMessage("text", "Select one", new QuickReply(actionList));
 		messageList.add(quickReplyMessage);
-		
-		Reply reply = new Reply(replyToken,messageList);
+
+		Reply reply = new Reply(replyToken, messageList);
 
 		String jsonData = jsonParserUtil.jsonToString(reply);
 
 		System.out.println(jsonData);
 
-		boolean isDone = sendMessageUtil.sendReplyMessage(uuid, jsonData);
+		HttpResponse httpResponse = sendMessageUtil.sendReply(uuid,jsonData);
+
+		boolean isDone = httpResponse.getStatusCode() == 200;
 
 		if (!isDone) {
 			pushFailedHashMap.put(uuid, jsonData);
