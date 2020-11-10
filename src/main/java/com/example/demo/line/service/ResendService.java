@@ -19,8 +19,13 @@ public class ResendService implements LineKeys {
 	{
 		LOG.info("init :\t" + this.getClass().getSimpleName());
 	}
+
+	private final SendMessageUtil sendMessageUtil;
+
 	@Autowired
-	SendMessageUtil sendMessageUtil;
+	public ResendService(SendMessageUtil sendMessageUtil){
+		this.sendMessageUtil = sendMessageUtil;
+	}
 
 	/*
 	 * do this method per 15s using iterator to get all unsent message if send
@@ -40,7 +45,7 @@ public class ResendService implements LineKeys {
 			}
 			if (!pushFailedHashMap.isEmpty()) {
 				System.out.println("start send push task");
-				pushFailedHashMap.entrySet().removeIf(next -> sendMessageUtil.sendPostMessage(next.getKey(), next.getValue()));
+				pushFailedHashMap.entrySet().removeIf(next -> sendMessageUtil.sendPost(next.getKey(), next.getValue()).getStatusCode() == 200);
 
 			}
 			System.out.println("task is done");

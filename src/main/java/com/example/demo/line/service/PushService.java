@@ -3,8 +3,9 @@ package com.example.demo.line.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
+import com.example.demo.line.util.UUIDUtil;
+import com.example.demo.line.util.entity.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +30,17 @@ public class PushService implements LineKeys, ImagesURL {
 
 	private static final Logger LOG = LoggerFactory.getLogger(PushService.class);
 
+
+	private final SendMessageUtil sendMessageUtil;
+	private final ObjectMapper objectMapper;
+	private final UUIDUtil uuidUtil;
+
 	@Autowired
-	private SendMessageUtil sendMessageUtil;
-	@Autowired
-	private ObjectMapper objectMapper;
+	public PushService (SendMessageUtil sendMessageUtil,ObjectMapper objectMapper,UUIDUtil uuidUtil){
+		this.sendMessageUtil = sendMessageUtil;
+		this.objectMapper = objectMapper;
+		this.uuidUtil = uuidUtil;
+	}
 
 	// show spring init components and other tags at starting server
 	{
@@ -42,7 +50,7 @@ public class PushService implements LineKeys, ImagesURL {
 	// to one user
 	public void sendPostMessages(String[] userIds, String... messages) {
 
-		String uuid = UUID.randomUUID().toString();
+		String uuid = uuidUtil.getRandomUUID();
 
 		Push push = new Push();
 
@@ -78,7 +86,9 @@ public class PushService implements LineKeys, ImagesURL {
 
 		System.out.println(jsonData);
 
-		boolean isDone = sendMessageUtil.sendPostMessage(uuid, jsonData);
+		HttpResponse httpResponse = sendMessageUtil.sendPost(uuid, jsonData);
+
+		boolean isDone = httpResponse.getStatusCode() == 200;
 
 		if (!isDone) {
 			pushFailedHashMap.put(uuid, jsonData);
@@ -88,57 +98,17 @@ public class PushService implements LineKeys, ImagesURL {
 	}
 
 	public void sendPostQuickReplys(String[] userIds) {
-		String uuid = UUID.randomUUID().toString();
+		String uuid = uuidUtil.getRandomUUID();
 
-		// push 
-		// Push push = new Push();
 		List<Message> messageList = new ArrayList<>();
 
-		// quick reply
-		// QuickReplyMessage quickReplyMessage = new QuickReplyMessage();
-		// QuickReply quickReply = new QuickReply();
-		// QuickReplyAction quickReplyAction = new QuickReplyAction();
 		List<QuickReplyAction> actionList = new ArrayList<>();
 		
-		//head
-//		quickReplyMessage.setType("text");
-//		quickReplyMessage.setText("Select one ");
-		
-		// 1 deprecated
-//		quickReplyAction.setType("action");
-//		quickReplyAction.setImageUrl(DOGE_URL);
-//		
-//		action.setText("doge");
-//		action.setType("message");
-//		action.setLabel("doge");
-//		action.setData("doge data");
-//		action.setImageUrl(DOGE_URL);
-//		quickReplyAction.setAction(action);
+
 		actionList.add(new QuickReplyAction("action",DOGE_URL,new MessageAction("message","doge","testMessage")));
 
-		// 2 deprecated
-//		quickReplyAction = new QuickReplyAction();
-//		quickReplyAction.setType("action");
-//		quickReplyAction.setImageUrl(LOGO_URL);
-//		
-//		action = new Action();
-//		action.setText("logo");
-//		action.setType("message");
-//		action.setLabel("logo");
-//		action.setData("logo data");
-//		action.setImageUrl(LOGO_URL);
-//		quickReplyAction.setAction(action);
 		actionList.add(new QuickReplyAction("action",LOGO_URL,new MessageAction("message","logo","testLogo")));
 
-		// 3 deprecated
-//		
-//		quickReplyAction = new QuickReplyAction();
-//		quickReplyAction.setType("action");
-//		
-//		action = new Action();
-//		action.setType("location");
-//		action.setLabel("Send location");
-//		quickReplyAction.setAction(action);
 		actionList.add(new QuickReplyAction("action",new LocationAction("location","Send location")));
 		
 		// set
@@ -165,7 +135,9 @@ public class PushService implements LineKeys, ImagesURL {
 
 		System.out.println(jsonData);
 
-		boolean isDone = sendMessageUtil.sendPostMessage(uuid, jsonData);
+		HttpResponse httpResponse = sendMessageUtil.sendPost(uuid, jsonData);
+
+		boolean isDone = httpResponse.getStatusCode() == 200;
 
 		if (!isDone) {
 			pushFailedHashMap.put(uuid, jsonData);
