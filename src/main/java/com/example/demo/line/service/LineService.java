@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service;
 import com.example.demo.keys.ImagesURL;
 import com.example.demo.keys.LineKeys;
 import com.example.demo.line.entity.Event;
-import com.example.demo.line.message.entity.FlexMessage;
+import com.example.demo.line.message.flex.entity.FlexMessage;
+import com.example.demo.line.message.flex.entity.FlexMessageTemplateString;
 import com.example.demo.mybatis.entity.Activity;
 import com.example.demo.mybatis.entity.Member;
 import com.example.demo.mybatis.entity.Registration;
@@ -76,7 +77,7 @@ public class LineService implements ImagesURL, LineKeys {
 					flexMessage.setDate("2020-08-06");
 
 					// send it
-					replyService.sendResponseMessage_flex(replyToken, flexMessage);
+					replyService.sendResponseMessage_flex(replyToken, new FlexMessageTemplateString(flexMessage));
 					break;
 				case "我是誰":
 //					Optional<String> flexMessageResponse = getFlexMessage(userId);
