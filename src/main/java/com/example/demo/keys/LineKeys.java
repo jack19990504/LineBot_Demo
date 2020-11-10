@@ -7,7 +7,7 @@ public interface LineKeys {
 
 	// message api
   
-	String accessToken = "Fete4NBk12TWruvw3FYEqckZnSXZQJQgA3MbobnTeLWXqKhHdA+wfgvxehVaFHGv9Oa+8DfXAaltLgGQfGBDY6qTHTRNtTMoMxZ4P/Hi+Ng62sWiPVmWNmevv8DRAWiN0oSgukSGW9ojHCQM2/n20QdB04t89/1O/w1cDnyilFU=";
+	String accessToken = "vENCdgmXBbFN845x8zbYCGtQTkXmbIP3VzUMaiMMSVBvFAyUv+1F/RjO2Q4izvxa9Oa+8DfXAaltLgGQfGBDY6qTHTRNtTMoMxZ4P/Hi+NihfL87UClI+N6lqa4nDJUsvuNuWvrbkTNGjv5WV5MvggdB04t89/1O/w1cDnyilFU=";
 	String URL_REPLY = "https://api.line.me/v2/bot/message/reply";
 	String URL_PUSH = "https://api.line.me/v2/bot/message/push";
 

@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.line.util.JsonParserUtil;
+import com.example.demo.line.util.UUIDUtil;
 import com.example.demo.mybatis.entity.Member;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeAll;
@@ -18,6 +19,9 @@ class DemoApplicationTests {
 	@Autowired
 	private JsonParserUtil jsonParser;
 
+	@Autowired
+	private UUIDUtil uuidUtil;
+
 	@Test
 	void contextLoads() {
 	}
@@ -33,5 +37,12 @@ class DemoApplicationTests {
 
 		assertThat(member).isEqualToComparingOnlyGivenFields(member1);
 
+	}
+
+	@Test
+	public void testUUID(){
+		String uuid = uuidUtil.getRandomUUID();
+
+		assertThat(uuid instanceof String);
 	}
 }
