@@ -59,6 +59,6 @@ public class WeatherService {
     }
 
     public String getLineMessage(){
-        return jsonParserUtil.jsonToString(getMessage());
+        return getMessage().toString();
     }
 }
