@@ -1,18 +1,30 @@
 language: java
+
 jdk:
 - openjdk11
+
 services:
 - docker
+
+cache:
+  directories:
+    - .autoconf
+    - $HOME/.m2
+
 before_install:
 - chmod +x mvnw
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 - docker pull openjdk:11-jre-slim-sid
+
 script:
 - "./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install"
 - "./mvnw heroku:deploy jib:build -P deploy-heroku,deploy-docker"
+
 after_success:
 - bash <(curl -s https://codecov.io/bash)
+
 if: branch = master
+
 notifications:
   slack:
     secure: K+UOlJNI7kXJwqr5mq/haVnRGAEYM9dEfZmsxKzC85nyeCeTJEu8XPg3rQSNi+6Pqh1flb0v0hKKVL4NUwFTpSAQaXqcWjOhe27oCBEXd8hfaJVEbXXfCU8WRl8Puly0KK1glC2QGf1ivPG038IN0E9WPk0jk9YBSnkp+KfehPd1dlVN1wXLubi+34bNSD2OQf6TN3LjmHDg2NO7uO5XSpHenJK9Jlcbg+aAjBqwWSYerw+S5OSqtNuMCtFI0TM0tD7ejQ6akpA8tHXIuMouaQMRx90XZKv3LH2hKKmEioTTStk2wsJvRndbKWo/tubLJIICFEoeTNcvpaYo2Ed9xMiEI75yLePzbP3LNLaHrJC/b0t8DDJiylZoG5yBBiBG9seZsSeIr08Xj64DP2Mh/7Vso/E1oAoOxd/RrzABI/Ff8P6Jt1Ip2EdAMlwSzIZX5qsF21gobtuV5ej7zvCqzY+jHYJCxNpWT8rZTjgTn4+bKrG57Pp9w6P9sO4A3HltYj0PBJPDzKN6ivkqZLKBdT7WvmTCKzKvr9mJKNpc2UhO7hJ6UD4DdMOQ62d6xrd7ihF2Rl8/NEB+ZDAvYnwg3yTxs23Bpxx3ej3NnlDWb05EcoYq5Sk0C/BnrSdIfv5bxwplVseLeug0he3PVxqLXNh/unioUP1zvTHxm+oPbOs=

@@ -40,7 +40,7 @@ public class WeatherService {
                 stringBuilder = new StringBuilder();
                 for (Time time : weatherElement.getTime()) {
                     stringBuilder.append(time.getStartTime().substring(6)).append(" - ").append(time.getEndTime().substring(6));
-                    stringBuilder.append(" 的下雨機率為 ：").append(time.getElementValue().get(0).getValue()).append(" ").append("%\n");
+                    stringBuilder.append(" 的下雨機率為 ：").append(time.getElementValue().get(0).getValue()).append(" ").append("%\\n");
                 }
                 returnMessage.setRaining(stringBuilder.toString());
 
@@ -49,7 +49,7 @@ public class WeatherService {
                 stringBuilder = new StringBuilder();
                 for (Time time : weatherElement.getTime()){
                     stringBuilder.append(time.getDataTime()).append(" 氣溫為 : ")
-                            .append(time.getElementValue().get(0).getValue()+time.getElementValue().get(0).getMeasures()).append("\n");
+                            .append(time.getElementValue().get(0).getValue()+time.getElementValue().get(0).getMeasures()).append("\\n");
                 }
                 returnMessage.setTemperature(stringBuilder.toString());
             }
