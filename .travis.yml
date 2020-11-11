@@ -10,7 +10,7 @@ cache:
   directories:
     - .autoconf
     - $HOME/.m2
-
+ 
 before_install:
 - chmod +x mvnw
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
