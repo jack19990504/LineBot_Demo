@@ -1,6 +1,8 @@
-package com.example.demo.line.util.entity;
+package com.example.demo.line.util;
 
+import com.example.demo.line.util.entity.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -16,7 +18,7 @@ public class HttpClientUtil {
 
     public HttpResponse doRequest(HttpPost httpPost){
         CloseableHttpClient httpclient = HttpClients.createDefault();
-        CloseableHttpResponse response = null;
+        CloseableHttpResponse response;
         HttpResponse httpResponse = null;
 
         try{
@@ -25,19 +27,22 @@ public class HttpClientUtil {
                     EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8));
         }catch(Exception e){
                 System.out.println("error");
-        }finally {
-            if (response != null) {
-                try {
-                    response.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            try {
-                httpclient.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        }
+
+        return httpResponse;
+    }
+
+    public HttpResponse doRequest(HttpGet httpGet){
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        CloseableHttpResponse response;
+        HttpResponse httpResponse = null;
+
+        try{
+            response = httpclient.execute(httpGet);
+            httpResponse = new HttpResponse(response.getStatusLine().getStatusCode(),
+                    EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8));
+        }catch(Exception e){
+            System.out.println("error");
         }
 
         return httpResponse;
@@ -64,5 +69,11 @@ public class HttpClientUtil {
         httpPost.setEntity(new StringEntity(message, StandardCharsets.UTF_8));
 
         return httpPost;
+    }
+
+    public HttpGet setWeather(String URL){
+        HttpGet httpGet = new HttpGet("https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-061?Authorization=CWB-4263648C-F829-4D72-B07D-62F049F17B24&locationName=%E4%BF%A1%E7%BE%A9%E5%8D%80&elementName=PoP12h,T");
+
+        return httpGet;
     }
 }

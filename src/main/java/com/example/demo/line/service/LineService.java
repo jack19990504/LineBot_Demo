@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
 
+import com.example.demo.weather.WeatherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +27,21 @@ import com.example.demo.mybatis.service.RegistrationService;
 public class LineService implements ImagesURL, LineKeys {
 
 	private static final Logger LOG = LoggerFactory.getLogger(LineService.class);
- 
-	@Autowired
+
 	private ReplyService replyService;
-
-	@Autowired
 	private MemberService memberService;
-
-	@Autowired
 	private RegistrationService registrationService;
-
-	@Autowired
 	private ActivityService activityService;
+	private WeatherService weatherService;
+
+	public LineService(ReplyService replyService, MemberService memberService,RegistrationService registrationService,
+					   ActivityService activityService, WeatherService weatherService){
+		this.replyService = replyService;
+		this.memberService = memberService;
+		this.activityService = activityService;
+		this.registrationService = registrationService;
+		this.weatherService = weatherService;
+	}
 
 	// show spring init components and other tags at starting server
 	{
@@ -85,6 +89,9 @@ public class LineService implements ImagesURL, LineKeys {
 					break;
 				case "reply":
 					replyService.sendQuickReply(replyToken);
+					break;
+				case "天氣":
+					replyService.sendResponseMessage(replyToken,weatherService.getLineMessage());
 					break;
 				default:
 					replyService.sendResponseMessage(replyToken, message);
