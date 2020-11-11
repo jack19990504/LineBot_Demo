@@ -39,7 +39,7 @@ public class WeatherService {
             if(weatherElement.getElementName().equals("PoP12h")) {
                 stringBuilder = new StringBuilder();
                 for (Time time : weatherElement.getTime()) {
-                    stringBuilder.append(time.getStartTime().substring(6)).append(" - ").append(time.getEndTime().substring(6));
+                    stringBuilder.append(time.getStartTime().substring(5)).append(" - ").append(time.getEndTime().substring(5));
                     stringBuilder.append(" 的下雨機率為 ：").append(time.getElementValue().get(0).getValue()).append(" ").append("%\\n");
                 }
                 returnMessage.setRaining(stringBuilder.toString());
