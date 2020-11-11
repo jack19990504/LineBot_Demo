@@ -31,4 +31,9 @@ public class ReturnMessage {
     public void setTemperature(String temperature) {
         this.temperature = temperature;
     }
+
+    @Override
+    public String toString() {
+        return getCity() + ":" +getRaining() +"\\n" +getTemperature();
+    }
 }
