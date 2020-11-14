@@ -12,7 +12,6 @@ public class Weather extends Message {
             "\"contents\":"+
             "{\n" +
             "  \"type\": \"bubble\",\n" +
-            "  \"direction\": \"ltr\",\n" +
             "  \"header\": {\n" +
             "    \"type\": \"box\",\n" +
             "    \"layout\": \"vertical\",\n" +
