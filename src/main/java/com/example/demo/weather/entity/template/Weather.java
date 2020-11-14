@@ -12,7 +12,7 @@ public class Weather extends Message {
             "\"contents\":"+
             "{\n" +
             "  \"type\": \"bubble\",\n" +
-            "  \"header\": {\n" +
+            "  \"hero\": {\n" +
             "    \"type\": \"box\",\n" +
             "    \"layout\": \"vertical\",\n" +
             "    \"contents\": [\n" +
