@@ -48,7 +48,7 @@ class DemoApplicationTests {
 
 	@Test
 	public void testWeatherTemplate(){
-		String message = weatherService.getLineMessage();
+		String message = weatherService.getLineMessage().toString();
 		assertThat(message != null);
 	}
 }
