@@ -20,7 +20,6 @@ public class Weather extends Message {
             "        \"type\": \"text\",\n" +
             "        \"text\": \"今日天氣\",\n" +
             "        \"size\": \"xl\",\n" +
-            "        \"align\": \"center\",\n" +
             "        \"contents\": []\n" +
             "      }\n" +
             "    ]\n" +
