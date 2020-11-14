@@ -13,6 +13,7 @@ import com.example.demo.line.util.JsonParserUtil;
 import com.example.demo.line.util.SendMessageUtil;
 import com.example.demo.line.util.UUIDUtil;
 import com.example.demo.line.util.entity.HttpResponse;
+import com.example.demo.weather.entity.template.Weather;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings("DuplicatedCode")
 @Service
 public class ReplyService implements LineKeys, ImagesURL {
 
@@ -90,6 +92,32 @@ public class ReplyService implements LineKeys, ImagesURL {
 				.stringToJson(flexMessageTemplateString.getFlexMessageTemplate(), FlexMessageTemplate.class);
 
 		messageList.add(flexMessageTemplate);
+
+		Reply reply = new Reply(replyToken, messageList);
+
+		String jsonData = jsonParserUtil.jsonToString(reply);
+
+		System.out.println(jsonData);
+
+		HttpResponse httpResponse = sendMessageUtil.sendReply(uuid,jsonData);
+
+		boolean isDone = httpResponse.getStatusCode() == 200;
+
+		if (!isDone) {
+			replyFailedHashMap.put(uuid, jsonData);
+		}
+
+		System.out.println(isDone ? "成功回復" : "回復失敗");
+	}
+
+	// one flex
+	public void sendResponseMessage_WeatherFlexMessage(String replyToken, Weather weather) {
+
+		String uuid = uuidUtil.getRandomUUID();
+
+		List<Message> messageList = new ArrayList<>();
+
+		messageList.add(weather);
 
 		Reply reply = new Reply(replyToken, messageList);
 

@@ -1,6 +1,9 @@
 package com.example.demo.weather.entity.template;
 
-public class Weather{
+
+import com.example.demo.line.message.entity.Message;
+
+public class Weather extends Message {
 
     private String template =
             "{" +

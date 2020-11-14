@@ -90,7 +90,7 @@ public class LineService implements ImagesURL, LineKeys {
 					replyService.sendQuickReply(replyToken);
 					break;
 				case "天氣":
-					replyService.sendResponseMessage(replyToken,weatherService.getLineMessage());
+					replyService.sendResponseMessage_WeatherFlexMessage(replyToken,weatherService.getLineMessage());
 					break;
 				default:
 					replyService.sendResponseMessage(replyToken, message);
