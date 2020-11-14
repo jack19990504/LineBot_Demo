@@ -117,7 +117,11 @@ public class ReplyService implements LineKeys, ImagesURL {
 
 		List<Message> messageList = new ArrayList<>();
 
-		messageList.add(weather);
+
+		FlexMessageTemplate flexMessageTemplate = jsonParserUtil
+				.stringToJson(weather.getTemplate(), FlexMessageTemplate.class);
+
+		messageList.add(flexMessageTemplate);
 
 		Reply reply = new Reply(replyToken, messageList);
 
