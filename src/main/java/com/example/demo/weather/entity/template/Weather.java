@@ -41,7 +41,6 @@ public class Weather extends Message {
             "        \"text\": \"表頭\",\n" +
             "        \"weight\": \"regular\",\n" +
             "        \"size\": \"xl\",\n" +
-            "        \"align\": \"center\",\n" +
             "        \"contents\": []\n" +
             "      },\n" +
             "      {\n" +
