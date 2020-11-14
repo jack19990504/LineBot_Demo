@@ -56,8 +56,8 @@ public class Weather extends Message {
     }
 
     public String setTemplate(String title,String content){
-        this.template.replace("表頭",title);
-        this.template.replace("內文",content);
+        this.template = this.template.replace("表頭",title);
+        this.template = this.template.replace("內文",content);
         return getTemplate();
     }
 }
