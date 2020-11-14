@@ -2,7 +2,12 @@ package com.example.demo.weather.entity.template;
 
 public class Weather{
 
-    private String template = "{\n" +
+    private String template =
+            "{" +
+            "\"type\": \"flex\"," +
+            "\"altText\": \"This is a Flex Message\"," +
+            "\"contents\":"+
+            "{\n" +
             "  \"type\": \"bubble\",\n" +
             "  \"direction\": \"ltr\",\n" +
             "  \"header\": {\n" +
@@ -44,7 +49,7 @@ public class Weather{
             "      }\n" +
             "    ]\n" +
             "  }\n" +
-            "}";
+            "}}";
 
     public String getTemplate() {
         return template;
