@@ -1,4 +1,4 @@
-package com.example.demo.weather.Service;
+package com.example.demo.weather.util;
 
 import com.example.demo.line.util.HttpClientUtil;
 import com.example.demo.line.util.entity.HttpResponse;

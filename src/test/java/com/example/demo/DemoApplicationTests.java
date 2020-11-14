@@ -3,13 +3,10 @@ package com.example.demo;
 import com.example.demo.line.util.JsonParserUtil;
 import com.example.demo.line.util.UUIDUtil;
 import com.example.demo.mybatis.entity.Member;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import org.junit.jupiter.api.BeforeAll;
+import com.example.demo.weather.Service.WeatherService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.event.annotation.BeforeTestClass;
-import org.springframework.test.context.event.annotation.BeforeTestExecution;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,12 +19,15 @@ class DemoApplicationTests {
 	@Autowired
 	private UUIDUtil uuidUtil;
 
+	@Autowired
+	private WeatherService weatherService;
+
 	@Test
 	void contextLoads() {
 	}
 
 	@Test
-	public void testObjectMapper() throws JsonProcessingException {
+	public void testObjectMapper() {
 		Member member = new Member();
 		member.setMemberName("jack");
 
@@ -43,6 +43,12 @@ class DemoApplicationTests {
 	public void testUUID(){
 		String uuid = uuidUtil.getRandomUUID();
 
-		assertThat(uuid instanceof String);
+		assertThat(uuid != null);
+	}
+
+	@Test
+	public void testWeatherTemplate(){
+		String message = weatherService.getLineMessage();
+		assertThat(message != null);
 	}
 }
