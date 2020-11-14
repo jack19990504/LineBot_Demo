@@ -1,6 +1,6 @@
 package com.example.demo.controller.rest;
 
-import com.example.demo.weather.WeatherService;
+import com.example.demo.weather.Service.WeatherService;
 import com.example.demo.weather.entity.ReturnMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +21,8 @@ public class WeatherController {
     }
 
     @GetMapping()
-    public ResponseEntity<ReturnMessage> getWeather(){
+    public ResponseEntity<String> getWeather(){
 
-        ReturnMessage returnMessage = weatherService.getMessage();
-
-        return ResponseEntity.ok().body(returnMessage);
+        return ResponseEntity.ok().body(weatherService.getMessage());
     }
 }
