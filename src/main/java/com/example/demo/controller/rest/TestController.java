@@ -27,10 +27,9 @@ public class TestController {
 
     @GetMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<Member> testResponse(@PathVariable("id") String id){
-        Member member = memberService.getMemberTest(id);
+    public ResponseEntity<String> testResponse(@PathVariable("id") String id){
 
-        return ResponseEntity.ok(member);
+        return ResponseEntity.ok(id);
     }
 
     @ResponseBody
