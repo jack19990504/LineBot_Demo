@@ -1,6 +1,8 @@
 package com.example.demo.line.util;
 
 import com.example.demo.line.util.entity.HttpResponse;
+import com.example.demo.slack.entity.SlackMessage;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -15,6 +17,12 @@ import java.nio.charset.StandardCharsets;
 
 @Component
 public class HttpClientUtil {
+
+    private JsonParserUtil jsonParserUtil;
+
+    public HttpClientUtil(JsonParserUtil jsonParserUtil){
+        this.jsonParserUtil = jsonParserUtil;
+    }
 
     public HttpResponse doRequest(HttpPost httpPost){
         CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -75,5 +83,15 @@ public class HttpClientUtil {
         HttpGet httpGet = new HttpGet("https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-061?Authorization=CWB-4263648C-F829-4D72-B07D-62F049F17B24&locationName=%E4%BF%A1%E7%BE%A9%E5%8D%80&elementName=PoP12h,T");
 
         return httpGet;
+    }
+
+    public HttpPost setSlackMessage(String URL,SlackMessage slackMessage){
+        HttpPost httpPost = new HttpPost(URL);
+        httpPost.setHeader("Accept", "application/json");
+        httpPost.setHeader("Content-Type", "application/json; charset=utf-8");
+
+        httpPost.setEntity(new StringEntity(jsonParserUtil.jsonToString(slackMessage), StandardCharsets.UTF_8));
+
+        return httpPost;
     }
 }

@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
 
+import com.example.demo.annotation.SendSlackMessage;
 import com.example.demo.weather.Service.WeatherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +47,7 @@ public class LineService implements ImagesURL, LineKeys {
 	{
 		LOG.info("init :\t" + this.getClass().getSimpleName());
 	}
-
+	@SendSlackMessage(message = "text")
 	public void message_text_Simple_Reply(Optional<Event> event) {
 
 		// initialize some necessary data
@@ -142,7 +143,7 @@ public class LineService implements ImagesURL, LineKeys {
 			activityId = registration.map(Registration::getActivity_Id).orElse("");
 			if (!activityId.equals("")) {
 				activity = Optional.ofNullable(activityService.getActivityById(activityId));
-				if (member.isPresent() && activity.isPresent() && registration.isPresent()) {
+				if (activity.isPresent()) {
 					registrationDetail.setActivity(activity.get());
 					registrationDetail.setMember(member.get());
 					registrationDetail.setRegistration(registration.get());
@@ -155,6 +156,6 @@ public class LineService implements ImagesURL, LineKeys {
 		} else {
 			LOG.error("memberEmail is null");
 		}
-		return Optional.ofNullable(getMemberFlexMessageTemplateMessage(registrationDetail));
+		return Optional.of(getMemberFlexMessageTemplateMessage(registrationDetail));
 	}
 }
