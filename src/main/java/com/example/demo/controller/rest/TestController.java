@@ -1,5 +1,6 @@
 package com.example.demo.controller.rest;
 
+import com.example.demo.annotation.SendSlackMessage;
 import com.example.demo.mybatis.entity.Member;
 import com.example.demo.mybatis.service.MemberService;
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ public class TestController {
 
     @GetMapping("/{id}")
     @ResponseBody
+    @SendSlackMessage(message = "text")
     public ResponseEntity<String> testResponse(@PathVariable("id") String id){
 
         return ResponseEntity.ok(id);

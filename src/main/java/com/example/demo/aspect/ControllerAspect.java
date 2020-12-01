@@ -33,12 +33,6 @@ public class ControllerAspect {
         return signature.getName();
     }
 
-    @After("pointcut()")
-    public void after(JoinPoint joinPoint) {
-        System.out.println("=====after advice starts=====");
-        System.out.println("=====after advice ends=====");
-    }
-
     @AfterReturning(pointcut = "pointcut()", returning = "result")
     public void afterReturning(JoinPoint joinPoint, Object result) {
         System.out.println("=====after returning advice starts=====");
