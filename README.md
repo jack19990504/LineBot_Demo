@@ -33,7 +33,7 @@
 3. 將此串 URL 複製下來 https://XXXXXXXX.ngrok.io<br>![ngrok3](/src/main/resources/static/ngrok3.jpg)
 4. 開啟 [line developers tab](https://developers.line.biz/en/)登入,並選擇先前創立的 line bot [linebot1](/src/main/resources/static/linebot1.jpg)
 5. 點擊 message API ![messageAPI](/src/main/resources/static/linebot2.jpg)
-6. 將第三步複製的 URL 貼到webhook中[linebot3](/src/main/resources/static/linebot3.jpg)
+6. 將第三步複製的 URL 貼到webhook中![linebot3](/src/main/resources/static/linebot3.jpg)
 7. 啟動 spring boot app 
     * eclipse
         1. 右鍵專案
