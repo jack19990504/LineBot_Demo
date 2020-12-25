@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.example.demo.annotation.SendSlackMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,6 +149,7 @@ public class LineController {
 
 	@PostMapping(produces = { "application/json" }, consumes = { "application/json" })
 	@ResponseBody
+	@SendSlackMessage
 	public ResponseEntity<Object> ReceiveMessage3(@RequestBody EventWrapper eventWrapper) {
 
 		// filter : 篩出所有是 *訊息* |而且| 是 *文字* 的訊息

@@ -21,9 +21,6 @@ public class ControllerAspect {
         System.out.println("=====before advice starts=====");
         String method = getMethodName(joinPoint);
         System.out.println(method);
-        if(method.equals("ReceiveMessage3")){
- 
-        }
         Arrays.stream(joinPoint.getArgs()).forEach(System.out::println);
         System.out.println("=====before advice ends=====");
     }

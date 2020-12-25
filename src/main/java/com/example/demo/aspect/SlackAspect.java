@@ -33,7 +33,7 @@ public class SlackAspect {
         slackMessage.setIcon_emoji(":twice:");
 
         Arrays.stream(joinPoint.getArgs()).forEach(System.out::println);
-
+        System.out.println("above");
         System.out.println(slackService.sendSlack(slackMessage));
     }
 
