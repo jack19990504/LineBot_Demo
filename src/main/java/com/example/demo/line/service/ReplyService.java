@@ -12,7 +12,7 @@ import com.example.demo.line.message.flex.entity.FlexMessageTemplateString;
 import com.example.demo.util.JsonParserUtil;
 import com.example.demo.line.util.SendMessageUtil;
 import com.example.demo.util.UUIDUtil;
-import com.example.demo.line.util.entity.HttpResponse;
+import com.example.demo.util.entity.HttpResponse;
 import com.example.demo.weather.entity.template.Weather;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

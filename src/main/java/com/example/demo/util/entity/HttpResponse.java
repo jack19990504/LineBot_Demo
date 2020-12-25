@@ -1,4 +1,4 @@
-package com.example.demo.line.util.entity;
+package com.example.demo.util.entity;
 
 public class HttpResponse {
 

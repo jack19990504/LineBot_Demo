@@ -1,6 +1,6 @@
 package com.example.demo.util;
 
-import com.example.demo.line.util.entity.HttpResponse;
+import com.example.demo.util.entity.HttpResponse;
 import com.example.demo.slack.entity.SlackMessage;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;

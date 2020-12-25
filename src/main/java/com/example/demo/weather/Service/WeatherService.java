@@ -1,7 +1,7 @@
 package com.example.demo.weather.Service;
 
 import com.example.demo.util.JsonParserUtil;
-import com.example.demo.line.util.entity.HttpResponse;
+import com.example.demo.util.entity.HttpResponse;
 import com.example.demo.weather.entity.ReturnMessage;
 import com.example.demo.weather.entity.Time;
 import com.example.demo.weather.entity.WeatherElement;
