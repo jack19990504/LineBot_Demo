@@ -1,6 +1,6 @@
 package com.example.demo.line.message.entity;
 
-public class TextMessage extends Message{
+public class TextMessage extends EntityMessage {
 	
 	private String type;
 	

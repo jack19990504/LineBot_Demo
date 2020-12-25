@@ -3,7 +3,7 @@ package com.example.demo.line.message.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class QuickReplyMessage extends Message {
+public class QuickReplyMessage extends EntityMessage {
 
 	private String type;
 	private String text;

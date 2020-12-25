@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.example.demo.line.action.entity.QuickReplyAction;
 
-public class QuickReply extends Message{
+public class QuickReply extends EntityMessage {
 	
 	private List<QuickReplyAction> items;
 

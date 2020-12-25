@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.example.demo.line.util.UUIDUtil;
+import com.example.demo.util.UUIDUtil;
 import com.example.demo.line.util.entity.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ import com.example.demo.keys.LineKeys;
 import com.example.demo.line.action.entity.LocationAction;
 import com.example.demo.line.action.entity.MessageAction;
 import com.example.demo.line.action.entity.QuickReplyAction;
-import com.example.demo.line.message.entity.Message;
+import com.example.demo.line.message.entity.EntityMessage;
 import com.example.demo.line.message.entity.Push;
 import com.example.demo.line.message.entity.QuickReply;
 import com.example.demo.line.message.entity.QuickReplyMessage;
@@ -56,7 +56,7 @@ public class PushService implements LineKeys, ImagesURL {
 
 		TextMessage textMessage;
 
-		List<Message> messageList = new ArrayList<>();
+		List<EntityMessage> messageList = new ArrayList<>();
 
 		for (String message : messages) {
 			textMessage = new TextMessage();
@@ -100,7 +100,7 @@ public class PushService implements LineKeys, ImagesURL {
 	public void sendPostQuickReplys(String[] userIds) {
 		String uuid = uuidUtil.getRandomUUID();
 
-		List<Message> messageList = new ArrayList<>();
+		List<EntityMessage> messageList = new ArrayList<>();
 
 		List<QuickReplyAction> actionList = new ArrayList<>();
 		

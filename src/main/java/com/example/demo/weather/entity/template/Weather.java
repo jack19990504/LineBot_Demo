@@ -1,9 +1,9 @@
 package com.example.demo.weather.entity.template;
 
 
-import com.example.demo.line.message.entity.Message;
+import com.example.demo.line.message.entity.EntityMessage;
 
-public class Weather extends Message {
+public class Weather extends EntityMessage {
 
     private String template =
             "{" +

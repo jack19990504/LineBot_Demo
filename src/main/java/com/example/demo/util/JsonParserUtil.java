@@ -1,4 +1,4 @@
-package com.example.demo.line.util;
+package com.example.demo.util;
 
 import com.example.demo.mybatis.entity.Member;
 import com.fasterxml.jackson.databind.JavaType;

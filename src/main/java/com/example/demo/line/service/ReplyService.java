@@ -9,9 +9,9 @@ import com.example.demo.line.action.entity.QuickReplyAction;
 import com.example.demo.line.message.entity.*;
 import com.example.demo.line.message.flex.entity.FlexMessageTemplate;
 import com.example.demo.line.message.flex.entity.FlexMessageTemplateString;
-import com.example.demo.line.util.JsonParserUtil;
+import com.example.demo.util.JsonParserUtil;
 import com.example.demo.line.util.SendMessageUtil;
-import com.example.demo.line.util.UUIDUtil;
+import com.example.demo.util.UUIDUtil;
 import com.example.demo.line.util.entity.HttpResponse;
 import com.example.demo.weather.entity.template.Weather;
 import org.slf4j.Logger;
@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @SuppressWarnings("DuplicatedCode")
 @Service
@@ -52,7 +51,7 @@ public class ReplyService implements LineKeys, ImagesURL {
 
 		String uuid = uuidUtil.getRandomUUID();
 
-		List<Message> messagesList = new ArrayList<>();
+		List<EntityMessage> messagesList = new ArrayList<>();
 
 		TextMessage textMessage;
 
@@ -83,7 +82,7 @@ public class ReplyService implements LineKeys, ImagesURL {
 
 		String uuid = uuidUtil.getRandomUUID();
 
-		List<Message> messageList = new ArrayList<>();
+		List<EntityMessage> messageList = new ArrayList<>();
 
 
 		System.out.println(flexMessageTemplateString.getFlexMessageTemplate());
@@ -115,7 +114,7 @@ public class ReplyService implements LineKeys, ImagesURL {
 
 		String uuid = uuidUtil.getRandomUUID();
 
-		List<Message> messageList = new ArrayList<>();
+		List<EntityMessage> messageList = new ArrayList<>();
 
 
 		FlexMessageTemplate flexMessageTemplate = jsonParserUtil
@@ -144,7 +143,7 @@ public class ReplyService implements LineKeys, ImagesURL {
 
 		String uuid = uuidUtil.getRandomUUID();
 
-		List<Message> messageList = new ArrayList<>();
+		List<EntityMessage> messageList = new ArrayList<>();
 
 		List<QuickReplyAction> actionList = new ArrayList<>();
 		

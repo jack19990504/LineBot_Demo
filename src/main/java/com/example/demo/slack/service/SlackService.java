@@ -1,6 +1,6 @@
 package com.example.demo.slack.service;
 
-import com.example.demo.line.util.HttpClientUtil;
+import com.example.demo.util.HttpClientUtil;
 import com.example.demo.slack.entity.SlackMessage;
 import org.apache.http.client.methods.HttpPost;
 import org.springframework.beans.factory.annotation.Value;

@@ -6,7 +6,7 @@ public class Reply {
 	
 	private String replyToken;
 	
-	private List<Message> messages;
+	private List<EntityMessage> messages;
 
 	public String getReplyToken() {
 		return replyToken;
@@ -16,15 +16,15 @@ public class Reply {
 		this.replyToken = replyToken;
 	}
 
-	public List<Message> getMessages() {
+	public List<EntityMessage> getMessages() {
 		return messages;
 	}
 
-	public void setMessages(List<Message> messages) {
+	public void setMessages(List<EntityMessage> messages) {
 		this.messages = messages;
 	}
 
-	public Reply(String replyToken, List<Message> messages) {
+	public Reply(String replyToken, List<EntityMessage> messages) {
 		super();
 		this.replyToken = replyToken;
 		this.messages = messages;

@@ -1,7 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.line.util.JsonParserUtil;
-import com.example.demo.line.util.UUIDUtil;
+import com.example.demo.util.JsonParserUtil;
+import com.example.demo.util.UUIDUtil;
 import com.example.demo.mybatis.entity.Member;
 import com.example.demo.weather.Service.WeatherService;
 import org.junit.jupiter.api.Test;
