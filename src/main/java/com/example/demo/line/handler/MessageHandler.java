@@ -4,7 +4,6 @@ import com.example.demo.line.entity.Event;
 import com.example.demo.line.handler.resovler.Resolver;
 import com.example.demo.line.handler.resovler.TextResolver;
 import com.example.demo.line.service.LineService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.Optional;

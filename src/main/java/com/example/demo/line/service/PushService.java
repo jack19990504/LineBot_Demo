@@ -67,6 +67,10 @@ public class PushService implements LineKeys, ImagesURL {
 
 		push.setMessages(messageList);
 
+		sendMessage(userIds, uuid, push);
+	}
+
+	private void sendMessage(String[] userIds, String uuid, Push push) {
 		if (userIds.length == 1) {
 			push.setTo(userIds[0]);
 		} else {
@@ -116,33 +120,6 @@ public class PushService implements LineKeys, ImagesURL {
 		messageList.add(quickReplyMessage);
 		Push push = new Push(messageList);
 
-		if (userIds.length == 1) {
-			push.setTo(userIds[0]);
-		} else {
-			push.setTo(Arrays.toString(userIds));
-		}
-
-		System.out.println(Arrays.toString(userIds));
-
-		String jsonData = "";
-		try {
-			jsonData = objectMapper.writeValueAsString(push);
-
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		System.out.println(jsonData);
-
-		HttpResponse httpResponse = sendMessageUtil.sendPost(uuid, jsonData);
-
-		boolean isDone = httpResponse.getStatusCode() == 200;
-
-		if (!isDone) {
-			pushFailedHashMap.put(uuid, jsonData);
-		}
-
-		System.out.println(isDone ? "成功發送" : "發送失敗");
+		sendMessage(userIds, uuid, push);
 	}
 }
