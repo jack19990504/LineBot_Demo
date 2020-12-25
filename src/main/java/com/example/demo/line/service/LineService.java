@@ -47,7 +47,7 @@ public class LineService implements ImagesURL, LineKeys {
 	{
 		LOG.info("init :\t" + this.getClass().getSimpleName());
 	}
-	@SendSlackMessage(message = "text")
+
 	public void message_text_Simple_Reply(Optional<Event> event) {
 
 		// initialize some necessary data

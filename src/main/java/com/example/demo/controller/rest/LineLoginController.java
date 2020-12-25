@@ -21,6 +21,7 @@ public class LineLoginController {
 
     @Value("${spring.application.name}")
     String appName;
+
     private final LineLoginService lineLoginService;
     private final UserMapper userMapper;
 

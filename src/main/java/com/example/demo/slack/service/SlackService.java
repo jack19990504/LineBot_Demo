@@ -1,29 +1,42 @@
 package com.example.demo.slack.service;
 
-import com.example.demo.util.HttpClientUtil;
-import com.example.demo.slack.entity.SlackMessage;
-import org.apache.http.client.methods.HttpPost;
+import com.slack.api.Slack;
+import com.slack.api.methods.MethodsClient;
+import com.slack.api.methods.request.chat.ChatPostMessageRequest;
+import com.slack.api.methods.response.chat.ChatPostMessageResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SlackService {
 
-    private HttpClientUtil httpClientUtil;
+    private final Slack slack;
+
+    @Value("${slack.token}")
+    String slackToken;
 
     @Value("${slack.webhook.url}")
     private String URL;
 
-    public SlackService(HttpClientUtil httpClientUtil){
-        this.httpClientUtil = httpClientUtil;
+    public SlackService(){
+        slack = Slack.getInstance();
     }
 
-    public boolean sendSlack(SlackMessage slackMessage){
-        HttpPost httpPost = httpClientUtil.setSlackMessage(URL,slackMessage);
-        int res = httpClientUtil.doRequest(httpPost).getStatusCode();
-
-        return res == 200;
-
+    public boolean sendSlack(){
+        MethodsClient methods = slack.methods(slackToken);
+        ChatPostMessageRequest request = ChatPostMessageRequest.builder()
+                .channel("C01FJ07N0AX") // Use a channel ID `C1234567` is preferable
+                .text(":wave: Hi from a bot written in Java!")
+                .build();
+        ChatPostMessageResponse response = null;
+        try{
+            response = methods.chatPostMessage(request);
+        } catch(Exception e){
+            System.out.println("something went wrong");
+        }
+        assert response != null;
+        System.out.println(response.getError());
+        return response.isOk();
     }
 
 
