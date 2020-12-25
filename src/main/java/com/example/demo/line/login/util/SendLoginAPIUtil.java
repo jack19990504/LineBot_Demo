@@ -20,7 +20,7 @@ import com.example.demo.keys.LineKeys;
 import com.example.demo.line.login.entity.AccessToken;
 import com.example.demo.line.login.entity.LineUser;
 import com.example.demo.line.login.entity.LineUserDetail;
-import com.example.demo.line.util.JsonParserUtil;
+import com.example.demo.util.JsonParserUtil;
 
 @Component
 public class SendLoginAPIUtil implements LineKeys {

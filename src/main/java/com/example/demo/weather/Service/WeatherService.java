@@ -1,8 +1,7 @@
 package com.example.demo.weather.Service;
 
-import com.example.demo.line.message.entity.Message;
-import com.example.demo.line.util.JsonParserUtil;
-import com.example.demo.line.util.entity.HttpResponse;
+import com.example.demo.util.JsonParserUtil;
+import com.example.demo.util.entity.HttpResponse;
 import com.example.demo.weather.entity.ReturnMessage;
 import com.example.demo.weather.entity.Time;
 import com.example.demo.weather.entity.WeatherElement;
@@ -12,7 +11,6 @@ import com.example.demo.weather.util.SendWeatherUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

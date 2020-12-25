@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.example.demo.line.util.UUIDUtil;
-import com.example.demo.line.util.entity.HttpResponse;
+import com.example.demo.util.UUIDUtil;
+import com.example.demo.util.entity.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import com.example.demo.keys.LineKeys;
 import com.example.demo.line.action.entity.LocationAction;
 import com.example.demo.line.action.entity.MessageAction;
 import com.example.demo.line.action.entity.QuickReplyAction;
-import com.example.demo.line.message.entity.Message;
+import com.example.demo.line.message.entity.EntityMessage;
 import com.example.demo.line.message.entity.Push;
 import com.example.demo.line.message.entity.QuickReply;
 import com.example.demo.line.message.entity.QuickReplyMessage;
@@ -56,7 +56,7 @@ public class PushService implements LineKeys, ImagesURL {
 
 		TextMessage textMessage;
 
-		List<Message> messageList = new ArrayList<>();
+		List<EntityMessage> messageList = new ArrayList<>();
 
 		for (String message : messages) {
 			textMessage = new TextMessage();
@@ -67,6 +67,10 @@ public class PushService implements LineKeys, ImagesURL {
 
 		push.setMessages(messageList);
 
+		sendMessage(userIds, uuid, push);
+	}
+
+	private void sendMessage(String[] userIds, String uuid, Push push) {
 		if (userIds.length == 1) {
 			push.setTo(userIds[0]);
 		} else {
@@ -100,7 +104,7 @@ public class PushService implements LineKeys, ImagesURL {
 	public void sendPostQuickReplys(String[] userIds) {
 		String uuid = uuidUtil.getRandomUUID();
 
-		List<Message> messageList = new ArrayList<>();
+		List<EntityMessage> messageList = new ArrayList<>();
 
 		List<QuickReplyAction> actionList = new ArrayList<>();
 		
@@ -116,33 +120,6 @@ public class PushService implements LineKeys, ImagesURL {
 		messageList.add(quickReplyMessage);
 		Push push = new Push(messageList);
 
-		if (userIds.length == 1) {
-			push.setTo(userIds[0]);
-		} else {
-			push.setTo(Arrays.toString(userIds));
-		}
-
-		System.out.println(Arrays.toString(userIds));
-
-		String jsonData = "";
-		try {
-			jsonData = objectMapper.writeValueAsString(push);
-
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		System.out.println(jsonData);
-
-		HttpResponse httpResponse = sendMessageUtil.sendPost(uuid, jsonData);
-
-		boolean isDone = httpResponse.getStatusCode() == 200;
-
-		if (!isDone) {
-			pushFailedHashMap.put(uuid, jsonData);
-		}
-
-		System.out.println(isDone ? "成功發送" : "發送失敗");
+		sendMessage(userIds, uuid, push);
 	}
 }

@@ -1,6 +1,5 @@
 package com.example.demo.aspect;
 
-import com.example.demo.slack.entity.SlackMessage;
 import com.example.demo.slack.service.SlackService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -14,9 +13,10 @@ import java.util.Arrays;
 @Aspect
 public class SlackAspect {
 
-    private SlackService slackService;
 
-    public SlackAspect(SlackService slackService){
+    private final SlackService slackService;
+
+    public SlackAspect(SlackService slackService) {
         this.slackService = slackService;
     }
 
@@ -26,15 +26,9 @@ public class SlackAspect {
 
     @AfterReturning(pointcut = "pointcut()", returning = "result")
     public void sendSlackMessage(JoinPoint joinPoint, Object result) {
-        SlackMessage slackMessage = new SlackMessage();
-
-        slackMessage.setText("test Message");
-        slackMessage.setUsername("jack1");
-        slackMessage.setIcon_emoji(":twice:");
 
         Arrays.stream(joinPoint.getArgs()).forEach(System.out::println);
-
-        System.out.println(slackService.sendSlack(slackMessage));
+        System.out.println("send slack Message = " + slackService.sendSlack());
     }
 
 

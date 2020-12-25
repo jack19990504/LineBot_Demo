@@ -1,7 +1,9 @@
 package com.example.demo.line.util;
 
 import com.example.demo.keys.LineKeys;
-import com.example.demo.line.util.entity.HttpResponse;
+import com.example.demo.util.entity.HttpResponse;
+import com.example.demo.util.HttpClientUtil;
+import com.example.demo.util.UUIDUtil;
 import org.apache.http.client.methods.HttpPost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

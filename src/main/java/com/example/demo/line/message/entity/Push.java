@@ -6,7 +6,7 @@ public class Push {
 
 	private String to;
 
-	private List<Message> messages;
+	private List<EntityMessage> messages;
 
 	public String getTo() {
 		return to;
@@ -16,21 +16,21 @@ public class Push {
 		this.to = to;
 	}
 
-	public List<Message> getMessages() {
+	public List<EntityMessage> getMessages() {
 		return messages;
 	}
 
-	public void setMessages(List<Message> messages) {
+	public void setMessages(List<EntityMessage> messages) {
 		this.messages = messages;
 	}
 
-	public Push(String to, List<Message> messages) {
+	public Push(String to, List<EntityMessage> messages) {
 		super();
 		this.to = to;
 		this.messages = messages;
 	}
 
-	public Push(List<Message> messages) {
+	public Push(List<EntityMessage> messages) {
 		super();
 		this.messages = messages;
 	}

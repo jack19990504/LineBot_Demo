@@ -1,6 +1,9 @@
 HELP.md
 target/
 
+*.properties
+slack.properties
+
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
@@ -31,3 +34,4 @@ build/
 
 ### VS Code ###
 .vscode/
+src/main/resources/slack.properties
