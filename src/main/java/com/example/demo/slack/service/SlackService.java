@@ -5,9 +5,12 @@ import com.slack.api.methods.MethodsClient;
 import com.slack.api.methods.request.chat.ChatPostMessageRequest;
 import com.slack.api.methods.response.chat.ChatPostMessageResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 @Service
+@PropertySource("classpath:slack.properties")
 public class SlackService {
 
     private final Slack slack;
@@ -15,14 +18,13 @@ public class SlackService {
     @Value("${slack.token}")
     String slackToken;
 
-    @Value("${slack.webhook.url}")
-    private String URL;
 
     public SlackService(){
         slack = Slack.getInstance();
     }
 
     public boolean sendSlack(){
+        System.out.println(slackToken);
         MethodsClient methods = slack.methods(slackToken);
         ChatPostMessageRequest request = ChatPostMessageRequest.builder()
                 .channel("C01FJ07N0AX") // Use a channel ID `C1234567` is preferable
