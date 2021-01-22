@@ -1,6 +1,5 @@
 package com.example.demo.controller.rest;
 
-import com.example.demo.annotation.SendSlackMessage;
 import com.example.demo.line.entity.Event;
 import com.example.demo.line.entity.EventWrapper;
 import com.example.demo.line.handler.EventHandler;
@@ -74,7 +73,6 @@ public class LineController {
 
     @PostMapping(produces = {"application/json"}, consumes = {"application/json"})
     @ResponseBody
-    @SendSlackMessage
     public ResponseEntity<Object> ReceiveMessage3(@RequestBody EventWrapper eventWrapper) {
 
         // filter : 篩出所有是 *訊息* |而且| 是 *文字* 的訊息
