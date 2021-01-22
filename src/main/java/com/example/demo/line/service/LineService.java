@@ -1,5 +1,6 @@
 package com.example.demo.line.service;
 
+import com.example.demo.annotation.SendSlack;
 import com.example.demo.keys.ImagesURL;
 import com.example.demo.keys.LineKeys;
 import com.example.demo.line.entity.Event;
@@ -12,6 +13,7 @@ import com.example.demo.mybatis.entity.RegistrationDetail;
 import com.example.demo.mybatis.service.ActivityService;
 import com.example.demo.mybatis.service.MemberService;
 import com.example.demo.mybatis.service.RegistrationService;
+import com.example.demo.slack.entity.MessageType;
 import com.example.demo.weather.Service.WeatherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +48,7 @@ public class LineService implements ImagesURL, LineKeys {
 		LOG.info("init :\t" + this.getClass().getSimpleName());
 	}
 
+	@SendSlack(messageType = MessageType.TEXT)
 	public void message_text_Simple_Reply(Optional<Event> event) {
 
 		// initialize some necessary data

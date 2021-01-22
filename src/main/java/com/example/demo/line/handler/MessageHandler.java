@@ -9,19 +9,20 @@ import java.util.HashMap;
 import java.util.Optional;
 
 
-public class MessageHandler implements  EventHandler{
-    private final HashMap<String, Resolver> messageResolvers ;
+public class MessageHandler implements EventHandler{
+    private final HashMap<String, Resolver> resolvers ;
     private final LineService lineService;
 
     public MessageHandler(LineService lineService){
-        messageResolvers = new HashMap<>(){{
+        resolvers = new HashMap<>(){{
             put("text",new TextResolver());
         }};
         this.lineService = lineService;
     }
 
     @Override
+
     public void handle(Optional<Event> event) {
-        messageResolvers.get(event.get().getMessage().getType()).reply(event,lineService);
+        resolvers.get(event.get().getMessage().getType()).reply(event,lineService);
     }
 }
