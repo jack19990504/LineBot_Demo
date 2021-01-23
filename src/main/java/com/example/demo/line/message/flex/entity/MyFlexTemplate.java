@@ -1,6 +1,6 @@
 package com.example.demo.line.message.flex.entity;
 
-public class FlexMessageTemplateString{
+public class MyFlexTemplate {
 	
 	private String flexMessageTemplate =  	
 		      "{" + 	
@@ -117,29 +117,17 @@ public class FlexMessageTemplateString{
 		return flexMessageTemplate;
 	}
 
-	public void setFlexMessageTemplate(String flexMessageTemplate) {
-		this.flexMessageTemplate = flexMessageTemplate;
+	public MyFlexTemplate(MyFlexEntity myFlexEntity) {
+		flexMessageTemplate = flexMessageTemplate.replace("replaceTitle", myFlexEntity.getTitle());
+		flexMessageTemplate = flexMessageTemplate.replace("replaceLogoUrl", myFlexEntity.getLogoUrl());
+		flexMessageTemplate = flexMessageTemplate.replace("replaceDate", myFlexEntity.getDate());
+		flexMessageTemplate = flexMessageTemplate.replace("replacePlace", myFlexEntity.getPlace());
+		flexMessageTemplate = flexMessageTemplate.replace("replaceQrUrl", myFlexEntity.getQrUrl());
+		flexMessageTemplate = flexMessageTemplate.replace("replaceMessage", myFlexEntity.getMessage());
+		flexMessageTemplate = flexMessageTemplate.replace("replaceRedirectUrl", myFlexEntity.getLogoUrlActionUrl());
 	}
 
-	/*
-	 * replace parameters
-	 * 
-	 * LogoUrl replaceRedirectUrl Title Date Place QrUrl Message
-	 * 
-	 */
-
-
-	public FlexMessageTemplateString(FlexMessage flexMessage) {
-		flexMessageTemplate = flexMessageTemplate.replace("replaceTitle", flexMessage.getTitle());
-		flexMessageTemplate = flexMessageTemplate.replace("replaceLogoUrl", flexMessage.getLogoUrl());
-		flexMessageTemplate = flexMessageTemplate.replace("replaceDate", flexMessage.getDate());
-		flexMessageTemplate = flexMessageTemplate.replace("replacePlace", flexMessage.getPlace());
-		flexMessageTemplate = flexMessageTemplate.replace("replaceQrUrl", flexMessage.getQrUrl());
-		flexMessageTemplate = flexMessageTemplate.replace("replaceMessage", flexMessage.getMessage());
-		flexMessageTemplate = flexMessageTemplate.replace("replaceRedirectUrl", flexMessage.getLogoUrlActionUrl());
-	}
-
-	public FlexMessageTemplateString() {
+	public MyFlexTemplate() {
 		super();
 	}
 	

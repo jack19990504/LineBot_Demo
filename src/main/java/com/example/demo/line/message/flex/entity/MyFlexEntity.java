@@ -2,7 +2,7 @@ package com.example.demo.line.message.flex.entity;
 
 import com.example.demo.line.message.entity.EntityMessage;
 
-public class FlexMessage extends EntityMessage {
+public class MyFlexEntity extends EntityMessage {
 
 	private String title;
 	private String logoUrl;
