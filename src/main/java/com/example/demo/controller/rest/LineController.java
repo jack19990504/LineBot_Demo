@@ -64,7 +64,7 @@ public class LineController {
          */
         String[] userIds = {"U848d0fb8269d111a96875ae3cb365ba6"};
 
-        pushService.sendPostQuickReplys(userIds);
+        pushService.sendPostQuickReplies(userIds);
 
 
         return ResponseEntity.ok().body("123");
