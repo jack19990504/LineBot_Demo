@@ -128,17 +128,6 @@ public class FlexMessageTemplateString{
 	 * 
 	 */
 
-	public void setMessage(FlexMessage flexMessage) {
-
-		flexMessageTemplate = flexMessageTemplate.replace("replaceTitle", flexMessage.getTitle());
-		flexMessageTemplate = flexMessageTemplate.replace("replaceLogoUrl", flexMessage.getLogoUrl());
-		flexMessageTemplate = flexMessageTemplate.replace("replaceDate", flexMessage.getDate());
-		flexMessageTemplate = flexMessageTemplate.replace("replacePlace", flexMessage.getPlace());
-		flexMessageTemplate = flexMessageTemplate.replace("replaceQrUrl", flexMessage.getQrUrl());
-		flexMessageTemplate = flexMessageTemplate.replace("replaceMessage", flexMessage.getMessage());
-		flexMessageTemplate = flexMessageTemplate.replace("replaceRedirectUrl", flexMessage.getLogoUrlActionUrl());
-
-	}
 
 	public FlexMessageTemplateString(FlexMessage flexMessage) {
 		flexMessageTemplate = flexMessageTemplate.replace("replaceTitle", flexMessage.getTitle());
