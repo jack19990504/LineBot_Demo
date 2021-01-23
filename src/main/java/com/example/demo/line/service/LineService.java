@@ -2,10 +2,9 @@ package com.example.demo.line.service;
 
 import com.example.demo.annotation.SendSlack;
 import com.example.demo.keys.ImagesURL;
-import com.example.demo.keys.LineKeys;
 import com.example.demo.line.entity.Event;
-import com.example.demo.line.message.flex.entity.FlexMessage;
-import com.example.demo.line.message.flex.entity.FlexMessageTemplateString;
+import com.example.demo.line.message.flex.entity.MyFlexEntity;
+import com.example.demo.line.message.flex.entity.MyFlexTemplate;
 import com.example.demo.slack.entity.MessageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class LineService implements ImagesURL, LineKeys {
+public class LineService implements ImagesURL{
 
 	private static final Logger LOG = LoggerFactory.getLogger(LineService.class);
 
@@ -30,7 +29,7 @@ public class LineService implements ImagesURL, LineKeys {
 	}
 
 	@SendSlack(messageType = MessageType.TEXT)
-	public void message_text_Simple_Reply(Optional<Event> event) {
+	public void reply(Optional<Event> event) {
 
 		// initialize some necessary data
 		String replyToken = event.map(Event::getReplyToken).orElse(null);
@@ -49,17 +48,17 @@ public class LineService implements ImagesURL, LineKeys {
 				switch (message) {
 				case "flexMessage":
 
-					FlexMessage flexMessage = new FlexMessage();
-					flexMessage.setLogoUrl(LOGO_URL);
-					flexMessage.setPlace("辛亥路");
-					flexMessage.setTitle("益群健康股份有限公司");
-					flexMessage.setQrUrl(DOGE_URL);
-					flexMessage.setLogoUrlActionUrl(LOGO_REDIRECT_URL);
-					flexMessage.setMessage("歡迎參加");
-					flexMessage.setDate("2020-08-06");
+					MyFlexEntity myFlexEntity = new MyFlexEntity();
+					myFlexEntity.setLogoUrl(LOGO_URL);
+					myFlexEntity.setPlace("辛亥路");
+					myFlexEntity.setTitle("益群健康股份有限公司");
+					myFlexEntity.setQrUrl(DOGE_URL);
+					myFlexEntity.setLogoUrlActionUrl(LOGO_REDIRECT_URL);
+					myFlexEntity.setMessage("歡迎參加");
+					myFlexEntity.setDate("2020-08-06");
 
 					// send it
-					replyService.sendResponseMessage_flex(replyToken, new FlexMessageTemplateString(flexMessage));
+					replyService.sendResponseMessage_flex(replyToken, new MyFlexTemplate(myFlexEntity));
 					break;
 				case "reply":
 					replyService.sendQuickReply(replyToken);
