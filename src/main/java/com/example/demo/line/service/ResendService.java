@@ -1,16 +1,12 @@
 package com.example.demo.line.service;
 
-import java.util.Iterator;
-import java.util.Map;
-
+import com.example.demo.keys.LineKeys;
+import com.example.demo.line.util.SendMessageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import com.example.demo.keys.LineKeys;
-import com.example.demo.line.util.SendMessageUtil;
 
 @Service
 public class ResendService implements LineKeys {
@@ -41,11 +37,11 @@ public class ResendService implements LineKeys {
 		} else {
 			if (!replyFailedHashMap.isEmpty()) {
 				System.out.println("start send reply task");
-				replyFailedHashMap.entrySet().removeIf(next -> sendMessageUtil.sendReplyMessage(next.getKey(), next.getValue()));
+				replyFailedHashMap.entrySet().removeIf(next -> sendMessageUtil.sendReply(next.getKey(), next.getValue()));
 			}
 			if (!pushFailedHashMap.isEmpty()) {
 				System.out.println("start send push task");
-				pushFailedHashMap.entrySet().removeIf(next -> sendMessageUtil.sendPost(next.getKey(), next.getValue()).getStatusCode() == 200);
+				pushFailedHashMap.entrySet().removeIf(next -> sendMessageUtil.sendPost(next.getKey(), next.getValue()));
 
 			}
 			System.out.println("task is done");
