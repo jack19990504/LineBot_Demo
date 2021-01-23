@@ -8,12 +8,10 @@ import com.example.demo.line.action.entity.PostBackAction;
 import com.example.demo.line.action.entity.QuickReplyAction;
 import com.example.demo.line.message.entity.*;
 import com.example.demo.line.message.flex.entity.FlexMessageTemplate;
-import com.example.demo.line.message.flex.entity.FlexMessageTemplateString;
-import com.example.demo.util.JsonParserUtil;
+import com.example.demo.line.message.flex.entity.MyFlexTemplate;
 import com.example.demo.line.util.SendMessageUtil;
+import com.example.demo.util.JsonParserUtil;
 import com.example.demo.util.UUIDUtil;
-import com.example.demo.util.entity.HttpResponse;
-import com.example.demo.weather.entity.template.Weather;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,32 +61,19 @@ public class ReplyService implements LineKeys, ImagesURL {
 
 		String jsonData = jsonParserUtil.jsonToString(reply);
 
-		System.out.println(jsonData);
-
-		HttpResponse httpResponse = sendMessageUtil.sendReply(uuid,jsonData);
-
-		boolean isDone = httpResponse.getStatusCode() == 200;
-
-		if (!isDone) {
-			replyFailedHashMap.put(uuid, jsonData);
-		}
-
-		System.out.println(isDone ? "成功回復" : "回復失敗");
+		sendMessageUtil.sendReply(uuid,jsonData);
 
 	}
 
 	// one flex
-	public void sendResponseMessage_flex(String replyToken, FlexMessageTemplateString flexMessageTemplateString) {
+	public void sendResponseMessage_flex(String replyToken, MyFlexTemplate myFlexTemplate) {
 
 		String uuid = uuidUtil.getRandomUUID();
 
 		List<EntityMessage> messageList = new ArrayList<>();
 
-
-		System.out.println(flexMessageTemplateString.getFlexMessageTemplate());
-
 		FlexMessageTemplate flexMessageTemplate = jsonParserUtil
-				.stringToJson(flexMessageTemplateString.getFlexMessageTemplate(), FlexMessageTemplate.class);
+				.stringToJson(myFlexTemplate.getFlexMessageTemplate(), FlexMessageTemplate.class);
 
 		messageList.add(flexMessageTemplate);
 
@@ -96,47 +81,7 @@ public class ReplyService implements LineKeys, ImagesURL {
 
 		String jsonData = jsonParserUtil.jsonToString(reply);
 
-		System.out.println(jsonData);
-
-		HttpResponse httpResponse = sendMessageUtil.sendReply(uuid,jsonData);
-
-		boolean isDone = httpResponse.getStatusCode() == 200;
-
-		if (!isDone) {
-			replyFailedHashMap.put(uuid, jsonData);
-		}
-
-		System.out.println(isDone ? "成功回復" : "回復失敗");
-	}
-
-	// one flex
-	public void sendResponseMessage_WeatherFlexMessage(String replyToken, Weather weather) {
-
-		String uuid = uuidUtil.getRandomUUID();
-
-		List<EntityMessage> messageList = new ArrayList<>();
-
-
-		FlexMessageTemplate flexMessageTemplate = jsonParserUtil
-				.stringToJson(weather.getTemplate(), FlexMessageTemplate.class);
-
-		messageList.add(flexMessageTemplate);
-
-		Reply reply = new Reply(replyToken, messageList);
-
-		String jsonData = jsonParserUtil.jsonToString(reply);
-
-		System.out.println(jsonData);
-
-		HttpResponse httpResponse = sendMessageUtil.sendReply(uuid,jsonData);
-
-		boolean isDone = httpResponse.getStatusCode() == 200;
-
-		if (!isDone) {
-			replyFailedHashMap.put(uuid, jsonData);
-		}
-
-		System.out.println(isDone ? "成功回復" : "回復失敗");
+		sendMessageUtil.sendReply(uuid,jsonData);
 	}
 
 	public void sendQuickReply(String replyToken) {
@@ -165,17 +110,7 @@ public class ReplyService implements LineKeys, ImagesURL {
 
 		String jsonData = jsonParserUtil.jsonToString(reply);
 
-		System.out.println(jsonData);
-
-		HttpResponse httpResponse = sendMessageUtil.sendReply(uuid,jsonData);
-
-		boolean isDone = httpResponse.getStatusCode() == 200;
-
-		if (!isDone) {
-			pushFailedHashMap.put(uuid, jsonData);
-		}
-
-		System.out.println(isDone ? "成功發送" : "發送失敗");
+		sendMessageUtil.sendReply(uuid,jsonData);
 	}
 
 }
