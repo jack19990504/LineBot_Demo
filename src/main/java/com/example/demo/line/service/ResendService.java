@@ -36,6 +36,8 @@ public class ResendService implements LineKeys {
 			System.out.println("no task");
 		} else {
 			if (!replyFailedHashMap.isEmpty()) {
+				// reply can not use retry key to resend message, it might need to add to pushFailHashMap to resend
+				// to do
 				System.out.println("start send reply task");
 				replyFailedHashMap.entrySet().removeIf(next -> sendMessageUtil.sendReply(next.getKey(), next.getValue()));
 			}

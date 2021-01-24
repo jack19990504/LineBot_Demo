@@ -1,7 +1,11 @@
 package com.example.demo.line.util;
 
 import com.example.demo.keys.LineKeys;
+import com.example.demo.line.entity.LineUserProfile;
 import com.example.demo.util.HttpClientUtil;
+import com.example.demo.util.JsonParserUtil;
+import com.example.demo.util.entity.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +22,12 @@ public class SendMessageUtil implements LineKeys {
 	}
 
 	private final HttpClientUtil httpClientUtil;
+	private final JsonParserUtil jsonParserUtil;
 
 	@Autowired
-	public SendMessageUtil(HttpClientUtil httpClientUtil){
+	public SendMessageUtil(HttpClientUtil httpClientUtil,JsonParserUtil jsonParserUtil){
 		this.httpClientUtil = httpClientUtil;
+		this.jsonParserUtil = jsonParserUtil;
 	}
 
 	public boolean sendReply(String uuid,String message) {
@@ -56,5 +62,18 @@ public class SendMessageUtil implements LineKeys {
 		LOG.info(isOK == true ? "成功回覆" : "回覆失敗");
 
 		return isOK;
+	}
+
+	public LineUserProfile getUserProfile(String userId){
+
+		LOG.info("userId = {}",userId);
+
+		HttpGet httpGet = httpClientUtil.setUserProfile(URL_GET_USER_PROFILE,accessToken,userId);
+
+		HttpResponse response = httpClientUtil.doRequest(httpGet);
+
+		LineUserProfile lineUserProfile = jsonParserUtil.stringToJson(response.getResponseBody(),LineUserProfile.class);
+
+		return lineUserProfile;
 	}
 }

@@ -2,6 +2,7 @@ package com.example.demo.aspect;
 
 import com.example.demo.annotation.SendSlack;
 import com.example.demo.line.entity.Event;
+import com.example.demo.line.service.LineProfileService;
 import com.example.demo.slack.service.SlackService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -20,9 +21,10 @@ public class SlackAspect {
 
 
     private final SlackService slackService;
-
-    public SlackAspect(SlackService slackService) {
+    private final LineProfileService lineProfileService;
+    public SlackAspect(SlackService slackService,LineProfileService lineProfileService) {
         this.slackService = slackService;
+        this.lineProfileService = lineProfileService;
     }
 
     @Pointcut("@annotation(com.example.demo.annotation.SendSlack)")
@@ -36,15 +38,24 @@ public class SlackAspect {
         String userText = getText(joinPoint.getArgs()[0]);
         String messageType = annotation.messageType().toString();
         String nowTime = getNow();
+        String userName = lineProfileService.getUserName(getUserId(joinPoint.getArgs()[0]));
 
-        String template = ":pog: receive message at : %s \ntype : %s, the content is \"%s\"";
-        String returnMessage = String.format(template,nowTime,messageType,userText);
+        String template = ":pog: receive message at : %s \nfrom : %s\ntype : %s, the content is \"%s\"";
+        String returnMessage = String.format(template,nowTime,userName,messageType,userText);
         slackService.sendSlack(returnMessage);
     }
 
     private String getText(Object o){
         if(o instanceof Optional){
             return ((Optional<Event>) o).get().getMessage().getText();
+        }else{
+            return "something went wrong";
+        }
+    }
+
+    private String getUserId(Object o){
+        if(o instanceof Optional){
+            return ((Optional<Event>) o).get().getSource().getUserId();
         }else{
             return "something went wrong";
         }
