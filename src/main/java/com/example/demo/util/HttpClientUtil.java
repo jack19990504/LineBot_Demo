@@ -2,6 +2,7 @@ package com.example.demo.util;
 
 import com.example.demo.util.entity.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
@@ -54,5 +55,13 @@ public class HttpClientUtil {
         httpPost.setEntity(new StringEntity(message, StandardCharsets.UTF_8));
 
         return httpPost;
+    }
+
+    public HttpGet setUserProfile(String URL,String accessToken,String userId){
+        HttpGet httpGet = new HttpGet(String.format(URL, userId));
+        httpGet.setHeader("Accept", "application/json");
+        httpGet.setHeader("Authorization", "Bearer " + accessToken);
+
+        return  httpGet;
     }
 }

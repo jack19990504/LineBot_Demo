@@ -18,9 +18,11 @@ public class LineService implements ImagesURL{
 	private static final Logger LOG = LoggerFactory.getLogger(LineService.class);
 
 	private final ReplyService replyService;
+	private final LineProfileService lineProfileService;
 
-	public LineService(ReplyService replyService){
+	public LineService(ReplyService replyService,LineProfileService lineProfileService){
 		this.replyService = replyService;
+		this.lineProfileService = lineProfileService;
 	}
 
 	// show spring init components and other tags at starting server
@@ -34,7 +36,9 @@ public class LineService implements ImagesURL{
 		// initialize some necessary data
 		String replyToken = event.map(Event::getReplyToken).orElse(null);
 		String message = event.map(e -> e.getMessage().getText()).orElse(null);
-		//String userId = event.map(e -> e.getSource().getUserId()).orElse(null);
+		// need to check source (user / room / group)
+		// to do
+		String userId = event.map(e -> e.getSource().getUserId()).orElse(null);
 		System.out.println("replyToken : " + replyToken);
 		System.out.println("message : " + message);
 
@@ -64,7 +68,8 @@ public class LineService implements ImagesURL{
 					replyService.sendQuickReply(replyToken);
 					break;
 				default:
-					replyService.sendResponseMessage(replyToken, message);
+					String userName = lineProfileService.getUserName(userId);
+					replyService.sendResponseMessage(replyToken, userName);
 					break;
 				}
 
@@ -75,4 +80,5 @@ public class LineService implements ImagesURL{
 			LOG.warn("replyToken or message is null");
 		}
 	}
+
 }
