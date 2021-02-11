@@ -1,6 +1,5 @@
 package com.example.demo.controller.rest;
 
-import com.example.demo.annotation.SendSlack;
 import com.example.demo.mybatis.service.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ public class TestController {
 
     private static final Logger LOG = LoggerFactory.getLogger(LineController.class);
     {
-        LOG.warn("init :" + this.getClass().getSimpleName());
+        LOG.warn("init :\t" + this.getClass().getSimpleName());
     }
     private MemberService memberService;
 

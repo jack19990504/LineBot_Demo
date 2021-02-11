@@ -35,7 +35,7 @@ public class HttpClientUtil implements LineKeys {
     }
 
 
-    private HttpPost setMessage(String URL,String message,String uuid){
+    private HttpPost setHttpPost(String URL,String message,String uuid){
         HttpPost httpPost = new HttpPost(URL);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -46,7 +46,7 @@ public class HttpClientUtil implements LineKeys {
 
         return httpPost;
     }
-    private HttpPost setMessage(String URL,String message){
+    private HttpPost setHttpPost(String URL,String message){
         HttpPost httpPost = new HttpPost(URL);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -56,21 +56,26 @@ public class HttpClientUtil implements LineKeys {
 
         return httpPost;
     }
-    public HttpPost setReply(String message){
-        
-        return setMessage(URL_REPLY,message);
-    }
-    public HttpPost setPush(String message,String uuid){
 
-        return setMessage(URL_PUSH,message,uuid);
-    }
-
-    
-    public HttpGet setUserProfile(String URL,String accessToken,String userId){
-        HttpGet httpGet = new HttpGet(String.format(URL, userId));
+    private HttpGet setHttpGet(String URL,String userId){
+        HttpGet httpGet = new HttpGet(String.format(URL,userId));
         httpGet.setHeader("Accept", "application/json");
         httpGet.setHeader("Authorization", "Bearer " + accessToken);
 
-        return  httpGet;
+        return httpGet;
+    }
+
+    public HttpPost setReply(String message){
+        
+        return setHttpPost(URL_REPLY,message);
+    }
+    public HttpPost setPush(String message,String uuid){
+
+        return setHttpPost(URL_PUSH,message,uuid);
+    }
+
+    public HttpGet setUserProfile(String userId){
+
+        return setHttpGet(URL_GET_USER_PROFILE,userId);
     }
 }

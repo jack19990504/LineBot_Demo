@@ -40,7 +40,7 @@ public class ResendService implements LineKeys {
 			}
 			if (!pushFailedHashMap.isEmpty()) {
 				System.out.println("start send push task");
-				pushFailedHashMap.entrySet().removeIf(next -> sendMessageUtil.sendPost(next.getKey(), next.getValue()));
+				pushFailedHashMap.entrySet().removeIf(next -> sendMessageUtil.sendPush(next.getKey(), next.getValue()));
 
 			}
 			System.out.println("task is done");
