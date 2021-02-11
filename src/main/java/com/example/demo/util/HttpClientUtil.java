@@ -35,7 +35,7 @@ public class HttpClientUtil implements LineKeys {
     }
 
 
-    public HttpPost setMessage(String URL,String accessToken,String message,String uuid){
+    private HttpPost setMessage(String URL,String message,String uuid){
         HttpPost httpPost = new HttpPost(URL);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -46,7 +46,7 @@ public class HttpClientUtil implements LineKeys {
 
         return httpPost;
     }
-    public HttpPost setMessage(String URL,String accessToken,String message){
+    private HttpPost setMessage(String URL,String message){
         HttpPost httpPost = new HttpPost(URL);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -56,13 +56,13 @@ public class HttpClientUtil implements LineKeys {
 
         return httpPost;
     }
-    public HttpPost setReply(String accessToken,String message){
+    public HttpPost setReply(String message){
         
-        return setMessage(URL_REPLY,accessToken,message);
+        return setMessage(URL_REPLY,message);
     }
-    public HttpPost setPush(String URL,String accessToken,String message,String uuid){
+    public HttpPost setPush(String message,String uuid){
 
-        return setMessage(URL_PUSH,accessToken,message,uuid);
+        return setMessage(URL_PUSH,message,uuid);
     }
 
     

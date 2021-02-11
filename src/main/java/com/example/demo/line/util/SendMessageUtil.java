@@ -32,7 +32,7 @@ public class SendMessageUtil implements LineKeys {
 
 		log.info(message);
 
-		HttpPost reply = httpClientUtil.setMessage(URL_REPLY,accessToken,message,uuid);
+		HttpPost reply = httpClientUtil.setReply(message);
 
 		boolean isOK = httpClientUtil.doRequest(reply).getStatusCode() == 200;
 
@@ -49,7 +49,7 @@ public class SendMessageUtil implements LineKeys {
 
 		log.info(message);
 
-		HttpPost post = httpClientUtil.setMessage(URL_PUSH,accessToken,message,uuid);
+		HttpPost post = httpClientUtil.setPush(message,uuid);
 
 		boolean isOK = httpClientUtil.doRequest(post).getStatusCode() == 200;
 
