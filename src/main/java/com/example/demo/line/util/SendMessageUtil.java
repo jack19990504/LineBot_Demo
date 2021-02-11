@@ -45,13 +45,13 @@ public class SendMessageUtil implements LineKeys {
 		return isOK;
 	}
 
-	public boolean sendPost(String uuid,String message) {
+	public boolean sendPush(String uuid, String message) {
 
 		log.info(message);
 
-		HttpPost post = httpClientUtil.setPush(message,uuid);
+		HttpPost push = httpClientUtil.setPush(message,uuid);
 
-		boolean isOK = httpClientUtil.doRequest(post).getStatusCode() == 200;
+		boolean isOK = httpClientUtil.doRequest(push).getStatusCode() == 200;
 
 		if(!isOK){
 			pushFailedHashMap.put(uuid, message);

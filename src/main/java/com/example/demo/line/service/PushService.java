@@ -69,7 +69,7 @@ public class PushService implements LineKeys, ImagesURL {
 
 		String jsonData = jsonParserUtil.jsonToString(push);
 
-		sendMessageUtil.sendPost(uuid, jsonData);
+		sendMessageUtil.sendPush(uuid, jsonData);
 	}
 
 	public void sendPostQuickReplies(String[] userIds) {
