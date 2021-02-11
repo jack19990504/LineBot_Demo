@@ -1,16 +1,16 @@
 package com.example.demo.line.service;
 
 import com.example.demo.line.util.SendMessageUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class LineProfileService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(LineService.class);
+
     {
-        LOG.info("init :\t" + this.getClass().getSimpleName());
+        log.info("init :\t" + this.getClass().getSimpleName());
     }
 
     private final SendMessageUtil sendMessageUtil;

@@ -1,5 +1,6 @@
 package com.example.demo.util;
 
+import com.example.demo.keys.LineKeys;
 import com.example.demo.util.entity.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 import java.nio.charset.StandardCharsets;
 
 @Component
-public class HttpClientUtil {
+public class HttpClientUtil implements LineKeys {
 
     public HttpResponse doRequest(HttpRequestBase httpRequest){
         // httpGet and httpPost are child from httpRequestBase
@@ -45,7 +46,6 @@ public class HttpClientUtil {
 
         return httpPost;
     }
-
     public HttpPost setMessage(String URL,String accessToken,String message){
         HttpPost httpPost = new HttpPost(URL);
         httpPost.setHeader("Accept", "application/json");
@@ -56,7 +56,16 @@ public class HttpClientUtil {
 
         return httpPost;
     }
+    public HttpPost setReply(String accessToken,String message){
+        
+        return setMessage(URL_REPLY,accessToken,message);
+    }
+    public HttpPost setPush(String URL,String accessToken,String message,String uuid){
 
+        return setMessage(URL_PUSH,accessToken,message,uuid);
+    }
+
+    
     public HttpGet setUserProfile(String URL,String accessToken,String userId){
         HttpGet httpGet = new HttpGet(String.format(URL, userId));
         httpGet.setHeader("Accept", "application/json");

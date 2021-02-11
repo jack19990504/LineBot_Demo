@@ -9,8 +9,7 @@ import com.example.demo.line.message.entity.*;
 import com.example.demo.line.util.SendMessageUtil;
 import com.example.demo.util.JsonParserUtil;
 import com.example.demo.util.UUIDUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +18,8 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
+@Slf4j
 public class PushService implements LineKeys, ImagesURL {
-
-	private static final Logger LOG = LoggerFactory.getLogger(PushService.class);
-
 
 	private final SendMessageUtil sendMessageUtil;
 	private final JsonParserUtil jsonParserUtil;
@@ -37,7 +34,7 @@ public class PushService implements LineKeys, ImagesURL {
 
 	// show spring init components and other tags at starting server
 	{
-		LOG.info("init :\t" + this.getClass().getSimpleName());
+		log.info("init :\t" + this.getClass().getSimpleName());
 	}
 
 

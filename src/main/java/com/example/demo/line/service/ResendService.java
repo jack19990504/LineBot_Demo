@@ -2,23 +2,20 @@ package com.example.demo.line.service;
 
 import com.example.demo.keys.LineKeys;
 import com.example.demo.line.util.SendMessageUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class ResendService implements LineKeys {
-
-	private static final Logger LOG = LoggerFactory.getLogger(ResendService.class);
+	
 	{
-		LOG.info("init :\t" + this.getClass().getSimpleName());
+		log.info("init :\t" + this.getClass().getSimpleName());
 	}
 
 	private final SendMessageUtil sendMessageUtil;
-
-	@Autowired
+	
 	public ResendService(SendMessageUtil sendMessageUtil){
 		this.sendMessageUtil = sendMessageUtil;
 	}
