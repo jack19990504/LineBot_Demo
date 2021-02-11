@@ -6,16 +6,14 @@ import com.example.demo.line.entity.Event;
 import com.example.demo.line.message.flex.entity.MyFlexEntity;
 import com.example.demo.line.message.flex.entity.MyFlexTemplate;
 import com.example.demo.slack.entity.MessageType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class LineService implements ImagesURL{
-
-	private static final Logger LOG = LoggerFactory.getLogger(LineService.class);
 
 	private final ReplyService replyService;
 	private final LineProfileService lineProfileService;
@@ -27,7 +25,7 @@ public class LineService implements ImagesURL{
 
 	// show spring init components and other tags at starting server
 	{
-		LOG.info("init :\t" + this.getClass().getSimpleName());
+		log.info("init :\t" + this.getClass().getSimpleName());
 	}
 
 	@SendSlack(messageType = MessageType.TEXT)
@@ -74,10 +72,10 @@ public class LineService implements ImagesURL{
 				}
 
 			} else {
-				LOG.error("is test webhook");
+				log.error("is test webhook");
 			}
 		} else {
-			LOG.warn("replyToken or message is null");
+			log.warn("replyToken or message is null");
 		}
 	}
 

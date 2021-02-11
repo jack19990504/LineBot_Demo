@@ -7,8 +7,7 @@ import com.example.demo.line.handler.MessageHandler;
 import com.example.demo.line.handler.PostBackHandler;
 import com.example.demo.line.service.LineService;
 import com.example.demo.line.service.PushService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +22,12 @@ import java.util.stream.Collectors;
 @CrossOrigin("*")
 @RequestMapping("/line")
 @Controller
+@Slf4j
 public class LineController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(LineController.class);
+
     {
-        LOG.warn("init :" + this.getClass().getSimpleName());
+        log.warn("init :" + this.getClass().getSimpleName());
     }
 
     @Value("${spring.application.name}")

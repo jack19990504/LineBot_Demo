@@ -4,10 +4,12 @@ import com.slack.api.Slack;
 import com.slack.api.methods.MethodsClient;
 import com.slack.api.methods.request.chat.ChatPostMessageRequest;
 import com.slack.api.methods.response.chat.ChatPostMessageResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class SlackService {
 
     private final Slack slack;
@@ -20,7 +22,7 @@ public class SlackService {
         slack = Slack.getInstance();
     }
 
-    public boolean sendSlack(String message){
+    public void sendSlack(String message){
         MethodsClient methods = slack.methods(slackToken);
         ChatPostMessageRequest request = ChatPostMessageRequest.builder()
                 .channel("C01FJ07N0AX") // Use a channel ID `C1234567` is preferable
@@ -33,7 +35,7 @@ public class SlackService {
             System.out.println("something went wrong");
         }
 
-        return response.isOk();
+        log.info("是否成功回覆至slack : {}", response.isOk());
     }
 
 

@@ -1,37 +1,32 @@
 package com.example.demo.line.login.util;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-
-import javax.net.ssl.HttpsURLConnection;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.example.demo.keys.LineKeys;
 import com.example.demo.line.login.entity.AccessToken;
 import com.example.demo.line.login.entity.LineUser;
 import com.example.demo.line.login.entity.LineUserDetail;
 import com.example.demo.util.JsonParserUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+import javax.net.ssl.HttpsURLConnection;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 @Component
+@Slf4j
 public class SendLoginAPIUtil implements LineKeys {
 	
-	@Autowired
-	JsonParserUtil jsonParserUtil;
-
-	private static final Logger LOG = LoggerFactory.getLogger(SendLoginAPIUtil.class);
+	final JsonParserUtil jsonParserUtil;
+	
 	// show spring init components and other tags at starting server
 	{
-		LOG.info("init :\t" + this.getClass().getSimpleName());
+		log.info("init :\t" + this.getClass().getSimpleName());
+	}
+
+	public SendLoginAPIUtil(JsonParserUtil jsonParserUtil) {
+		this.jsonParserUtil = jsonParserUtil;
 	}
 
 	public AccessToken getUserAccessToken(String code) {
@@ -57,10 +52,10 @@ public class SendLoginAPIUtil implements LineKeys {
 			respCode = con.getResponseCode();
 			System.out.println("Resp Code:" + con.getResponseCode() + "; Resp Message:" + con.getResponseMessage()); // 顯示回傳的結果，若code為200代表回傳成功
 			if (respCode != 200) {
-				LOG.warn(this.getClass().getSimpleName() + " - getUserAccessToken : went wrong ,response code = "
+				log.warn(this.getClass().getSimpleName() + " - getUserAccessToken : went wrong ,response code = "
 						+ respCode);
 			} else {
-				accessToken = (AccessToken) jsonParserUtil.stringToJson(getReturn(con), AccessToken.class);
+				accessToken = jsonParserUtil.stringToJson(getReturn(con), AccessToken.class);
 				
 			}
 		} catch (MalformedURLException e) {
@@ -96,10 +91,10 @@ public class SendLoginAPIUtil implements LineKeys {
 			respCode = con.getResponseCode();
 			System.out.println("Resp Code:" + con.getResponseCode() + "; Resp Message:" + con.getResponseMessage()); // 顯示回傳的結果，若code為200代表回傳成功
 			if (respCode != 200) {
-				LOG.warn(this.getClass().getSimpleName() + " - getLineUserDetail : went wrong, response code = "
+				log.warn(this.getClass().getSimpleName() + " - getLineUserDetail : went wrong, response code = "
 						+ respCode);
 			} else {
-				lineUserDetail = (LineUserDetail) jsonParserUtil.stringToJson(getReturn(con), LineUserDetail.class);
+				lineUserDetail = jsonParserUtil.stringToJson(getReturn(con), LineUserDetail.class);
 				// System.out.println("User name : "+lineUser.getName());
 			}
 		} catch (MalformedURLException e) {
@@ -132,7 +127,7 @@ public class SendLoginAPIUtil implements LineKeys {
 			System.out.println("Resp Code:" + con.getResponseCode() + "; Resp Message:" + con.getResponseMessage()); // 顯示回傳的結果，若code為200代表回傳成功
 
 			if (respCode == 200) {
-				lineUser = (LineUser) jsonParserUtil.stringToJson(getReturn(con), LineUser.class);
+				lineUser = jsonParserUtil.stringToJson(getReturn(con), LineUser.class);
 			}
 			else {
 				System.out.println("error accurs");
