@@ -66,7 +66,7 @@ public class SendMessageUtil implements LineKeys {
 
 		log.info("userId = {}",userId);
 
-		HttpGet httpGet = httpClientUtil.setUserProfile(URL_GET_USER_PROFILE,accessToken,userId);
+		HttpGet httpGet = httpClientUtil.setUserProfile(userId);
 
 		HttpResponse response = httpClientUtil.doRequest(httpGet);
 

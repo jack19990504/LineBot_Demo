@@ -5,7 +5,6 @@ import com.example.demo.line.entity.EventWrapper;
 import com.example.demo.line.handler.EventHandler;
 import com.example.demo.line.handler.MessageHandler;
 import com.example.demo.line.handler.PostBackHandler;
-import com.example.demo.line.service.LineService;
 import com.example.demo.line.service.PushService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class LineController {
 
 
     {
-        log.warn("init :" + this.getClass().getSimpleName());
+        log.warn("init :\t" + this.getClass().getSimpleName());
     }
 
     @Value("${spring.application.name}")
@@ -39,12 +38,12 @@ public class LineController {
 
 
     @Autowired
-    public LineController(PushService pushService, LineService lineService) {
+    public LineController(PushService pushService, MessageHandler messageHandler , PostBackHandler postBackHandler) {
         this.pushService = pushService;
 
         handlers = new HashMap<>() {{
-            put("message", new MessageHandler(lineService));
-            put("postback", new PostBackHandler());
+            put("message", messageHandler);
+            put("postback", postBackHandler);
         }};
 
     }
