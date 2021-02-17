@@ -1,7 +1,7 @@
 package com.example.demo.line.service;
 
 import com.example.demo.annotation.SendSlack;
-import com.example.demo.keys.ImagesURL;
+import com.example.demo.keys.ImagesProperties;
 import com.example.demo.line.entity.Event;
 import com.example.demo.line.message.flex.entity.MyFlexEntity;
 import com.example.demo.line.message.flex.entity.MyFlexTemplate;
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class LineService implements ImagesURL{
+public class LineService {
 
 	private final ReplyService replyService;
 	private final LineProfileService lineProfileService;
@@ -37,46 +37,48 @@ public class LineService implements ImagesURL{
 		// need to check source (user / room / group)
 		// to do
 		String userId = event.map(e -> e.getSource().getUserId()).orElse(null);
-		System.out.println("replyToken : " + replyToken);
-		System.out.println("message : " + message);
+		log.info("replyToken = {} ",replyToken);
+		log.info("message = {}",message);
 
 		// if both data are not null
-		if (replyToken != null && message != null) {
-			
-			/*
-			 * test webhook, if send reply with this token it will cause 400 bad request
-			 */
-			if (!replyToken.equals("00000000000000000000000000000000")) {
-				switch (message) {
-				case "flexMessage":
-
-					MyFlexEntity myFlexEntity = new MyFlexEntity();
-					myFlexEntity.setLogoUrl(LOGO_URL);
-					myFlexEntity.setPlace("辛亥路");
-					myFlexEntity.setTitle("益群健康股份有限公司");
-					myFlexEntity.setQrUrl(DOGE_URL);
-					myFlexEntity.setLogoUrlActionUrl(LOGO_REDIRECT_URL);
-					myFlexEntity.setMessage("歡迎參加");
-					myFlexEntity.setDate("2020-08-06");
-
-					// send it
-					replyService.sendResponseMessage_flex(replyToken, new MyFlexTemplate(myFlexEntity));
-					break;
-				case "reply":
-					replyService.sendQuickReply(replyToken);
-					break;
-				default:
-					String userName = lineProfileService.getUserName(userId);
-					replyService.sendResponseMessage(replyToken, userName);
-					break;
-				}
-
-			} else {
-				log.error("is test webhook");
-			}
-		} else {
-			log.warn("replyToken or message is null");
+		if (replyToken == null || message == null) {
+			log.error("replyToken or message is null");
+			return;
 		}
+		if(isTestWebHook(replyToken)){
+			log.info("is test webhook");
+			return;
+		}
+
+		switch (message) {
+			case "flexMessage":
+				// send it
+				replyService.sendResponseMessage_flex(replyToken, new MyFlexTemplate(prepareFlexEntity()));
+				break;
+			case "reply":
+				replyService.sendQuickReply(replyToken);
+				break;
+			default:
+				String userName = lineProfileService.getUserName(userId);
+				replyService.sendResponseMessage(replyToken, userName);
+				break;
+		}
+	}
+
+	private MyFlexEntity prepareFlexEntity(){
+		MyFlexEntity myFlexEntity = new MyFlexEntity();
+		myFlexEntity.setLogoUrl(ImagesProperties.logoURL);
+		myFlexEntity.setPlace("辛亥路");
+		myFlexEntity.setTitle("益群健康股份有限公司");
+		myFlexEntity.setQrUrl(ImagesProperties.dogeURL);
+		myFlexEntity.setLogoUrlActionUrl(ImagesProperties.redirectURL);
+		myFlexEntity.setMessage("歡迎參加");
+		myFlexEntity.setDate("2020-08-06");
+		return  myFlexEntity;
+	}
+
+	private boolean isTestWebHook(String replyToken){
+		return replyToken.equals("00000000000000000000000000000000");
 	}
 
 }

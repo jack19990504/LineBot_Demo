@@ -1,7 +1,6 @@
 package com.example.demo.line.service;
 
-import com.example.demo.keys.ImagesURL;
-import com.example.demo.keys.LineKeys;
+import com.example.demo.keys.ImagesProperties;
 import com.example.demo.line.action.entity.LocationAction;
 import com.example.demo.line.action.entity.MessageAction;
 import com.example.demo.line.action.entity.PostBackAction;
@@ -22,7 +21,7 @@ import java.util.List;
 @SuppressWarnings("DuplicatedCode")
 @Service
 @Slf4j
-public class ReplyService implements LineKeys, ImagesURL {
+public class ReplyService {
 
 	private final SendMessageUtil sendMessageUtil;
 	private final JsonParserUtil jsonParserUtil;
@@ -88,7 +87,7 @@ public class ReplyService implements LineKeys, ImagesURL {
 		List<EntityMessage> messageList = new ArrayList<>();
 
 		List<QuickReplyAction> actionList = new ArrayList<>();
-		
+
 
 		TextMessage textMessage = new TextMessage();
 		textMessage.setType("text");
@@ -96,8 +95,8 @@ public class ReplyService implements LineKeys, ImagesURL {
 		messageList.add(textMessage);
 
 		actionList.add(new QuickReplyAction("action", new PostBackAction("postback", "post test", "data=123", "TEST")));
-		actionList.add(new QuickReplyAction("action", DOGE_URL, new MessageAction("message", "doge", "testMessage")));
-		actionList.add(new QuickReplyAction("action", LOGO_URL, new MessageAction("message", "logo", "testLogo")));
+		actionList.add(new QuickReplyAction("action", ImagesProperties.dogeURL, new MessageAction("message", "doge", "testMessage")));
+		actionList.add(new QuickReplyAction("action", ImagesProperties.logoURL, new MessageAction("message", "logo", "testLogo")));
 		actionList.add(new QuickReplyAction("action", new LocationAction("location", "Send location")));
 
 		QuickReplyMessage quickReplyMessage = new QuickReplyMessage("text", "Select one", new QuickReply(actionList));
