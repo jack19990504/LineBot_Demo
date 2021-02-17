@@ -1,12 +1,9 @@
 package com.example.demo.util;
 
-import com.example.demo.mybatis.entity.Member;
-import com.fasterxml.jackson.databind.JavaType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class JsonParserUtil {
@@ -14,7 +11,7 @@ public class JsonParserUtil {
 
 	@Autowired
 	private ObjectMapper objectMapper;
-	
+
 	public String jsonToString(Object o)
 	{
 		String jsonData = "";
@@ -27,7 +24,7 @@ public class JsonParserUtil {
 		}
 		return jsonData;
 	}
-	
+
 
 	public <T> T stringToJson(String jsonString , Class<?> clazz)
 	{
@@ -40,6 +37,6 @@ public class JsonParserUtil {
 		}
 		return returnObject;
 	}
-	
-	
+
+
 }

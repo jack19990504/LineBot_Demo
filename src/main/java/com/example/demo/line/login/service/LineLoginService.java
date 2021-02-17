@@ -1,26 +1,26 @@
 package com.example.demo.line.login.service;
 
-import java.util.Optional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.demo.line.login.entity.AccessToken;
 import com.example.demo.line.login.entity.LineUser;
 import com.example.demo.line.login.entity.LineUserDetail;
 import com.example.demo.line.login.util.SendLoginAPIUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
+@Slf4j
 public class LineLoginService {
 
-	@Autowired
-	SendLoginAPIUtil sendLoginAPIUtil;
-	private static final Logger LOG = LoggerFactory.getLogger(LineLoginService.class);
+	final SendLoginAPIUtil sendLoginAPIUtil;
 	// show spring init components and other tags at starting server
 	{
-		LOG.info("init :\t" + this.getClass().getSimpleName());
+		log.info("init :\t" + this.getClass().getSimpleName());
+	}
+
+	public LineLoginService(SendLoginAPIUtil sendLoginAPIUtil) {
+		this.sendLoginAPIUtil = sendLoginAPIUtil;
 	}
 
 	public AccessToken getUserAccessToken(String code) {
