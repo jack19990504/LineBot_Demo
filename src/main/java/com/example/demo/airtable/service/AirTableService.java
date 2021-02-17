@@ -1,5 +1,6 @@
 package com.example.demo.airtable.service;
 
+import com.example.demo.airtable.entity.EntityWrapper;
 import com.example.demo.airtable.entity.Log;
 import com.example.demo.util.HttpClientUtil;
 import com.example.demo.util.JsonParserUtil;
@@ -25,11 +26,13 @@ public class AirTableService {
 
     public void createLog(String user, String text, String time, String status){
 
-        var fields = new Log(user,text,time,status);
+        var fields = new EntityWrapper(new Log(user,text,time,status));
 
         HttpPost createLog = httpClientUtil.airTableCreateLog(jsonParserUtil.jsonToString(fields));
 
-        httpClientUtil.doRequest(createLog).getStatusCode();
+        var response = httpClientUtil.doRequest(createLog);
+
+        log.info("是否成功寫入airTable : {}",response.getStatusCode() == 200 ? "true" : "false");
 
     }
 }

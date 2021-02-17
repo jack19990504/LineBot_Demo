@@ -30,8 +30,6 @@ public class SendMessageUtil implements LineKeys {
 
 	public boolean sendReply(String uuid,String message) {
 
-		log.info(message);
-
 		HttpPost reply = httpClientUtil.setReply(message);
 
 		boolean isOK = httpClientUtil.doRequest(reply).getStatusCode() == 200;
@@ -47,8 +45,6 @@ public class SendMessageUtil implements LineKeys {
 
 	public boolean sendPush(String uuid, String message) {
 
-		log.info(message);
-
 		HttpPost push = httpClientUtil.setPush(message,uuid);
 
 		boolean isOK = httpClientUtil.doRequest(push).getStatusCode() == 200;
@@ -63,8 +59,6 @@ public class SendMessageUtil implements LineKeys {
 	}
 
 	public LineUserProfile getUserProfile(String userId){
-
-		log.info("userId = {}",userId);
 
 		HttpGet httpGet = httpClientUtil.setUserProfile(userId);
 

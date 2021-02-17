@@ -5,6 +5,8 @@ import com.example.demo.keys.URLProperties;
 import com.example.demo.util.entity.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -36,6 +38,9 @@ public class HttpClientUtil {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         CloseableHttpResponse response;
         HttpResponse httpResponse = null;
+
+        RequestConfig defaultConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build();
+        httpRequest.setConfig(defaultConfig);
 
         try{
             response = httpclient.execute(httpRequest);

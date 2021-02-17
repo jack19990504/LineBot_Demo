@@ -49,7 +49,6 @@ public class SlackAspect {
 
         airTableService.createLog(userName,userText,nowTime,status);
 
-
     }
 
     private String getText(Object o){
