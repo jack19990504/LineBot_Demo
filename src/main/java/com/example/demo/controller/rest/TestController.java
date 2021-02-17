@@ -1,27 +1,18 @@
 package com.example.demo.controller.rest;
 
-import com.example.demo.mybatis.service.MemberService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @CrossOrigin("*")
 @RequestMapping("/test")
 @Controller
 public class TestController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(LineController.class);
     {
-        LOG.warn("init :\t" + this.getClass().getSimpleName());
-    }
-    private MemberService memberService;
-
-    @Autowired
-    public TestController(MemberService memberService){
-        this.memberService = memberService;
+        log.warn("init :\t" + this.getClass().getSimpleName());
     }
 
     @GetMapping("/{id}")
