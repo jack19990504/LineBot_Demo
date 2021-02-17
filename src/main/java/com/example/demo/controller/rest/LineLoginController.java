@@ -29,7 +29,7 @@ public class LineLoginController {
 
     /*
      * step 1
-     * https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1654391521&redirect_uri=https%3A%2F%2F0187e4ef3e93.ngrok.io%2Fline%2Flogin&state=12345abcde&scope=openid%20profile
+     * https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1654391521&redirect_uri=https%3A%2F%2Fbc651c11d09a.ngrok.io%2Fline%2Flogin%2Fsuccess&state=12345abcde&scope=openid%20profile
      * https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1654391521&redirect_uri=https%3A%2F%2Fjack-linebot-test.herokuapp.com%2Fline%2Flogin%2Fsuccess&state=12345abcde&scope=openid%20profile
      * redirect to this api
      */

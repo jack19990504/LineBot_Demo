@@ -4,6 +4,8 @@ import com.example.demo.keys.LineLoginProperties;
 import com.example.demo.keys.URLProperties;
 import com.example.demo.util.entity.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -12,11 +14,14 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @Slf4j
@@ -64,9 +69,7 @@ public class HttpClientUtil {
 
     private HttpPost lineLoginBase(String URL){
         HttpPost httpPost = new HttpPost(URL);
-        httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded;");
-        httpPost.setHeader("Authorization", "Bearer " + URLProperties.accessToken);
 
         return httpPost;
     }
@@ -74,17 +77,17 @@ public class HttpClientUtil {
     private HttpPost setLineLoginRequest(String URL,String code){
         HttpPost httpPost = lineLoginBase(URL);
 
-        try {
-            URI uri = new URIBuilder(httpPost.getURI())
-                    .addParameter("grant_type", LineLoginProperties.grant_type)
-                    .addParameter("code",code)
-                    .addParameter("redirect_uri",LineLoginProperties.redirect_uri)
-                    .addParameter("client_id",LineLoginProperties.client_id)
-                    .addParameter("client_secret",LineLoginProperties.client_secret).build();
-                    httpPost.setURI(uri);
+        try{
+            List<NameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("grant_type", LineLoginProperties.grant_type));
+            params.add(new BasicNameValuePair("code",code));
+            params.add(new BasicNameValuePair("redirect_uri",LineLoginProperties.redirect_uri));
+            params.add(new BasicNameValuePair("client_id",LineLoginProperties.client_id));
+            params.add(new BasicNameValuePair("client_secret",LineLoginProperties.client_secret));
+            httpPost.setEntity(new UrlEncodedFormEntity(params));
         }
         catch (Exception e){
-            log.error("error occurs while creating uri");
+            log.error("error ");
         }
 
         return httpPost;
