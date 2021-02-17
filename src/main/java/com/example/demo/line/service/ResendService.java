@@ -1,6 +1,5 @@
 package com.example.demo.line.service;
 
-import com.example.demo.keys.ImagesProperties;
 import com.example.demo.keys.LineKeys;
 import com.example.demo.line.util.SendMessageUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class ResendService implements LineKeys {
-	
+
 	{
 		log.info("init :\t" + this.getClass().getSimpleName());
 	}
@@ -24,7 +23,7 @@ public class ResendService implements LineKeys {
 	/*
 	 * do this method per 15s using iterator to get all unsent message if send
 	 * successfully, then remove it from map
-	 * 
+	 *
 	 */
 
 	@Scheduled(fixedRate = 60000)
@@ -32,7 +31,6 @@ public class ResendService implements LineKeys {
 
 		if (replyFailedHashMap.isEmpty() && pushFailedHashMap.isEmpty()) {
 			System.out.println("no task");
-			log.error(ImagesProperties.dogeURL);
 		} else {
 			if (!replyFailedHashMap.isEmpty()) {
 				// reply can not use retry key to resend message, it might need to add to pushFailHashMap to resend
