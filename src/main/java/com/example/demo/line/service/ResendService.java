@@ -1,5 +1,6 @@
 package com.example.demo.line.service;
 
+import com.example.demo.keys.ImagesProperties;
 import com.example.demo.keys.LineKeys;
 import com.example.demo.line.util.SendMessageUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,7 @@ public class ResendService implements LineKeys {
 	}
 
 	private final SendMessageUtil sendMessageUtil;
-	
+
 	public ResendService(SendMessageUtil sendMessageUtil){
 		this.sendMessageUtil = sendMessageUtil;
 	}
@@ -31,6 +32,7 @@ public class ResendService implements LineKeys {
 
 		if (replyFailedHashMap.isEmpty() && pushFailedHashMap.isEmpty()) {
 			System.out.println("no task");
+			log.error(ImagesProperties.dogeURL);
 		} else {
 			if (!replyFailedHashMap.isEmpty()) {
 				// reply can not use retry key to resend message, it might need to add to pushFailHashMap to resend

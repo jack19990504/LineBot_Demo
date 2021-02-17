@@ -1,21 +1,26 @@
 package com.example.demo.util;
 
-import com.example.demo.keys.LineKeys;
+import com.example.demo.keys.LineLoginProperties;
+import com.example.demo.keys.URLProperties;
 import com.example.demo.util.entity.HttpResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Component;
 
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
 @Component
-public class HttpClientUtil implements LineKeys {
+@Slf4j
+public class HttpClientUtil {
 
     public HttpResponse doRequest(HttpRequestBase httpRequest){
         // httpGet and httpPost are child from httpRequestBase
@@ -28,18 +33,18 @@ public class HttpClientUtil implements LineKeys {
             httpResponse = new HttpResponse(response.getStatusLine().getStatusCode(),
                     EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8));
         }catch(Exception e){
-                System.out.println("error");
+                log.error("error occurs");
         }
 
         return httpResponse;
     }
 
 
-    private HttpPost setHttpPost(String URL,String message,String uuid){
+    private HttpPost setHttpPost_retry(String URL,String message,String uuid){
         HttpPost httpPost = new HttpPost(URL);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-Type", "application/json; charset=utf-8");
-        httpPost.setHeader("Authorization", "Bearer " + accessToken);
+        httpPost.setHeader("Authorization", "Bearer " + URLProperties.accessToken);
         httpPost.setHeader("X-Line-Retry-Key", uuid);
 
         httpPost.setEntity(new StringEntity(message, StandardCharsets.UTF_8));
@@ -50,15 +55,67 @@ public class HttpClientUtil implements LineKeys {
         HttpPost httpPost = new HttpPost(URL);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-Type", "application/json; charset=utf-8");
-        httpPost.setHeader("Authorization", "Bearer " + accessToken);
+        httpPost.setHeader("Authorization", "Bearer " + URLProperties.accessToken);
 
         httpPost.setEntity(new StringEntity(message, StandardCharsets.UTF_8));
 
         return httpPost;
     }
 
-    private HttpGet setHttpGet(String URL,String userId){
-        HttpGet httpGet = new HttpGet(String.format(URL,userId));
+    private HttpPost lineLoginBase(String URL){
+        HttpPost httpPost = new HttpPost(URL);
+        httpPost.setHeader("Accept", "application/json");
+        httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded;");
+        httpPost.setHeader("Authorization", "Bearer " + URLProperties.accessToken);
+
+        return httpPost;
+    }
+
+    private HttpPost setLineLoginRequest(String URL,String code){
+        HttpPost httpPost = lineLoginBase(URL);
+
+        try {
+            URI uri = new URIBuilder(httpPost.getURI())
+                    .addParameter("grant_type", LineLoginProperties.grant_type)
+                    .addParameter("code",code)
+                    .addParameter("redirect_uri",LineLoginProperties.redirect_uri)
+                    .addParameter("client_id",LineLoginProperties.client_id)
+                    .addParameter("client_secret",LineLoginProperties.client_secret).build();
+                    httpPost.setURI(uri);
+        }
+        catch (Exception e){
+            log.error("error occurs while creating uri");
+        }
+
+        return httpPost;
+    }
+
+    private HttpPost setGetLineUserDetail(String URL,String idToken){
+        HttpPost httpPost = lineLoginBase(URL);
+
+        try {
+            URI uri = new URIBuilder(httpPost.getURI())
+                    .addParameter("client_id",LineLoginProperties.client_id)
+                    .addParameter("id_token",idToken).build();
+            httpPost.setURI(uri);
+        }
+        catch (Exception e){
+            log.error("error occurs while creating uri");
+        }
+
+        return httpPost;
+    }
+
+    private HttpGet setHttpGet(String URL){
+        HttpGet httpGet = new HttpGet(URL);
+        httpGet.setHeader("Accept", "application/json");
+        httpGet.setHeader("Authorization", "Bearer " + URLProperties.accessToken);
+
+        return httpGet;
+    }
+
+    private HttpGet setHttpGet(String URL,String accessToken){
+        HttpGet httpGet = new HttpGet(URL);
         httpGet.setHeader("Accept", "application/json");
         httpGet.setHeader("Authorization", "Bearer " + accessToken);
 
@@ -66,16 +123,32 @@ public class HttpClientUtil implements LineKeys {
     }
 
     public HttpPost setReply(String message){
-        
-        return setHttpPost(URL_REPLY,message);
+
+        return setHttpPost(URLProperties.reply,message);
     }
     public HttpPost setPush(String message,String uuid){
 
-        return setHttpPost(URL_PUSH,message,uuid);
+        return setHttpPost_retry(URLProperties.push,message,uuid);
+    }
+
+
+    public HttpPost setLoginAPI(String code){
+
+        return setLineLoginRequest(URLProperties.token,code);
+    }
+
+    public HttpPost setGetUserDetail(String idToken){
+
+        return setGetLineUserDetail(URLProperties.verify,idToken);
     }
 
     public HttpGet setUserProfile(String userId){
 
-        return setHttpGet(URL_GET_USER_PROFILE,userId);
+        return setHttpGet(String.format(URLProperties.getUserProfile,userId));
+    }
+
+    public HttpGet setUserProfile_login(String accessToken){
+
+        return setHttpGet(URLProperties.user,accessToken);
     }
 }

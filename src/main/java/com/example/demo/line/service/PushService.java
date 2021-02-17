@@ -1,7 +1,6 @@
 package com.example.demo.line.service;
 
-import com.example.demo.keys.ImagesURL;
-import com.example.demo.keys.LineKeys;
+import com.example.demo.keys.ImagesProperties;
 import com.example.demo.line.action.entity.LocationAction;
 import com.example.demo.line.action.entity.MessageAction;
 import com.example.demo.line.action.entity.QuickReplyAction;
@@ -19,7 +18,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class PushService implements LineKeys, ImagesURL {
+public class PushService {
 
 	private final SendMessageUtil sendMessageUtil;
 	private final JsonParserUtil jsonParserUtil;
@@ -78,14 +77,14 @@ public class PushService implements LineKeys, ImagesURL {
 		List<EntityMessage> messageList = new ArrayList<>();
 
 		List<QuickReplyAction> actionList = new ArrayList<>();
-		
 
-		actionList.add(new QuickReplyAction("action",DOGE_URL,new MessageAction("message","doge","testMessage")));
 
-		actionList.add(new QuickReplyAction("action",LOGO_URL,new MessageAction("message","logo","testLogo")));
+		actionList.add(new QuickReplyAction("action", ImagesProperties.dogeURL,new MessageAction("message","doge","testMessage")));
+
+		actionList.add(new QuickReplyAction("action",ImagesProperties.logoURL,new MessageAction("message","logo","testLogo")));
 
 		actionList.add(new QuickReplyAction("action",new LocationAction("location","Send location")));
-		
+
 		// set
 		QuickReplyMessage quickReplyMessage = new QuickReplyMessage("text","Select one",new QuickReply(actionList));
 		messageList.add(quickReplyMessage);
