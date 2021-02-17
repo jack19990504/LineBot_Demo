@@ -27,6 +27,10 @@ import java.util.List;
 @Slf4j
 public class HttpClientUtil {
 
+    {
+        log.info("init :\t" + this.getClass().getSimpleName());
+    }
+
     public HttpResponse doRequest(HttpRequestBase httpRequest){
         // httpGet and httpPost are child from httpRequestBase
         CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -44,25 +48,11 @@ public class HttpClientUtil {
         return httpResponse;
     }
 
-
-    private HttpPost setHttpPost_retry(String URL,String message,String uuid){
+    private HttpPost messageAPIBase(String URL){
         HttpPost httpPost = new HttpPost(URL);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-Type", "application/json; charset=utf-8");
-        httpPost.setHeader("Authorization", "Bearer " + URLProperties.accessToken);
-        httpPost.setHeader("X-Line-Retry-Key", uuid);
-
-        httpPost.setEntity(new StringEntity(message, StandardCharsets.UTF_8));
-
-        return httpPost;
-    }
-    private HttpPost setHttpPost(String URL,String message){
-        HttpPost httpPost = new HttpPost(URL);
-        httpPost.setHeader("Accept", "application/json");
-        httpPost.setHeader("Content-Type", "application/json; charset=utf-8");
-        httpPost.setHeader("Authorization", "Bearer " + URLProperties.accessToken);
-
-        httpPost.setEntity(new StringEntity(message, StandardCharsets.UTF_8));
+        httpPost.setHeader("Authorization", "Bearer " + URLProperties.ACCESS_TOKEN);
 
         return httpPost;
     }
@@ -70,6 +60,31 @@ public class HttpClientUtil {
     private HttpPost lineLoginBase(String URL){
         HttpPost httpPost = new HttpPost(URL);
         httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded;");
+
+        return httpPost;
+    }
+
+    private HttpPost airTableBase(String URL,String api_Key){
+        HttpPost httpPost = new HttpPost(URL);
+        httpPost.setHeader("Accept", "application/json");
+        httpPost.setHeader("Content-Type", "application/json; charset=utf-8");
+        httpPost.setHeader("Authorization", "Bearer " + api_Key);
+
+        return httpPost;
+    }
+
+    private HttpPost setHttpPost(String URL, String message, String uuid){
+        HttpPost httpPost = messageAPIBase(URL);
+        httpPost.setHeader("X-Line-Retry-Key", uuid);
+
+        httpPost.setEntity(new StringEntity(message, StandardCharsets.UTF_8));
+
+        return httpPost;
+    }
+    private HttpPost setHttpPost(String URL,String message){
+        HttpPost httpPost = messageAPIBase(URL);
+
+        httpPost.setEntity(new StringEntity(message, StandardCharsets.UTF_8));
 
         return httpPost;
     }
@@ -87,7 +102,7 @@ public class HttpClientUtil {
             httpPost.setEntity(new UrlEncodedFormEntity(params));
         }
         catch (Exception e){
-            log.error("error ");
+            log.error("error");
         }
 
         return httpPost;
@@ -112,7 +127,7 @@ public class HttpClientUtil {
     private HttpGet setHttpGet(String URL){
         HttpGet httpGet = new HttpGet(URL);
         httpGet.setHeader("Accept", "application/json");
-        httpGet.setHeader("Authorization", "Bearer " + URLProperties.accessToken);
+        httpGet.setHeader("Authorization", "Bearer " + URLProperties.ACCESS_TOKEN);
 
         return httpGet;
     }
@@ -127,31 +142,39 @@ public class HttpClientUtil {
 
     public HttpPost setReply(String message){
 
-        return setHttpPost(URLProperties.reply,message);
+        return setHttpPost(URLProperties.REPLY,message);
     }
+
     public HttpPost setPush(String message,String uuid){
 
-        return setHttpPost_retry(URLProperties.push,message,uuid);
+        return setHttpPost(URLProperties.PUSH,message,uuid);
     }
-
 
     public HttpPost setLoginAPI(String code){
 
-        return setLineLoginRequest(URLProperties.token,code);
+        return setLineLoginRequest(URLProperties.TOKEN,code);
     }
 
     public HttpPost setGetUserDetail(String idToken){
 
-        return setGetLineUserDetail(URLProperties.verify,idToken);
+        return setGetLineUserDetail(URLProperties.VERIFY,idToken);
     }
 
     public HttpGet setUserProfile(String userId){
 
-        return setHttpGet(String.format(URLProperties.getUserProfile,userId));
+        return setHttpGet(String.format(URLProperties.GET_USER_PROFILE,userId));
     }
 
     public HttpGet setUserProfile_login(String accessToken){
 
-        return setHttpGet(URLProperties.user,accessToken);
+        return setHttpGet(URLProperties.USER,accessToken);
+    }
+
+    public HttpPost airTableCreateLog(String fields){
+
+        HttpPost httpPost = airTableBase(URLProperties.AIRTABLE_CREATE,URLProperties.AIRTABLE_API_KEY);
+        httpPost.setEntity(new StringEntity(fields,StandardCharsets.UTF_8));
+
+        return httpPost;
     }
 }

@@ -22,7 +22,7 @@ public class SlackService {
         slack = Slack.getInstance();
     }
 
-    public void sendSlack(String message){
+    public boolean sendSlack(String message){
         MethodsClient methods = slack.methods(slackToken);
         ChatPostMessageRequest request = ChatPostMessageRequest.builder()
                 .channel("C01FJ07N0AX") // Use a channel ID `C1234567` is preferable
@@ -35,7 +35,9 @@ public class SlackService {
             System.out.println("something went wrong");
         }
 
-        log.info("是否成功回覆至slack : {}", response.isOk());
+        log.info("是否成功回覆至slack : {}", response != null && response.isOk());
+
+        return response != null && response.isOk();
     }
 
 
