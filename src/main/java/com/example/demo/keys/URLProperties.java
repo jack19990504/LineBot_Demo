@@ -12,35 +12,42 @@ import org.springframework.stereotype.Component;
 
 public class URLProperties {
 
-    public static String reply;
-    public static String push;
-    public static String getUserProfile;
-    public static String accessToken;
-    public static String token;
-    public static String verify;
-    public static String user;
+    public static String REPLY;
+    public static String PUSH;
+    public static String GET_USER_PROFILE;
+    public static String ACCESS_TOKEN;
+    public static String TOKEN;
+    public static String VERIFY;
+    public static String USER;
+
+    public static String AIRTABLE_CREATE;
+    public static String AIRTABLE_API_KEY;
 
     public void setReply(String reply) {
-        URLProperties.reply = reply;
+        URLProperties.REPLY = reply;
     }
 
     public void setPush(String push) {
-        URLProperties.push = push;
+        URLProperties.PUSH = push;
     }
 
     public void setGetUserProfile(String getUserProfile) {
-        URLProperties.getUserProfile = getUserProfile;
+        URLProperties.GET_USER_PROFILE = getUserProfile;
     }
 
     public void setAccessToken(String accessToken) {
-        URLProperties.accessToken = accessToken;
+        URLProperties.ACCESS_TOKEN = accessToken;
     }
 
     public void setToken(String token){
-        URLProperties.token = token;
+        URLProperties.TOKEN = token;
     }
 
-    public void setVerify(String verify){ URLProperties.verify = verify;}
+    public void setVerify(String verify){ URLProperties.VERIFY = verify;}
 
-    public void setUser(String user){ URLProperties.user = user;}
+    public void setUser(String user){ URLProperties.USER = user;}
+
+    public void setAirtable_create(String airtable_create){ URLProperties.AIRTABLE_CREATE = airtable_create;}
+
+    public void setAirtableApiKey(String airtableApiKey){URLProperties.AIRTABLE_API_KEY = airtableApiKey;}
 }

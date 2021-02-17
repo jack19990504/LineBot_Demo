@@ -1,5 +1,6 @@
 package com.example.demo.aspect;
 
+import com.example.demo.airtable.service.AirTableService;
 import com.example.demo.annotation.SendSlack;
 import com.example.demo.line.entity.Event;
 import com.example.demo.line.service.LineProfileService;
@@ -22,9 +23,11 @@ public class SlackAspect {
 
     private final SlackService slackService;
     private final LineProfileService lineProfileService;
-    public SlackAspect(SlackService slackService,LineProfileService lineProfileService) {
+    private final AirTableService airTableService;
+    public SlackAspect(SlackService slackService,LineProfileService lineProfileService,AirTableService airTableService) {
         this.slackService = slackService;
         this.lineProfileService = lineProfileService;
+        this.airTableService = airTableService;
     }
 
     @Pointcut("@annotation(com.example.demo.annotation.SendSlack)")
@@ -42,7 +45,11 @@ public class SlackAspect {
 
         String template = ":pog: receive message at : %s \nfrom : %s\ntype : %s, the content is \"%s\"";
         String returnMessage = String.format(template,nowTime,userName,messageType,userText);
-        slackService.sendSlack(returnMessage);
+        var status = slackService.sendSlack(returnMessage) ? "Yes" : "No";
+
+        airTableService.createLog(userName,userText,nowTime,status);
+
+
     }
 
     private String getText(Object o){
