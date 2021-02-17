@@ -21,7 +21,7 @@ public class ResendService implements LineKeys {
 	}
 
 	/*
-	 * do this method per 15s using iterator to get all unsent message if send
+	 * do this method per 60s using iterator to get all unsent message if send
 	 * successfully, then remove it from map
 	 *
 	 */
@@ -30,20 +30,19 @@ public class ResendService implements LineKeys {
 	public void resendFailMessage() {
 
 		if (replyFailedHashMap.isEmpty() && pushFailedHashMap.isEmpty()) {
-			System.out.println("no task");
 		} else {
 			if (!replyFailedHashMap.isEmpty()) {
 				// reply can not use retry key to resend message, it might need to add to pushFailHashMap to resend
 				// to do
-				System.out.println("start send reply task");
+				log.info("start send reply task");
 				replyFailedHashMap.entrySet().removeIf(next -> sendMessageUtil.sendReply(next.getKey(), next.getValue()));
 			}
 			if (!pushFailedHashMap.isEmpty()) {
-				System.out.println("start send push task");
+				log.info("start send push task");
 				pushFailedHashMap.entrySet().removeIf(next -> sendMessageUtil.sendPush(next.getKey(), next.getValue()));
 
 			}
-			System.out.println("task is done");
+			log.info("task is done");
 		}
 
 	}
