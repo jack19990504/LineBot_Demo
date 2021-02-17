@@ -1,7 +1,8 @@
 package com.example.demo.util;
 
-import com.example.demo.keys.LineKeys;
+import com.example.demo.keys.URLProperties;
 import com.example.demo.util.entity.HttpResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -15,7 +16,8 @@ import org.springframework.stereotype.Component;
 import java.nio.charset.StandardCharsets;
 
 @Component
-public class HttpClientUtil implements LineKeys {
+@Slf4j
+public class HttpClientUtil {
 
     public HttpResponse doRequest(HttpRequestBase httpRequest){
         // httpGet and httpPost are child from httpRequestBase
@@ -28,7 +30,7 @@ public class HttpClientUtil implements LineKeys {
             httpResponse = new HttpResponse(response.getStatusLine().getStatusCode(),
                     EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8));
         }catch(Exception e){
-                System.out.println("error");
+                log.error("error occurs");
         }
 
         return httpResponse;
@@ -39,7 +41,7 @@ public class HttpClientUtil implements LineKeys {
         HttpPost httpPost = new HttpPost(URL);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-Type", "application/json; charset=utf-8");
-        httpPost.setHeader("Authorization", "Bearer " + accessToken);
+        httpPost.setHeader("Authorization", "Bearer " + URLProperties.accessToken);
         httpPost.setHeader("X-Line-Retry-Key", uuid);
 
         httpPost.setEntity(new StringEntity(message, StandardCharsets.UTF_8));
@@ -50,7 +52,7 @@ public class HttpClientUtil implements LineKeys {
         HttpPost httpPost = new HttpPost(URL);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-Type", "application/json; charset=utf-8");
-        httpPost.setHeader("Authorization", "Bearer " + accessToken);
+        httpPost.setHeader("Authorization", "Bearer " + URLProperties.accessToken);
 
         httpPost.setEntity(new StringEntity(message, StandardCharsets.UTF_8));
 
@@ -60,22 +62,22 @@ public class HttpClientUtil implements LineKeys {
     private HttpGet setHttpGet(String URL,String userId){
         HttpGet httpGet = new HttpGet(String.format(URL,userId));
         httpGet.setHeader("Accept", "application/json");
-        httpGet.setHeader("Authorization", "Bearer " + accessToken);
+        httpGet.setHeader("Authorization", "Bearer " + URLProperties.accessToken);
 
         return httpGet;
     }
 
     public HttpPost setReply(String message){
         
-        return setHttpPost(URL_REPLY,message);
+        return setHttpPost(URLProperties.reply,message);
     }
     public HttpPost setPush(String message,String uuid){
 
-        return setHttpPost(URL_PUSH,message,uuid);
+        return setHttpPost(URLProperties.push,message,uuid);
     }
 
     public HttpGet setUserProfile(String userId){
 
-        return setHttpGet(URL_GET_USER_PROFILE,userId);
+        return setHttpGet(URLProperties.getUserProfile,userId);
     }
 }
