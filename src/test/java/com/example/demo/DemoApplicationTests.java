@@ -3,20 +3,18 @@ package com.example.demo;
 import com.example.demo.airtable.entity.Log;
 import com.example.demo.util.JsonParserUtil;
 import com.example.demo.util.UUIDUtil;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class DemoApplicationTests {
 
-	private final UUIDUtil uuidUtil;
-	private final JsonParserUtil jsonParserUtil;
-
-	public DemoApplicationTests(UUIDUtil uuidUtil,JsonParserUtil jsonParserUtil){
-		this.uuidUtil = uuidUtil;
-		this.jsonParserUtil = jsonParserUtil;
-	}
+	@Autowired
+	private  UUIDUtil uuidUtil;
+	@Autowired
+	private  JsonParserUtil jsonParserUtil;
 
 	@Test
 	void contextLoads() {
@@ -27,7 +25,7 @@ class DemoApplicationTests {
 	public void testUUID(){
 		var uuid = uuidUtil.getRandomUUID();
 
-		Assert.assertEquals(uuid.getClass(),String.class);
+		Assertions.assertEquals(uuid.getClass(),String.class);
 	}
 
 	@Test
@@ -36,7 +34,7 @@ class DemoApplicationTests {
 		String log_String = "{\"user\":\"1\",\"text\":\"2\",\"time\":\"3\",\"returnSucceed\":\"4\"}";
 		Log log = new Log("1","2","3","4");
 
-		Assert.assertEquals(log_String,jsonParserUtil.jsonToString(log));
+		Assertions.assertEquals(log_String,jsonParserUtil.jsonToString(log));
 
 	}
 
@@ -45,8 +43,8 @@ class DemoApplicationTests {
 
 		String log_String = "{\"user\":\"1\",\"text\":\"2\",\"time\":\"3\",\"returnSucceed\":\"4\"}";
 		Log log = new Log("1","2","3","4");
-
-		Assert.assertEquals(log,jsonParserUtil.stringToJson(log_String,Log.class));
+		
+		Assertions.assertEquals(log,jsonParserUtil.stringToJson(log_String,Log.class));
 
 	}
 }
