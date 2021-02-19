@@ -13,12 +13,12 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class LineService {
+public class LineMessageAPIService {
 
 	private final ReplyService replyService;
 	private final LineProfileService lineProfileService;
 
-	public LineService(ReplyService replyService,LineProfileService lineProfileService){
+	public LineMessageAPIService(ReplyService replyService, LineProfileService lineProfileService){
 		this.replyService = replyService;
 		this.lineProfileService = lineProfileService;
 	}

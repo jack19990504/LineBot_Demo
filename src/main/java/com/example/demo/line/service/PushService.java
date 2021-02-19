@@ -5,7 +5,7 @@ import com.example.demo.line.action.entity.LocationAction;
 import com.example.demo.line.action.entity.MessageAction;
 import com.example.demo.line.action.entity.QuickReplyAction;
 import com.example.demo.line.message.entity.*;
-import com.example.demo.line.util.SendMessageUtil;
+import com.example.demo.line.util.LineMessageAPIUtil;
 import com.example.demo.util.JsonParserUtil;
 import com.example.demo.util.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -20,13 +20,13 @@ import java.util.List;
 @Slf4j
 public class PushService {
 
-	private final SendMessageUtil sendMessageUtil;
+	private final LineMessageAPIUtil lineMessageAPIUtil;
 	private final JsonParserUtil jsonParserUtil;
 	private final UUIDUtil uuidUtil;
 
 	@Autowired
-	public PushService (SendMessageUtil sendMessageUtil,JsonParserUtil jsonParserUtil,UUIDUtil uuidUtil){
-		this.sendMessageUtil = sendMessageUtil;
+	public PushService (LineMessageAPIUtil lineMessageAPIUtil, JsonParserUtil jsonParserUtil, UUIDUtil uuidUtil){
+		this.lineMessageAPIUtil = lineMessageAPIUtil;
 		this.jsonParserUtil = jsonParserUtil;
 		this.uuidUtil = uuidUtil;
 	}
@@ -68,7 +68,7 @@ public class PushService {
 
 		String jsonData = jsonParserUtil.jsonToString(push);
 
-		sendMessageUtil.sendPush(uuid, jsonData);
+		lineMessageAPIUtil.sendPush(uuid, jsonData);
 	}
 
 	public void sendPostQuickReplies(String[] userIds) {

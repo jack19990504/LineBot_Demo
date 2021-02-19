@@ -1,6 +1,8 @@
 package com.example.demo.line.login.util;
 
 import com.example.demo.keys.LineKeys;
+import com.example.demo.keys.LineLoginProperties;
+import com.example.demo.keys.MessageAPIProperties;
 import com.example.demo.line.login.entity.AccessToken;
 import com.example.demo.line.login.entity.LineUser;
 import com.example.demo.line.login.entity.LineUserDetail;
@@ -8,7 +10,6 @@ import com.example.demo.util.HttpClientUtil;
 import com.example.demo.util.JsonParserUtil;
 import com.example.demo.util.entity.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +32,7 @@ public class SendLoginAPIUtil implements LineKeys {
 
 	public AccessToken getUserAccessToken(String code) {
 
-		HttpPost loginRequest = httpClientUtil.setLoginAPI(code);
+		HttpPost loginRequest = httpClientUtil.LineLoginRequest(MessageAPIProperties.TOKEN,code);
 		HttpResponse response = httpClientUtil.doRequest(loginRequest);
 
 		if(response.getStatusCode() != 200){
@@ -45,8 +46,8 @@ public class SendLoginAPIUtil implements LineKeys {
 
 	public LineUserDetail getLineUserDetail(String idToken) {
 
-		HttpPost getDetailRequest = httpClientUtil.setGetUserDetail(idToken);
-		HttpResponse response = httpClientUtil.doRequest(getDetailRequest);
+		var userDetail = httpClientUtil.getLineUserDetail(MessageAPIProperties.VERIFY,idToken, LineLoginProperties.client_id);
+		var response = httpClientUtil.doRequest(userDetail);
 
 		if(response.getStatusCode() != 200){
 			log.error("request failed");
@@ -56,10 +57,10 @@ public class SendLoginAPIUtil implements LineKeys {
 		return jsonParserUtil.stringToJson(response.getResponseBody(),LineUserDetail.class);
 	}
 
-	public LineUser getUser(String accessToken) {
+	public LineUser getLineUser(String accessToken) {
 
-		HttpGet getUser = httpClientUtil.setUserProfile_login(accessToken);
-		HttpResponse response = httpClientUtil.doRequest(getUser);
+		var getUser = httpClientUtil.getLineUser(MessageAPIProperties.USER,accessToken);
+		var response = httpClientUtil.doRequest(getUser);
 
 		if(response.getStatusCode() != 200){
 			log.error("request failed");

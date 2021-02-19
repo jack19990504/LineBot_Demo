@@ -24,9 +24,7 @@ public class LineLoginProperties {
         LineLoginProperties.redirect_uri = redirect_uri;
     }
 
-    public void setClient_id(String client_id) {
-        LineLoginProperties.client_id = client_id;
-    }
+    public void setClient_id(String client_id) { LineLoginProperties.client_id = client_id; }
 
     public void setClient_secret(String client_secret) {
         LineLoginProperties.client_secret = client_secret;

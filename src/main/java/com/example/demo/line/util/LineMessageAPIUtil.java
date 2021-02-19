@@ -1,19 +1,17 @@
 package com.example.demo.line.util;
 
 import com.example.demo.keys.LineKeys;
+import com.example.demo.keys.MessageAPIProperties;
 import com.example.demo.line.entity.LineUserProfile;
 import com.example.demo.util.HttpClientUtil;
 import com.example.demo.util.JsonParserUtil;
-import com.example.demo.util.entity.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class SendMessageUtil implements LineKeys {
+public class LineMessageAPIUtil implements LineKeys {
 
 	{
 		log.info("init :\t" + this.getClass().getSimpleName());
@@ -23,16 +21,16 @@ public class SendMessageUtil implements LineKeys {
 	private final JsonParserUtil jsonParserUtil;
 
 	@Autowired
-	public SendMessageUtil(HttpClientUtil httpClientUtil,JsonParserUtil jsonParserUtil){
+	public LineMessageAPIUtil(HttpClientUtil httpClientUtil, JsonParserUtil jsonParserUtil){
 		this.httpClientUtil = httpClientUtil;
 		this.jsonParserUtil = jsonParserUtil;
 	}
 
 	public boolean sendReply(String uuid,String message) {
 
-		HttpPost reply = httpClientUtil.setReply(message);
+		var reply = httpClientUtil.messageAPI_reply(MessageAPIProperties.REPLY, MessageAPIProperties.ACCESS_TOKEN,message);
 
-		boolean isOK = httpClientUtil.doRequest(reply).getStatusCode() == 200;
+		var isOK = httpClientUtil.doRequest(reply).getStatusCode() == 200;
 
 		if(!isOK){
 			replyFailedHashMap.put(uuid, message);
@@ -45,9 +43,9 @@ public class SendMessageUtil implements LineKeys {
 
 	public boolean sendPush(String uuid, String message) {
 
-		HttpPost push = httpClientUtil.setPush(message,uuid);
+		var push = httpClientUtil.messageAPI_push(MessageAPIProperties.PUSH,MessageAPIProperties.ACCESS_TOKEN,message,uuid);
 
-		boolean isOK = httpClientUtil.doRequest(push).getStatusCode() == 200;
+		var isOK = httpClientUtil.doRequest(push).getStatusCode() == 200;
 
 		if(!isOK){
 			pushFailedHashMap.put(uuid, message);
@@ -60,9 +58,9 @@ public class SendMessageUtil implements LineKeys {
 
 	public LineUserProfile getUserProfile(String userId){
 
-		HttpGet httpGet = httpClientUtil.setUserProfile(userId);
+		var httpGet = httpClientUtil.getUserProfile(MessageAPIProperties.GET_USER_PROFILE,MessageAPIProperties.ACCESS_TOKEN,userId);
 
-		HttpResponse response = httpClientUtil.doRequest(httpGet);
+		var response = httpClientUtil.doRequest(httpGet);
 
 		return jsonParserUtil.stringToJson(response.getResponseBody(),LineUserProfile.class);
 	}

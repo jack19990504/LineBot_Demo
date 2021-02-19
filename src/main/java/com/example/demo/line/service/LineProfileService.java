@@ -1,6 +1,6 @@
 package com.example.demo.line.service;
 
-import com.example.demo.line.util.SendMessageUtil;
+import com.example.demo.line.util.LineMessageAPIUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +13,15 @@ public class LineProfileService {
         log.info("init :\t" + this.getClass().getSimpleName());
     }
 
-    private final SendMessageUtil sendMessageUtil;
+    private final LineMessageAPIUtil lineMessageAPIUtil;
 
-    public LineProfileService(SendMessageUtil sendMessageUtil){
-        this.sendMessageUtil = sendMessageUtil;
+    public LineProfileService(LineMessageAPIUtil lineMessageAPIUtil){
+        this.lineMessageAPIUtil = lineMessageAPIUtil;
     }
 
     public String getUserName(String userId){
 
-        var lineUserProfile = sendMessageUtil.getUserProfile(userId);
+        var lineUserProfile = lineMessageAPIUtil.getUserProfile(userId);
 
         return lineUserProfile.getDisplayName();
     }

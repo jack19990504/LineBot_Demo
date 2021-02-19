@@ -8,7 +8,7 @@ import com.example.demo.line.action.entity.QuickReplyAction;
 import com.example.demo.line.message.entity.*;
 import com.example.demo.line.message.flex.entity.FlexMessageTemplate;
 import com.example.demo.line.message.flex.entity.MyFlexTemplate;
-import com.example.demo.line.util.SendMessageUtil;
+import com.example.demo.line.util.LineMessageAPIUtil;
 import com.example.demo.util.JsonParserUtil;
 import com.example.demo.util.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -23,14 +23,14 @@ import java.util.List;
 @Slf4j
 public class ReplyService {
 
-	private final SendMessageUtil sendMessageUtil;
+	private final LineMessageAPIUtil lineMessageAPIUtil;
 	private final JsonParserUtil jsonParserUtil;
 	private final UUIDUtil uuidUtil;
 
 	@Autowired
-	public ReplyService(SendMessageUtil sendMessageUtil,JsonParserUtil jsonParserUtil,UUIDUtil uuidUtil){
+	public ReplyService(LineMessageAPIUtil lineMessageAPIUtil, JsonParserUtil jsonParserUtil, UUIDUtil uuidUtil){
 		this.jsonParserUtil = jsonParserUtil;
-		this.sendMessageUtil = sendMessageUtil;
+		this.lineMessageAPIUtil = lineMessageAPIUtil;
 		this.uuidUtil = uuidUtil;
 	}
 
@@ -57,7 +57,7 @@ public class ReplyService {
 
 		String jsonData = jsonParserUtil.jsonToString(reply);
 
-		sendMessageUtil.sendReply(uuid,jsonData);
+		lineMessageAPIUtil.sendReply(uuid,jsonData);
 
 	}
 
@@ -77,7 +77,7 @@ public class ReplyService {
 
 		String jsonData = jsonParserUtil.jsonToString(reply);
 
-		sendMessageUtil.sendReply(uuid,jsonData);
+		lineMessageAPIUtil.sendReply(uuid,jsonData);
 	}
 
 	public void sendQuickReply(String replyToken) {
@@ -106,7 +106,7 @@ public class ReplyService {
 
 		String jsonData = jsonParserUtil.jsonToString(reply);
 
-		sendMessageUtil.sendReply(uuid,jsonData);
+		lineMessageAPIUtil.sendReply(uuid,jsonData);
 	}
 
 }
