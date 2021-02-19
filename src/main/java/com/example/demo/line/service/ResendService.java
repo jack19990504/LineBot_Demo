@@ -1,7 +1,7 @@
 package com.example.demo.line.service;
 
 import com.example.demo.keys.LineKeys;
-import com.example.demo.line.util.SendMessageUtil;
+import com.example.demo.line.util.LineMessageAPIUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ public class ResendService implements LineKeys {
 		log.info("init :\t" + this.getClass().getSimpleName());
 	}
 
-	private final SendMessageUtil sendMessageUtil;
+	private final LineMessageAPIUtil lineMessageAPIUtil;
 
-	public ResendService(SendMessageUtil sendMessageUtil){
-		this.sendMessageUtil = sendMessageUtil;
+	public ResendService(LineMessageAPIUtil lineMessageAPIUtil){
+		this.lineMessageAPIUtil = lineMessageAPIUtil;
 	}
 
 	/*
@@ -35,11 +35,11 @@ public class ResendService implements LineKeys {
 				// reply can not use retry key to resend message, it might need to add to pushFailHashMap to resend
 				// to do
 				log.info("start send reply task");
-				replyFailedHashMap.entrySet().removeIf(next -> sendMessageUtil.sendReply(next.getKey(), next.getValue()));
+				replyFailedHashMap.entrySet().removeIf(next -> lineMessageAPIUtil.sendReply(next.getKey(), next.getValue()));
 			}
 			if (!pushFailedHashMap.isEmpty()) {
 				log.info("start send push task");
-				pushFailedHashMap.entrySet().removeIf(next -> sendMessageUtil.sendPush(next.getKey(), next.getValue()));
+				pushFailedHashMap.entrySet().removeIf(next -> lineMessageAPIUtil.sendPush(next.getKey(), next.getValue()));
 
 			}
 			log.info("task is done");

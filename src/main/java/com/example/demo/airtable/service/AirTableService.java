@@ -2,10 +2,10 @@ package com.example.demo.airtable.service;
 
 import com.example.demo.airtable.entity.EntityWrapper;
 import com.example.demo.airtable.entity.Log;
+import com.example.demo.keys.AirTableProperties;
 import com.example.demo.util.HttpClientUtil;
 import com.example.demo.util.JsonParserUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.client.methods.HttpPost;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,7 +28,7 @@ public class AirTableService {
 
         var fields = new EntityWrapper(new Log(user,text,time,status));
 
-        HttpPost createLog = httpClientUtil.airTableCreateLog(jsonParserUtil.jsonToString(fields));
+        var createLog = httpClientUtil.airTableCreate(jsonParserUtil.jsonToString(fields), AirTableProperties.LOG_URL,AirTableProperties.API_KEY);
 
         var response = httpClientUtil.doRequest(createLog);
 

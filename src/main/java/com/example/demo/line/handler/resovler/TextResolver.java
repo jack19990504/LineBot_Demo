@@ -1,7 +1,7 @@
 package com.example.demo.line.handler.resovler;
 
 import com.example.demo.line.entity.Event;
-import com.example.demo.line.service.LineService;
+import com.example.demo.line.service.LineMessageAPIService;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -9,15 +9,15 @@ import java.util.Optional;
 @Component
 public class TextResolver implements Resolver{
 
-    private final LineService lineService;
+    private final LineMessageAPIService lineMessageAPIService;
 
-    public TextResolver(LineService lineService){
-        this.lineService = lineService;
+    public TextResolver(LineMessageAPIService lineMessageAPIService){
+        this.lineMessageAPIService = lineMessageAPIService;
     }
 
 
     @Override
     public void reply(Optional<Event> event) {
-        lineService.reply(event);
+        lineMessageAPIService.reply(event);
     }
 }
