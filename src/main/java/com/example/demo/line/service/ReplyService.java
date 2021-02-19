@@ -12,7 +12,6 @@ import com.example.demo.line.util.LineMessageAPIUtil;
 import com.example.demo.util.JsonParserUtil;
 import com.example.demo.util.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,7 +26,6 @@ public class ReplyService {
 	private final JsonParserUtil jsonParserUtil;
 	private final UUIDUtil uuidUtil;
 
-	@Autowired
 	public ReplyService(LineMessageAPIUtil lineMessageAPIUtil, JsonParserUtil jsonParserUtil, UUIDUtil uuidUtil){
 		this.jsonParserUtil = jsonParserUtil;
 		this.lineMessageAPIUtil = lineMessageAPIUtil;
@@ -43,8 +41,6 @@ public class ReplyService {
 	// message.length must smaller than 3
 	public void sendResponseMessage(String replyToken, String... messages) {
 
-		String uuid = uuidUtil.getRandomUUID();
-
 		List<EntityMessage> messagesList = new ArrayList<>();
 
 		TextMessage textMessage;
@@ -53,36 +49,35 @@ public class ReplyService {
 			textMessage = new TextMessage("text", message);
 			messagesList.add(textMessage);
 		}
+
 		Reply reply = new Reply(replyToken, messagesList);
 
 		String jsonData = jsonParserUtil.jsonToString(reply);
 
-		lineMessageAPIUtil.sendReply(uuid,jsonData);
+		lineMessageAPIUtil.sendReply(uuidUtil.getRandomUUID(),jsonData);
 
 	}
 
 	// one flex
 	public void sendResponseMessage_flex(String replyToken, MyFlexTemplate myFlexTemplate) {
 
-		String uuid = uuidUtil.getRandomUUID();
-
 		List<EntityMessage> messageList = new ArrayList<>();
 
+		// 將myFlexTemplate 模板轉換成 FlexMessageTemplate
 		FlexMessageTemplate flexMessageTemplate = jsonParserUtil
 				.stringToJson(myFlexTemplate.getFlexMessageTemplate(), FlexMessageTemplate.class);
 
+		// 方便以物件方式操作
 		messageList.add(flexMessageTemplate);
 
 		Reply reply = new Reply(replyToken, messageList);
 
 		String jsonData = jsonParserUtil.jsonToString(reply);
 
-		lineMessageAPIUtil.sendReply(uuid,jsonData);
+		lineMessageAPIUtil.sendReply(uuidUtil.getRandomUUID(),jsonData);
 	}
 
 	public void sendQuickReply(String replyToken) {
-
-		String uuid = uuidUtil.getRandomUUID();
 
 		List<EntityMessage> messageList = new ArrayList<>();
 
@@ -104,9 +99,7 @@ public class ReplyService {
 
 		Reply reply = new Reply(replyToken, messageList);
 
-		String jsonData = jsonParserUtil.jsonToString(reply);
-
-		lineMessageAPIUtil.sendReply(uuid,jsonData);
+		lineMessageAPIUtil.sendReply(uuidUtil.getRandomUUID(),jsonParserUtil.jsonToString(reply));
 	}
 
 }

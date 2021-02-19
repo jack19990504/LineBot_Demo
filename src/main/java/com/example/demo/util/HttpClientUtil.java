@@ -112,7 +112,7 @@ public class HttpClientUtil {
         return httpPost;
     }
 
-    public HttpPost getLineUserDetail(String URL,String idToken,String clientId){
+    public HttpPost getLineUserDetail(String URL, String clientId, String idToken){
         HttpPost httpPost = lineLoginBase(URL);
 
         try {
@@ -146,7 +146,7 @@ public class HttpClientUtil {
     }
 
 
-    public HttpPost airTableCreate(String fields,String airTableURL,String airTableAPIKey){
+    public HttpPost airTableCreate(String airTableURL, String airTableAPIKey, String fields){
 
         HttpPost httpPost = airTableBase(airTableURL,airTableAPIKey);
         httpPost.setEntity(new StringEntity(fields,StandardCharsets.UTF_8));

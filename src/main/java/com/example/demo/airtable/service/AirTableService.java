@@ -28,7 +28,7 @@ public class AirTableService {
 
         var fields = new EntityWrapper(new Log(user,text,time,status));
 
-        var createLog = httpClientUtil.airTableCreate(jsonParserUtil.jsonToString(fields), AirTableProperties.LOG_URL,AirTableProperties.API_KEY);
+        var createLog = httpClientUtil.airTableCreate(AirTableProperties.LOG_URL, AirTableProperties.API_KEY, jsonParserUtil.jsonToString(fields));
 
         var response = httpClientUtil.doRequest(createLog);
 

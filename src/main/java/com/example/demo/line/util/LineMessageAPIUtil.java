@@ -32,7 +32,7 @@ public class LineMessageAPIUtil implements LineKeys {
 
 		var isOK = httpClientUtil.doRequest(reply).getStatusCode() == 200;
 
-		if(!isOK){
+		if(!isOK && replyFailedHashMap.containsValue(message)){
 			replyFailedHashMap.put(uuid, message);
 		}
 
@@ -47,7 +47,7 @@ public class LineMessageAPIUtil implements LineKeys {
 
 		var isOK = httpClientUtil.doRequest(push).getStatusCode() == 200;
 
-		if(!isOK){
+		if(!isOK && pushFailedHashMap.containsValue(message)){
 			pushFailedHashMap.put(uuid, message);
 		}
 
