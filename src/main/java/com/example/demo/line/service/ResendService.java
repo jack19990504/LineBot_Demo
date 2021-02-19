@@ -29,21 +29,20 @@ public class ResendService implements LineKeys {
 	@Scheduled(fixedRate = 60000)
 	public void resendFailMessage() {
 
-		if (replyFailedHashMap.isEmpty() && pushFailedHashMap.isEmpty()) {
-		} else {
-			if (!replyFailedHashMap.isEmpty()) {
-				// reply can not use retry key to resend message, it might need to add to pushFailHashMap to resend
-				// to do
-				log.info("start send reply task");
-				replyFailedHashMap.entrySet().removeIf(next -> lineMessageAPIUtil.sendReply(next.getKey(), next.getValue()));
-			}
-			if (!pushFailedHashMap.isEmpty()) {
-				log.info("start send push task");
-				pushFailedHashMap.entrySet().removeIf(next -> lineMessageAPIUtil.sendPush(next.getKey(), next.getValue()));
-
-			}
-			log.info("task is done");
+		if (replyFailedHashMap.isEmpty() && pushFailedHashMap.isEmpty())
+			return;
+		if (!replyFailedHashMap.isEmpty()) {
+			// reply can not use retry key to resend message, it might need to add to pushFailHashMap to resend
+			// to do
+			log.info("start send reply task");
+			replyFailedHashMap.entrySet().removeIf(next -> lineMessageAPIUtil.sendReply(next.getKey(), next.getValue()));
 		}
+		if (!pushFailedHashMap.isEmpty()) {
+			log.info("start send push task");
+			pushFailedHashMap.entrySet().removeIf(next -> lineMessageAPIUtil.sendPush(next.getKey(), next.getValue()));
+		}
+		log.info("task is done");
+
 
 	}
 

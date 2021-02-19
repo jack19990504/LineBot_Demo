@@ -46,7 +46,7 @@ public class SendLoginAPIUtil implements LineKeys {
 
 	public LineUserDetail getLineUserDetail(String idToken) {
 
-		var userDetail = httpClientUtil.getLineUserDetail(MessageAPIProperties.VERIFY,idToken, LineLoginProperties.client_id);
+		var userDetail = httpClientUtil.getLineUserDetail(MessageAPIProperties.VERIFY, LineLoginProperties.client_id, idToken);
 		var response = httpClientUtil.doRequest(userDetail);
 
 		if(response.getStatusCode() != 200){

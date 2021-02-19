@@ -43,7 +43,7 @@ class DemoApplicationTests {
 
 		String log_String = "{\"user\":\"1\",\"text\":\"2\",\"time\":\"3\",\"returnSucceed\":\"4\"}";
 		Log log = new Log("1","2","3","4");
-		
+
 		Assertions.assertEquals(log,jsonParserUtil.stringToJson(log_String,Log.class));
 
 	}
