@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class TestController {
 
     {
-        log.warn("init :\t" + this.getClass().getSimpleName());
+        log.info("init :\t" + this.getClass().getSimpleName());
     }
 
     @GetMapping("/{id}")
