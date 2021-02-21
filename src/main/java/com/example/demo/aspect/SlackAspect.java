@@ -10,6 +10,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -24,11 +25,15 @@ public class SlackAspect {
     private final SlackService slackService;
     private final LineProfileService lineProfileService;
     private final AirTableService airTableService;
+
     public SlackAspect(SlackService slackService,LineProfileService lineProfileService,AirTableService airTableService) {
         this.slackService = slackService;
         this.lineProfileService = lineProfileService;
         this.airTableService = airTableService;
     }
+
+    @Value("${slack.template}")
+    private String slack_template;
 
     @Pointcut("@annotation(com.example.demo.annotation.SendSlack)")
     public void pointcut() {
@@ -43,8 +48,7 @@ public class SlackAspect {
         String nowTime = getNow();
         String userName = lineProfileService.getUserName(getUserId(joinPoint.getArgs()[0]));
 
-        String template = ":pog: receive message at : %s \nfrom : %s\ntype : %s, the content is \"%s\"";
-        String returnMessage = String.format(template,nowTime,userName,messageType,userText);
+        String returnMessage = String.format(slack_template,nowTime,userName,messageType,userText);
         var status = slackService.sendSlack(returnMessage) ? "Yes" : "No";
 
         airTableService.createLog(userName,userText,nowTime,status);
