@@ -26,7 +26,7 @@ public class LineController {
 
 
     {
-        log.warn("init :\t" + this.getClass().getSimpleName());
+        log.info("init :\t" + this.getClass().getSimpleName());
     }
 
     @Value("${spring.application.name}")

@@ -4,6 +4,7 @@ import com.example.demo.line.login.entity.AccessToken;
 import com.example.demo.line.login.entity.LineUser;
 import com.example.demo.line.login.entity.LineUserDetail;
 import com.example.demo.line.login.service.LineLoginService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @CrossOrigin("*")
 @RequestMapping("/line/login")
 @Controller
+@Slf4j
 public class LineLoginController {
+
+    {
+        log.info("init :\t" + this.getClass().getSimpleName());
+    }
 
     @Value("${spring.application.name}")
     String appName;

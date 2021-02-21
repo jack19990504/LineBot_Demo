@@ -32,7 +32,7 @@ public class SlackService {
         try{
             response = methods.chatPostMessage(request);
         } catch(Exception e){
-            System.out.println("something went wrong");
+            log.warn("something went wrong");
         }
 
         log.info("是否成功回覆至slack : {}", response != null && response.isOk());

@@ -24,7 +24,7 @@ public class AirTableService {
         this.jsonParserUtil = jsonParserUtil;
     }
 
-    public void createLog(String user, String text, String time, String status){
+    public boolean createLog(String user, String text, String time, String status){
 
         var fields = new EntityWrapper(new Log(user,text,time,status));
 
@@ -32,7 +32,11 @@ public class AirTableService {
 
         var response = httpClientUtil.doRequest(createLog);
 
-        log.info("是否成功寫入airTable : {}",response.getStatusCode() == 200 ? "true" : "false");
+        var isSuccess = response.getStatusCode() == 200;
+
+        log.info("是否成功寫入airTable : {}", isSuccess ? "true" : "false");
+
+        return isSuccess;
 
     }
 }

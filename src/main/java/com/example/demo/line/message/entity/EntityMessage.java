@@ -1,6 +1,6 @@
 package com.example.demo.line.message.entity;
 
-public abstract class EntityMessage {
+public class EntityMessage {
 
 	// message inherit by others
 
