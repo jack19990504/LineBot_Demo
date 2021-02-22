@@ -20,6 +20,6 @@ public class MessageHandler implements EventHandler{
 
     @Override
     public void handle(Optional<Event> event) {
-        resolvers.get(event.get().getMessage().getType()).reply(event);
+        resolvers.get(event.get().getMessage().getType()).solve(event);
     }
 }
