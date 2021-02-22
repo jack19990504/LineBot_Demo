@@ -1,9 +1,9 @@
-package com.example.demo.line.handler.resovler;
+package com.example.demo.line.resolver;
 
 import com.example.demo.line.entity.Event;
 
 import java.util.Optional;
 
 public interface Resolver {
-    void reply(Optional<Event> event);
+    void solve(Optional<Event> event);
 }
