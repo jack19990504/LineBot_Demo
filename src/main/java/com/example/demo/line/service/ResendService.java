@@ -1,23 +1,28 @@
 package com.example.demo.line.service;
 
-import com.example.demo.keys.LineKeys;
-import com.example.demo.line.util.LineMessageAPIUtil;
+import com.example.demo.feign.MessageAPI;
+import com.example.demo.line.message.entity.Push;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 @Slf4j
-public class ResendService implements LineKeys {
+public class ResendService {
 
 	{
 		log.info("init :\t" + this.getClass().getSimpleName());
 	}
 
-	private final LineMessageAPIUtil lineMessageAPIUtil;
+	private final MessageAPI messageAPI;
+	private final Map<String, Push> failedMap;
 
-	public ResendService(LineMessageAPIUtil lineMessageAPIUtil){
-		this.lineMessageAPIUtil = lineMessageAPIUtil;
+	public ResendService(MessageAPI messageAPI,@Qualifier("failedMap")Map<String,Push> map){
+		this.messageAPI = messageAPI;
+		this.failedMap = map;
 	}
 
 	/*
@@ -29,37 +34,11 @@ public class ResendService implements LineKeys {
 	@Scheduled(fixedRate = 60000)
 	public void resendFailMessage() {
 
-		if (replyFailedHashMap.isEmpty() && pushFailedHashMap.isEmpty())
-			return;
-		if (!replyFailedHashMap.isEmpty()) {
-			// reply can not use retry key to resend message, it might need to add to pushFailHashMap to resend
-			// to do
-			log.info("start send reply task");
-			replyFailedHashMap.entrySet().removeIf(next -> lineMessageAPIUtil.sendReply(next.getKey(), next.getValue()));
-		}
-		if (!pushFailedHashMap.isEmpty()) {
+		if (!failedMap.isEmpty()) {
 			log.info("start send push task");
-			pushFailedHashMap.entrySet().removeIf(next -> lineMessageAPIUtil.sendPush(next.getKey(), next.getValue()));
+			failedMap.entrySet().removeIf(next -> messageAPI.push(next.getValue(), next.getKey()).status() == 200);
 		}
 		log.info("task is done");
-
-
 	}
-
-	/*
-	 * lambda for each, can send message but can not remove element while iterating
-	 */
-
-//	if (!replyFailedHashMap.isEmpty()) {
-//
-//		System.out.println("start task");
-//		replyFailedHashMap.forEach((k, v) -> {
-//			System.out.println("uuid : " + k + " message : " + v);
-//			if (sendMessageUtil.sendReplyMessage(k, v)) {
-//				// replyFailedHashMap.remove(k);
-//				replyFailedHashMap.remove(k, v);
-//			}
-//		});
-//	}
 
 }

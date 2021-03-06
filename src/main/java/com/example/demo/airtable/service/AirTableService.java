@@ -2,7 +2,7 @@ package com.example.demo.airtable.service;
 
 import com.example.demo.airtable.entity.EntityWrapper;
 import com.example.demo.airtable.entity.Log;
-import com.example.demo.keys.AirTableProperties;
+import com.example.demo.properties.AirTableProperties;
 import com.example.demo.util.HttpClientUtil;
 import com.example.demo.util.JsonParserUtil;
 import lombok.extern.slf4j.Slf4j;

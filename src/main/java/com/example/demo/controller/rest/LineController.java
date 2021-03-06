@@ -7,7 +7,6 @@ import com.example.demo.line.handler.MessageHandler;
 import com.example.demo.line.handler.PostBackHandler;
 import com.example.demo.line.service.PushService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -36,8 +35,6 @@ public class LineController {
     private final PushService pushService;
     private final HashMap<String, EventHandler> handlers;
 
-
-    @Autowired
     public LineController(PushService pushService, MessageHandler messageHandler , PostBackHandler postBackHandler) {
         this.pushService = pushService;
 
@@ -63,7 +60,7 @@ public class LineController {
          */
         String[] userIds = {"U848d0fb8269d111a96875ae3cb365ba6"};
 
-        pushService.sendPostQuickReplies(userIds);
+        pushService.sendPostMessages(userIds,"123");
 
 
         return ResponseEntity.ok().body("123");

@@ -1,34 +1,35 @@
 package com.example.demo.line.service;
 
-import com.example.demo.keys.ImagesProperties;
+import com.example.demo.feign.MessageAPI;
+import com.example.demo.properties.ImagesProperties;
 import com.example.demo.line.action.entity.LocationAction;
 import com.example.demo.line.action.entity.MessageAction;
 import com.example.demo.line.action.entity.QuickReplyAction;
 import com.example.demo.line.message.entity.*;
-import com.example.demo.line.util.LineMessageAPIUtil;
-import com.example.demo.util.JsonParserUtil;
 import com.example.demo.util.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
 public class PushService {
 
-	private final LineMessageAPIUtil lineMessageAPIUtil;
-	private final JsonParserUtil jsonParserUtil;
 	private final UUIDUtil uuidUtil;
+	private final Map<String,Push> failedMap;
+	private final MessageAPI messageAPI;
 
 	@Autowired
-	public PushService (LineMessageAPIUtil lineMessageAPIUtil, JsonParserUtil jsonParserUtil, UUIDUtil uuidUtil){
-		this.lineMessageAPIUtil = lineMessageAPIUtil;
-		this.jsonParserUtil = jsonParserUtil;
+	public PushService (UUIDUtil uuidUtil, MessageAPI messageAPI,@Qualifier("failedMap")Map<String,Push> map){
 		this.uuidUtil = uuidUtil;
+		this.messageAPI = messageAPI;
+		this.failedMap = map;
 	}
 
 	// show spring init components and other tags at starting server
@@ -39,40 +40,20 @@ public class PushService {
 
 	public void sendPostMessages(String[] userIds, String... messages) {
 
-		String uuid = uuidUtil.getRandomUUID();
-
 		Push push = new Push();
-
-		TextMessage textMessage;
 
 		List<EntityMessage> messageList = new ArrayList<>();
 
 		for (String message : messages) {
-			textMessage = new TextMessage();
-			textMessage.setType("text");
-			textMessage.setText(message);
-			messageList.add(textMessage);
+			messageList.add(new TextMessage("text",message));
 		}
 
 		push.setMessages(messageList);
 
-		sendMessage(userIds, uuid, push);
-	}
-
-	private void sendMessage(String[] userIds, String uuid, Push push) {
-		if (userIds.length == 1) {
-			push.setTo(userIds[0]);
-		} else {
-			push.setTo(Arrays.toString(userIds));
-		}
-
-		String jsonData = jsonParserUtil.jsonToString(push);
-
-		lineMessageAPIUtil.sendPush(uuid, jsonData);
+		sendMessage(userIds, push);
 	}
 
 	public void sendPostQuickReplies(String[] userIds) {
-		String uuid = uuidUtil.getRandomUUID();
 
 		List<EntityMessage> messageList = new ArrayList<>();
 
@@ -90,6 +71,27 @@ public class PushService {
 		messageList.add(quickReplyMessage);
 		Push push = new Push(messageList);
 
-		sendMessage(userIds, uuid, push);
+		sendMessage(userIds, push);
+	}
+
+
+	private void sendMessage(String[] userIds,Push push) {
+		if (userIds.length == 1) {
+			push.setTo(userIds[0]);
+		} else {
+			push.setTo(Arrays.toString(userIds));
+		}
+
+		String uuid = uuidUtil.getRandomUUID();
+		var response = messageAPI.push(push,uuid);
+
+		if(response.status() != 200 && failedMap.containsValue(push)){
+			log.error("error while pushing");
+			failedMap.put(uuid,push);
+			return;
+		}
+
+		log.info("push to {} succeed",push.getTo());
+
 	}
 }

@@ -1,4 +1,4 @@
-package com.example.demo.keys;
+package com.example.demo.properties;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
