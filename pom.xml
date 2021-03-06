@@ -73,18 +73,28 @@
 			<version>1.4.1</version>
 		</dependency>
 
+		<!-- 加解密 -->
 		<dependency>
 			<groupId>com.github.ulisesbocchio</groupId>
 			<artifactId>jasypt-spring-boot-starter</artifactId>
 			<version>3.0.3</version>
 		</dependency>
 
+		<!--	Lombok	-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.18.10</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<!--	feign	 -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<version>2.2.6.RELEASE</version>
+		</dependency>
+
 
 	</dependencies>
 
