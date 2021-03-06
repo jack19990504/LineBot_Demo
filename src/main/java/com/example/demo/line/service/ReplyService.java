@@ -1,5 +1,6 @@
 package com.example.demo.line.service;
 
+import com.example.demo.feign.MessageAPI;
 import com.example.demo.keys.ImagesProperties;
 import com.example.demo.line.action.entity.LocationAction;
 import com.example.demo.line.action.entity.MessageAction;
@@ -8,9 +9,7 @@ import com.example.demo.line.action.entity.QuickReplyAction;
 import com.example.demo.line.message.entity.*;
 import com.example.demo.line.message.flex.entity.FlexMessageTemplate;
 import com.example.demo.line.message.flex.entity.MyFlexTemplate;
-import com.example.demo.line.util.LineMessageAPIUtil;
 import com.example.demo.util.JsonParserUtil;
-import com.example.demo.util.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +21,14 @@ import java.util.List;
 @Slf4j
 public class ReplyService {
 
-	private final LineMessageAPIUtil lineMessageAPIUtil;
 	private final JsonParserUtil jsonParserUtil;
-	private final UUIDUtil uuidUtil;
+	private final LineProfileService lineProfileService;
+	private final MessageAPI messageAPI;
 
-	public ReplyService(LineMessageAPIUtil lineMessageAPIUtil, JsonParserUtil jsonParserUtil, UUIDUtil uuidUtil){
+	public ReplyService(JsonParserUtil jsonParserUtil, MessageAPI messageAPI,LineProfileService lineProfileService){
 		this.jsonParserUtil = jsonParserUtil;
-		this.lineMessageAPIUtil = lineMessageAPIUtil;
-		this.uuidUtil = uuidUtil;
+		this.messageAPI = messageAPI;
+		this.lineProfileService = lineProfileService;
 	}
 
 	// show spring init components and other tags at starting server
@@ -43,18 +42,29 @@ public class ReplyService {
 
 		List<EntityMessage> messagesList = new ArrayList<>();
 
-		TextMessage textMessage;
-
 		for (String message : messages) {
-			textMessage = new TextMessage("text", message);
-			messagesList.add(textMessage);
+			messagesList.add(new TextMessage("text", message));
 		}
 
 		Reply reply = new Reply(replyToken, messagesList);
 
-		String jsonData = jsonParserUtil.jsonToString(reply);
+		messageAPI.reply(reply);
 
-		lineMessageAPIUtil.sendReply(uuidUtil.getRandomUUID(),jsonData);
+	}
+
+	public void sendResponseMessageWithUserName(String replyToken,String userId, String... messages) {
+
+		List<EntityMessage> messagesList = new ArrayList<>();
+
+		for (String message : messages) {
+			messagesList.add(new TextMessage("text", message));
+		}
+		messagesList.add(new TextMessage("text", lineProfileService.getUserName((userId))));
+
+
+		Reply reply = new Reply(replyToken, messagesList);
+
+		messageAPI.reply(reply);
 
 	}
 
@@ -72,9 +82,7 @@ public class ReplyService {
 
 		Reply reply = new Reply(replyToken, messageList);
 
-		String jsonData = jsonParserUtil.jsonToString(reply);
-
-		lineMessageAPIUtil.sendReply(uuidUtil.getRandomUUID(),jsonData);
+		messageAPI.reply(reply);
 	}
 
 	public void sendQuickReply(String replyToken) {
@@ -83,11 +91,7 @@ public class ReplyService {
 
 		List<QuickReplyAction> actionList = new ArrayList<>();
 
-
-		TextMessage textMessage = new TextMessage();
-		textMessage.setType("text");
-		textMessage.setText("test");
-		messageList.add(textMessage);
+		messageList.add(new TextMessage("text","測試"));
 
 		actionList.add(new QuickReplyAction("action", new PostBackAction("postback", "post test", "data=123", "TEST")));
 		actionList.add(new QuickReplyAction("action", ImagesProperties.dogeURL, new MessageAction("message", "doge", "testMessage")));
@@ -99,7 +103,7 @@ public class ReplyService {
 
 		Reply reply = new Reply(replyToken, messageList);
 
-		lineMessageAPIUtil.sendReply(uuidUtil.getRandomUUID(),jsonParserUtil.jsonToString(reply));
+		messageAPI.reply(reply);
 	}
 
 }
