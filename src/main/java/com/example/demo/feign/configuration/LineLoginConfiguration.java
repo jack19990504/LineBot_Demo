@@ -1,6 +1,5 @@
 package com.example.demo.feign.configuration;
 
-import feign.RequestInterceptor;
 import feign.codec.Encoder;
 import feign.form.FormEncoder;
 import org.springframework.beans.factory.ObjectFactory;
@@ -28,11 +27,5 @@ public class LineLoginConfiguration {
         return new FormEncoder(new SpringEncoder(this.messageConverters));
     }
 
-    @Bean
-    public RequestInterceptor requestTokenBearerInterceptor() {
-        return requestTemplate -> {
-            requestTemplate.header("Content-Type: application/x-www-form-urlencoded");
-        };
-    }
 
 }

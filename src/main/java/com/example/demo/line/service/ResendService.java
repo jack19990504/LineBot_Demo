@@ -1,7 +1,6 @@
 package com.example.demo.line.service;
 
 import com.example.demo.feign.MessageAPI;
-import com.example.demo.properties.LineKeys;
 import com.example.demo.line.message.entity.Push;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,7 +11,7 @@ import java.util.Map;
 
 @Service
 @Slf4j
-public class ResendService implements LineKeys {
+public class ResendService {
 
 	{
 		log.info("init :\t" + this.getClass().getSimpleName());

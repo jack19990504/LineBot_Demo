@@ -18,7 +18,7 @@ import java.util.Map;
         configuration = LineLoginConfiguration.class)
 public interface LineLoginClient {
 
-    @RequestMapping(value = "oauth2/v2.1/token", method = RequestMethod.POST ,consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @RequestMapping(value = "oauth2/v2.1/token", method = RequestMethod.POST ,consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,headers = "Content-Type: application/x-www-form-urlencoded")
     AccessToken userAccessToken(Map<String, ?> formParams);
 
     @RequestMapping(value = "oauth2/v2.1/verify", method = RequestMethod.POST )
