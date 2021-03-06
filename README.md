@@ -22,7 +22,7 @@
 
 * 開啟 application.properties -> 將其修改為自己的資料庫
     * ![database](/src/main/resources/static/database.jpg)
-* com.example.demo.keys -> lineKeys.class -> 修改為自己的accessToken
+* com.example.demo.properties -> lineKeys.class -> 修改為自己的accessToken
     * ![accessToken](/src/main/resources/static/accessToken.jpg)
     * 如果沒看到的話,點擊 message API, 至最下方點擊 issue new Channel access token
 

@@ -1,7 +1,7 @@
 package com.example.demo.line.service;
 
 import com.example.demo.feign.MessageAPI;
-import com.example.demo.keys.ImagesProperties;
+import com.example.demo.properties.ImagesProperties;
 import com.example.demo.line.action.entity.LocationAction;
 import com.example.demo.line.action.entity.MessageAction;
 import com.example.demo.line.action.entity.PostBackAction;

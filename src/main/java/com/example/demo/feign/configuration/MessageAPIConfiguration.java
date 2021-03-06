@@ -1,6 +1,6 @@
 package com.example.demo.feign.configuration;
 
-import com.example.demo.keys.MessageAPIProperties;
+import com.example.demo.properties.MessageAPIProperties;
 import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

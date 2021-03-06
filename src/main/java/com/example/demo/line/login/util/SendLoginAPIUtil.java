@@ -1,11 +1,10 @@
 package com.example.demo.line.login.util;
 
-import com.example.demo.keys.LineKeys;
-import com.example.demo.keys.LineLoginProperties;
-import com.example.demo.keys.MessageAPIProperties;
 import com.example.demo.line.login.entity.AccessToken;
 import com.example.demo.line.login.entity.LineUser;
 import com.example.demo.line.login.entity.LineUserDetail;
+import com.example.demo.properties.LineLoginProperties;
+import com.example.demo.properties.MessageAPIProperties;
 import com.example.demo.util.HttpClientUtil;
 import com.example.demo.util.JsonParserUtil;
 import com.example.demo.util.entity.HttpResponse;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class SendLoginAPIUtil implements LineKeys {
+public class SendLoginAPIUtil{
 
 	private final JsonParserUtil jsonParserUtil;
 	private final HttpClientUtil httpClientUtil;

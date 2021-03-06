@@ -1,11 +1,10 @@
 package com.example.demo.line.resolver;
 
 import com.example.demo.annotation.SendSlack;
-import com.example.demo.keys.ImagesProperties;
+import com.example.demo.properties.ImagesProperties;
 import com.example.demo.line.entity.Event;
 import com.example.demo.line.message.flex.entity.MyFlexEntity;
 import com.example.demo.line.message.flex.entity.MyFlexTemplate;
-import com.example.demo.line.service.LineProfileService;
 import com.example.demo.line.service.ReplyService;
 import com.example.demo.slack.entity.MessageType;
 import lombok.extern.slf4j.Slf4j;
@@ -18,11 +17,9 @@ import java.util.Optional;
 public class TextResolver implements Resolver{
 
     private final ReplyService replyService;
-    private final LineProfileService lineProfileService;
 
-    public TextResolver(ReplyService replyService ,LineProfileService lineProfileService){
+    public TextResolver(ReplyService replyService){
         this.replyService = replyService;
-        this.lineProfileService = lineProfileService;
     }
 
 
@@ -56,9 +53,11 @@ public class TextResolver implements Resolver{
             case "reply":
                 replyService.sendQuickReply(replyToken);
                 break;
+            case "name":
+                replyService.sendResponseMessageWithUserName(replyToken,userId, message);
+                break;
             default:
-                String userName = lineProfileService.getUserName(userId);
-                replyService.sendResponseMessage(replyToken, userName);
+                replyService.sendResponseMessage(replyToken, message);
                 break;
         }
     }

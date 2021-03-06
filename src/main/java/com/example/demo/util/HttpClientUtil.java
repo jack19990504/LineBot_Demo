@@ -1,6 +1,6 @@
 package com.example.demo.util;
 
-import com.example.demo.keys.LineLoginProperties;
+import com.example.demo.properties.LineLoginProperties;
 import com.example.demo.util.entity.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.NameValuePair;
@@ -52,15 +52,6 @@ public class HttpClientUtil {
         return httpResponse;
     }
 
-    private HttpPost messageAPIBase(String URL,String accessToken){
-        HttpPost httpPost = new HttpPost(URL);
-        httpPost.setHeader("Accept", "application/json");
-        httpPost.setHeader("Content-Type", "application/json; charset=utf-8");
-        httpPost.setHeader("Authorization", "Bearer " + accessToken);
-
-        return httpPost;
-    }
-
     private HttpPost lineLoginBase(String URL){
         HttpPost httpPost = new HttpPost(URL);
         httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded;");
@@ -73,22 +64,6 @@ public class HttpClientUtil {
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-Type", "application/json; charset=utf-8");
         httpPost.setHeader("Authorization", "Bearer " + api_Key);
-
-        return httpPost;
-    }
-
-    public HttpPost messageAPI_push(String URL, String accessToken, String message, String uuid){
-        HttpPost httpPost = messageAPIBase(URL,accessToken);
-        httpPost.setHeader("X-Line-Retry-Key", uuid);
-
-        httpPost.setEntity(new StringEntity(message, StandardCharsets.UTF_8));
-
-        return httpPost;
-    }
-    public HttpPost messageAPI_reply(String URL, String accessToken, String message){
-        HttpPost httpPost = messageAPIBase(URL,accessToken);
-
-        httpPost.setEntity(new StringEntity(message, StandardCharsets.UTF_8));
 
         return httpPost;
     }
