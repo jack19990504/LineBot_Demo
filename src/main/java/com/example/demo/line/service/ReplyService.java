@@ -48,7 +48,7 @@ public class ReplyService {
 
 		Reply reply = new Reply(replyToken, messagesList);
 
-		messageAPI.reply(reply);
+		reply(reply);
 
 	}
 
@@ -64,7 +64,7 @@ public class ReplyService {
 
 		Reply reply = new Reply(replyToken, messagesList);
 
-		messageAPI.reply(reply);
+		reply(reply);
 
 	}
 
@@ -82,7 +82,7 @@ public class ReplyService {
 
 		Reply reply = new Reply(replyToken, messageList);
 
-		messageAPI.reply(reply);
+		reply(reply);
 	}
 
 	public void sendQuickReply(String replyToken) {
@@ -103,7 +103,18 @@ public class ReplyService {
 
 		Reply reply = new Reply(replyToken, messageList);
 
-		messageAPI.reply(reply);
+		reply(reply);
 	}
 
+	private void reply(Reply reply){
+
+		var response = messageAPI.reply(reply);
+
+		if(response.status() != 200){
+			log.error("error while replying");
+			return;
+		}
+
+		log.info("reply succeed");
+	}
 }
