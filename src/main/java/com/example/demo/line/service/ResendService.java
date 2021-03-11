@@ -37,8 +37,9 @@ public class ResendService {
 		if (!failedMap.isEmpty()) {
 			log.info("start send push task");
 			failedMap.entrySet().removeIf(next -> messageAPI.push(next.getValue(), next.getKey()).status() == 200);
+			log.info("task is done");
 		}
-		log.info("task is done");
+
 	}
 
 }
