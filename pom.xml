@@ -95,6 +95,17 @@
 			<version>2.2.6.RELEASE</version>
 		</dependency>
 
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-java11</artifactId>
+			<version>10.12</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-okhttp</artifactId>
+			<version>11.0</version>
+		</dependency>
 
 	</dependencies>
 
